@@ -1,0 +1,49 @@
+<mxfile host="Electron" modified="2023-09-22T11:28:20.555Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="iaTZD_GdA7NwiOUwhba3" version="21.7.5" type="device">
+  <diagram name="Page-1" id="iHwYD4RqLG6RbIdyPC6d">
+    <mxGraphModel dx="2284" dy="1984" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-8" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-380" y="-20" width="655" height="570" as="geometry" />
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-1" value="Maria database&amp;nbsp;" style="image;aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image=img/lib/active_directory/database_server.svg;" vertex="1" parent="1">
+          <mxGeometry x="-300" y="290" width="172.2" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-2" value="Thuê API lấy nhiệt độ trên toàn thế giới&lt;br&gt;" style="sketch=0;html=1;dashed=0;whitespace=wrap;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];verticalLabelPosition=bottom;align=center;verticalAlign=top;shape=mxgraph.kubernetes.icon;prIcon=api" vertex="1" parent="1">
+          <mxGeometry x="-25" y="10" width="180" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-3" value="Android Web app&lt;br&gt;" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.smartphone;" vertex="1" parent="1">
+          <mxGeometry x="440" y="325" width="100" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-4" value="Server" style="image;html=1;image=img/lib/clip_art/computers/Server_128x128.png" vertex="1" parent="1">
+          <mxGeometry x="-10" y="325" width="150" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-5" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="eJ4Av24TFdWdDyC6OmRY-1" target="eJ4Av24TFdWdDyC6OmRY-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="550" as="sourcePoint" />
+            <mxPoint x="370" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-6" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=1.02;entryY=0.55;entryDx=0;entryDy=0;entryPerimeter=0;exitX=-0.03;exitY=0.557;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="eJ4Av24TFdWdDyC6OmRY-3" target="eJ4Av24TFdWdDyC6OmRY-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-110" y="400" as="sourcePoint" />
+            <mxPoint y="405" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-7" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Docker.svg;" vertex="1" parent="1">
+          <mxGeometry x="-360" width="317.07" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-9" value="Cloud Azure" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="-100" y="510" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="eJ4Av24TFdWdDyC6OmRY-10" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="75" y="335" as="sourcePoint" />
+            <mxPoint x="75" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
