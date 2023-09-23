@@ -15,4 +15,5 @@ while True:
     print(f"connect from {client_address}")
     data = client_socket.recv(1024)
     message = data.decode("utf8")
+
     print(message)

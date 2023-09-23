@@ -19,8 +19,8 @@ import java.util.Scanner;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) throws IOException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        SecretKey secretKey = Encryt_and_decrypt_module.string_to_secretkey("xKtGF158L74OcMMKEbUmiFTTACaf3KR4Iys2FRzFXZs=");
-String message = Encryt_and_decrypt_module.decrypt("3WEEbbzgZsPH8Tik8POBLA==",secretKey);
+        SecretKey secretKey = Encryt_and_decrypt_module.string_to_secretkey(System.getenv("symmetric_key"));
+String message = Encryt_and_decrypt_module.decrypt("v5T/HJkf2hCH3nRZccrqpVIfPsXbHTYKJyd0wfsho98=",secretKey);
 System.out.println(message);
 
     }
