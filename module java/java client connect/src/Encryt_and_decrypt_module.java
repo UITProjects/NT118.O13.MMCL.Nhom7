@@ -1,5 +1,4 @@
 import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -7,7 +6,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 public class Encryt_and_decrypt_module {
-    public static String decrypt(String cipherText, SecretKey key) throws NoSuchPaddingException, NoSuchAlgorithmException,
+    private
+    SecretKey key ;
+    public Encryt_and_decrypt_module(){
+        key = string_to_secretkey(System.getenv("symmetric_key"));
+    }
+
+
+
+
+    public String decrypt(String cipherText) throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidAlgorithmParameterException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
 
@@ -17,7 +25,15 @@ public class Encryt_and_decrypt_module {
                 .decode(cipherText));
         return new String(plainText);
     }
-    public static SecretKey string_to_secretkey(String encoded_key){
+    public  String encrypt(String plaintext) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE,key);
+        byte[] ciphertext_bytes = cipher.doFinal(plaintext.getBytes());
+        String ciphertext_String = Base64.getEncoder().encodeToString(ciphertext_bytes);
+        return ciphertext_String;
+    }
+
+    private static SecretKey string_to_secretkey(String encoded_key){
         byte[] key_bytes = Base64.getDecoder().decode(encoded_key);
         return new SecretKeySpec(key_bytes,0,key_bytes.length,"AES");
     }

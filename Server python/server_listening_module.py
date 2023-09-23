@@ -1,13 +1,14 @@
 import ssl
 import socket
 import os
-
+from encryt_module import AES_module
 
 class Server_module:
     def __init__(self):
         self.SERVER_ADDRESS_TUPLE = ('localhost', 2509)
         self.server_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
         self.server_socket.bind(self.SERVER_ADDRESS_TUPLE)
+        self.aes_module = AES_module(os.getenv("symmetric_key"))
 
     def listen(self, listen: bool):
         if listen:
@@ -27,4 +28,4 @@ class Server_module:
                         bytes_received_int = client_socket.recv_into(buffer_data_bytearray,
                                                                      header_length_int - bytes_received_int)
                     message = buffer_data_bytearray.decode()
-                    print(message)
+                    print(self.aes_module.decryt(message))

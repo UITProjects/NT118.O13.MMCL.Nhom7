@@ -13,7 +13,10 @@ public class Main {
         while(true) {
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
-            client.send_message(input);
+            Encryt_and_decrypt_module aes_module =new Encryt_and_decrypt_module();
+           String encrypt_message_String = aes_module.encrypt(input);
+           System.out.println(encrypt_message_String);
+            client.send_message(encrypt_message_String);
         }
 
     }
