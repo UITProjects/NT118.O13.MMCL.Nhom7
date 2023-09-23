@@ -1,6 +1,6 @@
 from encryt_module import AES_module
 import os
-SYMMETRIC_KEY = os.getenv("symmetric_key")
+from server_listening_module import Server_module
+server_module = Server_module()
+server_module.listen(True)
 
-aes_module = AES_module(SYMMETRIC_KEY)
-aes_module.encrypt("Ngô Vũ Minh Đạt")
