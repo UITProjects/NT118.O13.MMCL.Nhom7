@@ -3,7 +3,6 @@ import socket
 import os
 
 SERVER_ADDRESS = ('localhost', 2509)
-
 SERVER_CERT = os.getenv("server-cert")
 SERVER_KEY = os.getenv("server-key")
 server_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
