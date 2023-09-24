@@ -1,7 +1,7 @@
 import mysql.connector
 import os
-USERNAME = "ngovuminhdat"
-PASSWORD = "123456789"
+USERNAME = os.getenv("username_mysql")
+PASSWORD = os.getenv("password_mysql")
 HOST = "app.mariadb.uitprojects.com"
 PORT = 3306
 DATABASE = "mobile_project"
