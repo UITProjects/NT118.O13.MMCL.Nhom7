@@ -1,3 +1,5 @@
+package me.ngodat0103.myapplication;
+
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
@@ -5,17 +7,14 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
-public class Encryt_and_decrypt_module {
+public class cipher_module {
     private
-    SecretKey key ;
-    public Encryt_and_decrypt_module(){
-        key = string_to_secretkey(System.getenv("symmetric_key"));
+    static SecretKey key = string_to_secretkey(me.ngodat0103.myapplication.key.symmetric_key);
+    public cipher_module(){
+        key = string_to_secretkey(me.ngodat0103.myapplication.key.symmetric_key);
     }
 
-
-
-
-    public String decrypt(String cipherText) throws NoSuchPaddingException, NoSuchAlgorithmException,
+    public static String decrypt(String cipherText) throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidAlgorithmParameterException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
 
@@ -25,7 +24,7 @@ public class Encryt_and_decrypt_module {
                 .decode(cipherText));
         return new String(plainText);
     }
-    public  String encrypt(String plaintext) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public static String encrypt(String plaintext) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE,key);
         byte[] ciphertext_bytes = cipher.doFinal(plaintext.getBytes());

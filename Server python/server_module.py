@@ -25,7 +25,6 @@ class Server_module:
                 break
 
             header_length_int = int.from_bytes(header_length_bytearray, "big")
-            print(header_length_int)
             buffer_data_bytearray = bytearray(header_length_int)
             bytes_received_int = 0
             while bytes_received_int < header_length_int:
@@ -33,15 +32,16 @@ class Server_module:
                                                              header_length_int - bytes_received_int)
             message_encrypted_str = buffer_data_bytearray.decode()
             message_plaintext_str = AES_module.decryt(message_encrypted_str)
-            client_message: dict = json.loads(message_plaintext_str)
-            process_client_message_dict = handle_type_client_message_module.process(client_message)
-            response_to_client_message_json_string = json.dumps(process_client_message_dict)
-            response_to_client_message_json_bytes = response_to_client_message_json_string.encode()
-            response_to_client_message_header_int = len(response_to_client_message_json_bytes)
-            response_to_client_message_header_bytes = response_to_client_message_header_int.to_bytes(4,"big")
-            print(response_to_client_message_header_int)
-            client_socket.send(response_to_client_message_header_bytes)
-            client_socket.send(response_to_client_message_json_bytes)
+            print(message_plaintext_str)
+            # client_message: dict = json.loads(message_plaintext_str)
+            # process_client_message_dict = handle_type_client_message_module.process(client_message)
+            # print(process_client_message_dict)
+            # response_to_client_message_json_string = json.dumps(process_client_message_dict)
+            # response_to_client_message_json_bytes = response_to_client_message_json_string.encode()
+            # response_to_client_message_header_int = len(response_to_client_message_json_bytes)
+            # response_to_client_message_header_bytes = response_to_client_message_header_int.to_bytes(4,"big")
+            # client_socket.send(response_to_client_message_header_bytes)
+            # client_socket.send(response_to_client_message_json_bytes)
 
     def listen(self, listen: bool):
         if listen:

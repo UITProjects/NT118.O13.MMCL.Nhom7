@@ -8,11 +8,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Tcp_client_thread client_thread = new Tcp_client_thread("10.0.2.2",2509);
+        client_thread.start();
     }
     public void onBtnClick(View view){
         EditText edtFirstName = findViewById(R.id.editFirstName);

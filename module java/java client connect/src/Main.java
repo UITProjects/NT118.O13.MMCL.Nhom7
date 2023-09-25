@@ -13,16 +13,16 @@ public class Main {
     public static void main(String[] args) throws IOException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
             List<String> list = new ArrayList<>();
             Map<String,String> map_test = new HashMap<>();
-            map_test.put("type","authentication");
-            map_test.put("username_primary","test_username");
+            map_test.put("type","create_account");
+            map_test.put("username_primary","java_test_create_accoun2t");
             map_test.put("password","123456789");
+            map_test.put("email","example@gmail.com");
             System.out.println(map_test);
             String json = new Gson().toJson(map_test);
             System.out.println(json);
         var client = new client_connect_module("localhost",2509);
         while(true) {
-          Encryt_and_decrypt_module aes_module =new Encryt_and_decrypt_module();
-         String encrypt_message_String = aes_module.encrypt(json);
+         String encrypt_message_String = cipher_module.encrypt(json);
            System.out.println(encrypt_message_String);
             client.send_message(encrypt_message_String);
             client.listening_message();
