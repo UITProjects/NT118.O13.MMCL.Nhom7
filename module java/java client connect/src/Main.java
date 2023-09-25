@@ -23,7 +23,7 @@ public class Main {
         var client = new client_connect_module("localhost",2509);
         while(true) {
          String encrypt_message_String = cipher_module.encrypt(json);
-           System.out.println(encrypt_message_String);
+           System.out.println("encrypted message: "+encrypt_message_String);
             client.send_message(encrypt_message_String);
             client.listening_message();
             Scanner scanner = new Scanner(System.in);

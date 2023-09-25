@@ -19,7 +19,6 @@ public class client_connect_module {
     public void send_message(String message_String) throws IOException {
         byte[] message_Byte = message_String.getBytes();
         int message_byte_length_int = message_Byte.length;
-        System.out.println(message_byte_length_int);
         ByteBuffer byte_buffer_bytes = ByteBuffer.allocate(4);
         byte_buffer_bytes.putInt(message_byte_length_int);
         byte[] header_length_bytes = byte_buffer_bytes.array();
@@ -31,12 +30,11 @@ public class client_connect_module {
             byte[] buffer_header_length_bytes = new byte[4];
             buffer_header_length_bytes = input.readNBytes(4);
             int header_length_int = new BigInteger(buffer_header_length_bytes).intValue();
-            System.out.println(header_length_int);
             byte[] buffer_server_response_bytes = new byte[header_length_int];
             int bytes_read = 0;
              buffer_server_response_bytes = input.readNBytes(header_length_int);
              String server_response_String = new String(buffer_server_response_bytes, Charset.defaultCharset());
-             System.out.println(server_response_String);
+             System.out.println("server response: "+server_response_String);
         }
     }
 }
