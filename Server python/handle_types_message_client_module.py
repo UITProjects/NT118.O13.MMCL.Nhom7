@@ -35,7 +35,7 @@ def create_account(argument: dict) -> dict[str, str]:
 
 
 def forgot_password(argument: dict = None):
-    if argument["otp_valid"] != "valid":
+    if argument["otp_valid"] == "none":
         full_statement = general_statements["forgot_password"].format(email=argument["email"],
                                                                       username_primary=argument["username_primary"])
         response_from_mysql = database_module.access_database(full_statement)
@@ -45,10 +45,10 @@ def forgot_password(argument: dict = None):
 
         else:
             return {"type": "forgot_password", "status": "incorrect_username_email"}
-    else:
+    elif argument["otp_valid"]=="valid":
         full_statement = general_statements["change_new_password"].format(username_primary=argument["username_primary"],
                                                                           email=argument["email"],
-                                                                          new_hash_password=hash_password(
+                                                                          new_hashed_password=hash_password(
                                                                               argument["new_password"]))
         try:
             database_module.access_database(full_statement)

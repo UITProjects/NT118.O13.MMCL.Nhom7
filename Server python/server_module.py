@@ -15,6 +15,8 @@ class handle_client_connection:
     def listen_mode(self):
         while True:
             client_message_dict = self.listen()
+            if client_message_dict is None:
+                break
             if client_message_dict["type"] == "forgot_password":
                 random_otp = str(randint(a=100000, b=999999))
                 client_message_dict["random_otp"] = random_otp

@@ -1,18 +1,16 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+import os
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 587
-SMTP_USERNAME = "21521935@gm.uit.edu.vn"
-SMTP_PASSWORD = "fbqcvsehdtdejehb"
+SMTP_USERNAME = os.getenv("SMTP_USERNAME")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 sender_email = 'mobile@uitprojects.com'
-message = MIMEMultipart()
-message['From'] = sender_email
-message['Subject'] = "Recovery password"
-
-
 def send_email_otp(random_otp:str,to_recipient:str = "ngovuminhdat@gmail.com"):
+    message = MIMEMultipart()
+    message['From'] = sender_email
+    message['Subject'] = "Recovery password"
     with open(file='otp.html', mode='r', encoding='utf-8') as file_reader:
         html_content_string = file_reader.read()
     message['To'] = to_recipient

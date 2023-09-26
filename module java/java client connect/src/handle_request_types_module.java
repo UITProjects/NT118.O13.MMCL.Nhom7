@@ -23,8 +23,7 @@ public class handle_request_types_module {
         request_message_Map.put("username_primary",username_primary);
         request_message_Map.put("password",password);
         send_message_to_client(request_message_Map);
-        handle_thread thread_listening = new handle_thread("authentication");
-        thread_listening.start();
+        System.out.println(client_connection_module.listening_message());
     }
     public static void forgot_password(String username_primary,String email) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeyException {
         request_message_Map = new HashMap<>();
@@ -38,7 +37,7 @@ public class handle_request_types_module {
         Scanner otp_input = new Scanner(System.in);
         System.out.println(response_from_server.get("status"));
         if (response_from_server.get("status").equals("otp_sent")){
-            System.out.println("Nhap OTP da gui ve tu email");
+            System.out.println("Nhap OTP da gui ve tu email: ");
             request_message_Map.put("otp",otp_input.nextLine());
             send_message_to_client(request_message_Map);
             response_from_server = client_connection_module.listening_message();
@@ -46,6 +45,7 @@ public class handle_request_types_module {
             if (response_from_server.get("otp_valid").equals("valid")) {
                 System.out.println("Nhap mat khau moi");
                 request_message_Map.put("new_password", new Scanner(System.in).nextLine());
+                request_message_Map.put("otp_valid","valid");
                 send_message_to_client(request_message_Map);
                 response_from_server = client_connection_module.listening_message();
                 System.out.println(response_from_server);
