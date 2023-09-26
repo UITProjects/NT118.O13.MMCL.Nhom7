@@ -5,18 +5,17 @@ import java.math.BigInteger;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-
-public class client_connect_module {
-    Socket client_socket =null;
-    OutputStream output = null;
-    InputStream input = null;
-    public client_connect_module(String host, int port) throws IOException {
+public class client_connection_module {
+    static Socket client_socket =null;
+    static OutputStream output = null;
+    static InputStream input = null;
+    public static void client_connection_module_init(String host, int port) throws IOException {
         client_socket = new Socket(host,port);
         output = client_socket.getOutputStream();
         input = client_socket.getInputStream();
         System.out.println("Connected");
     }
-    public void send_message(String message_String) throws IOException {
+    public static void send_message(String message_String) throws IOException {
         byte[] message_Byte = message_String.getBytes();
         int message_byte_length_int = message_Byte.length;
         ByteBuffer byte_buffer_bytes = ByteBuffer.allocate(4);
@@ -25,7 +24,7 @@ public class client_connect_module {
         output.write(header_length_bytes);
         output.write(message_Byte);
     }
-    public void listening_message() throws IOException {
+    public static void listening_message() throws IOException {
         while (true){
             byte[] buffer_header_length_bytes = new byte[4];
             buffer_header_length_bytes = input.readNBytes(4);
