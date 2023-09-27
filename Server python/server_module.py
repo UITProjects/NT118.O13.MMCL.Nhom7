@@ -55,12 +55,11 @@ class handle_client_connection:
                 break
 
             header_length_int = int.from_bytes(header_length_bytearray, "big")
-            buffer_data_bytearray = bytearray(header_length_int)
-            bytes_received_int = 0
-            while bytes_received_int < header_length_int:
-                bytes_received_int = self.server_handle_client_socket.recv_into(buffer_data_bytearray,
-                                                                                header_length_int - bytes_received_int)
-            message_encrypted_str = buffer_data_bytearray.decode()
+            buffer_data_byte = b''
+            while len(buffer_data_byte) < header_length_int:
+                chunk = self.server_handle_client_socket.recv(header_length_int)
+                buffer_data_byte += chunk
+            message_encrypted_str = buffer_data_byte.decode()
             message_plaintext_str = AES_module.decryt(message_encrypted_str)
             print(message_plaintext_str)
             client_message: dict = json.loads(message_plaintext_str)

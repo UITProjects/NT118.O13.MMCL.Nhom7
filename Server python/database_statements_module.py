@@ -8,6 +8,8 @@ general_statements: dict[str, str] = {
                        "where email = '{email}' and username_primary = '{username_primary}'",
     'change_new_password': "UPDATE `mobile_project`.`account` "
                            "SET `hashed_password` = '{new_hashed_password}' "
-                           "WHERE (`username_primary` = '{username_primary}' and `email` = '{email}');"
+                           "WHERE (`username_primary` = '{username_primary}' and `email` = '{email}');",
+    'upload_image_profile': "UPDATE `mobile_project`.`account`"
+                            " SET `image_profile` = %s "
+                            "WHERE (`username_primary` = '{username_primary}');"
 }
-

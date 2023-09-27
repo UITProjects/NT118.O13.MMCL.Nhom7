@@ -3,9 +3,13 @@ import com.google.gson.Gson;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.swing.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -53,8 +57,26 @@ public class handle_request_types_module {
             }
         }
 
-
+    }
+    public static void upload_image_profile(String username_primary) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        JFileChooser fileChooser = new JFileChooser();
+        String image_file_path = "";
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        File new_file = new File("C:\\Users\\ngovu\\OneDrive\\mobile project");
+        fileChooser.setCurrentDirectory(new_file);
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION){
+            image_file_path = fileChooser.getSelectedFile().getAbsolutePath();
+        }
+        request_message_Map = new HashMap<>();
+        request_message_Map.put("type","upload_image_profile");
+        request_message_Map.put("username_primary",username_primary);
+        FileInputStream image_open_file = new FileInputStream(image_file_path);
+        byte[] image_bytes = image_open_file.readAllBytes();
+        String image_encoded_base64_String = Base64.getEncoder().encodeToString(image_bytes);
+        request_message_Map.put("image_encoded_base64_string",image_encoded_base64_String);
+        handle_request_types_module.send_message_to_client(request_message_Map);
+        System.out.println(client_connection_module.listening_message());
 
     }
-
 }
