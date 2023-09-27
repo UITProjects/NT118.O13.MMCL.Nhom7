@@ -1,6 +1,6 @@
 import json
 import socket
-from cipher_module import AES_module
+from cipher_module import Cipher_module
 import threading
 import handle_types_message_client_module
 from random import randint
@@ -38,11 +38,11 @@ class handle_client_connection:
 
     def response_to_client(self, message: dict):
         response_to_client_message_json_string = json.dumps(message)
-        response_to_client_message_json_bytes = response_to_client_message_json_string.encode()
-        response_to_client_message_header_int = len(response_to_client_message_json_bytes)
+        response_to_client_message_json_encrypted_bytes = Cipher_module.encrypt(response_to_client_message_json_string)
+        response_to_client_message_header_int = len(response_to_client_message_json_encrypted_bytes)
         response_to_client_message_header_bytes = response_to_client_message_header_int.to_bytes(4, "big")
         self.server_handle_client_socket.send(response_to_client_message_header_bytes)
-        self.server_handle_client_socket.send(response_to_client_message_json_bytes)
+        self.server_handle_client_socket.send(response_to_client_message_json_encrypted_bytes)
 
     def listen(self) -> dict[str, str]:
         while True:
@@ -59,8 +59,8 @@ class handle_client_connection:
             while len(buffer_data_byte) < header_length_int:
                 chunk = self.server_handle_client_socket.recv(header_length_int)
                 buffer_data_byte += chunk
-            message_encrypted_str = buffer_data_byte.decode()
-            message_plaintext_str = AES_module.decryt(message_encrypted_str)
+            message_encrypted_bytes = buffer_data_byte
+            message_plaintext_str = Cipher_module.decryt(message_encrypted_bytes)
             print(message_plaintext_str)
             client_message: dict = json.loads(message_plaintext_str)
             return client_message

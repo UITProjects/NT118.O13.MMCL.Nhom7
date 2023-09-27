@@ -15,22 +15,19 @@ public class cipher_module {
 
 
 
-    public static String decrypt(String cipherText) throws NoSuchPaddingException, NoSuchAlgorithmException,
+    public static String decrypt(byte[] ciphertext_byte) throws NoSuchPaddingException, NoSuchAlgorithmException,
             InvalidAlgorithmParameterException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
 
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] plainText = cipher.doFinal(Base64.getDecoder()
-                .decode(cipherText));
+        byte[] plainText = cipher.doFinal(ciphertext_byte);
         return new String(plainText);
     }
-    public static String encrypt(String plaintext) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public static byte[] encrypt(String plaintext) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE,key);
-        byte[] ciphertext_bytes = cipher.doFinal(plaintext.getBytes());
-        String ciphertext_String = Base64.getEncoder().encodeToString(ciphertext_bytes);
-        return ciphertext_String;
+        return cipher.doFinal(plaintext.getBytes());
     }
 
     private static SecretKey string_to_secretkey(String encoded_key){

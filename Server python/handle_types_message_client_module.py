@@ -19,7 +19,8 @@ def authentication(argument: dict) -> dict[str, str]:
     full_statement = general_statements["authentication"].format(username_primary=argument["username_primary"],
                                                                  hashed_password=hash_password(argument["password"]))
     response_from_mysql = database_module.access_database(full_statement)
-    if len(response_from_mysql) != 0:
+    print(response_from_mysql)
+    if response_from_mysql is not None:
         return {"type": "login", "status": "success"}
     else:
         return {"type": "login", "status": "failed"}
@@ -48,7 +49,7 @@ def forgot_password(argument: dict = None):
 
         else:
             return {"type": "forgot_password", "status": "incorrect_username_email"}
-    elif argument["otp_valid"]=="valid":
+    elif argument["otp_valid"] == "valid":
         full_statement = general_statements["change_new_password"].format(username_primary=argument["username_primary"],
                                                                           email=argument["email"],
                                                                           new_hashed_password=hash_password(
@@ -60,19 +61,20 @@ def forgot_password(argument: dict = None):
         return {"type": "forgot_password", "status": "change_password_success"}
 
 
-def upload_image_profile(argument:dict):
-    image_encoded_base64_string:str = argument["image_encoded_base64_string"]
+def upload_image_profile(argument: dict):
+    image_encoded_base64_string: str = argument["image_encoded_base64_string"]
     image_bytes = base64.b64decode(image_encoded_base64_string)
     fullstatement = general_statements["upload_image_profile"].format(username_primary=argument["username_primary"])
     param_image_bytes = (image_bytes,)
-    database_module.access_database(fullstatement,(image_bytes,))
-    return{"type":"upload_image_profile","status":"success"}
+    database_module.access_database(fullstatement, (image_bytes,))
+    return {"type": "upload_image_profile", "status": "success"}
+
 
 type_client_message = {
     "authentication": authentication,
     "create_account": create_account,
     "forgot_password": forgot_password,
-    "upload_image_profile":upload_image_profile
+    "upload_image_profile": upload_image_profile
 }
 
 
