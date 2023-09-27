@@ -43,7 +43,7 @@ def forgot_password(argument: dict = None):
         full_statement = general_statements["forgot_password"].format(email=argument["email"],
                                                                       username_primary=argument["username_primary"])
         response_from_mysql = database_module.access_database(full_statement)
-        if len(response_from_mysql) != 0:
+        if response_from_mysql is not None:
             smtp.send_email_otp(argument["random_otp"], argument["email"])
             return {"type": "forgot_password", "status": "correct_username_email"}
 

@@ -14,7 +14,11 @@ class Handle_raspberry_app_socket:
 
     def listen_mode(self):
         while True:
-            raspberry_app_message = self.listen()
+            try:
+                raspberry_app_message = self.listen()
+            except ValueError:
+                print("raspberry close connection")
+                return
             print(raspberry_app_message)
 
     def listen(self) -> dict[str, str]:

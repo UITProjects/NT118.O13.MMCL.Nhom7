@@ -54,7 +54,6 @@ public class handle_request_types_module {
                 send_message_to_client(request_message_Map);
                 response_from_server = client_connection_module.listen_response_from_server();
                 System.out.println(response_from_server);
-                otp_input.nextLine();
             }
         }
 

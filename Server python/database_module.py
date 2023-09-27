@@ -32,7 +32,7 @@ def access_database(statement:str,param_binary_data = None):
 # image_byte_object = io.BytesIO(access_database("SELECT * FROM mobile_project.account where username_primary = 'test_account1';")[3])
 # image = Image.open(image_byte_object)
 # image.show()
-
+#
 # image_byte_object = io.BytesIO(access_database("SELECT * FROM mobile_project.account where username_primary = 'test_account2';")[3])
 # image = Image.open(image_byte_object)
 # image.show()
