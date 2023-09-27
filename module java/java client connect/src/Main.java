@@ -11,9 +11,8 @@ public class Main {
            client_connection_module.client_connection_module_init("localhost",2509);
             handle_request_types_module.authentication("test_account1","123456789");
             //handle_request_types_module.forgot_password("java_test_create_accoun2t","ngovuminhdat@gmail.com");
-           handle_request_types_module.upload_image_profile("test_account1");
-           handle_request_types_module.upload_image_profile("test_account2");
-        System.out.println(handle_request_types_module.class);
+//           handle_request_types_module.upload_image_profile("test_account1");
+//           handle_request_types_module.upload_image_profile("test_account2");
 
     }
 }

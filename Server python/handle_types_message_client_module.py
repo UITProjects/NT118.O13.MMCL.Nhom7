@@ -6,7 +6,7 @@ from socket import socket
 import mysql.connector.errors
 from PIL import Image
 
-import server_module
+import server_core
 import smtp
 from database_statements_module import general_statements
 import database_module
