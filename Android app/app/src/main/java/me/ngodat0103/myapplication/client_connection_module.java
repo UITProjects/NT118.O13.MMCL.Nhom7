@@ -1,5 +1,8 @@
 package me.ngodat0103.myapplication;
 
+import android.os.Build;
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import javax.crypto.BadPaddingException;
@@ -37,22 +40,13 @@ public class client_connection_module {
     }
     public static Map listen_response_from_server() throws IOException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
             byte[] buffer_header_length_bytes = new byte[4];
-            buffer_header_length_bytes = input.readNBytes(4);
-            int header_length_int = new BigInteger(buffer_header_length_bytes).intValue();
+            input.read(buffer_header_length_bytes);
+        int header_length_int = new BigInteger(buffer_header_length_bytes).intValue();
             byte[] buffer_server_response_encrypted_bytes = new byte[header_length_int];
-             buffer_server_response_encrypted_bytes = input.readNBytes(header_length_int);
-            String buffer_server_response_decrypted_String = cipher_module.decrypt(buffer_server_response_encrypted_bytes);
+            input.read(buffer_server_response_encrypted_bytes);
+        String buffer_server_response_decrypted_String = cipher_module.decrypt(buffer_server_response_encrypted_bytes);
+        Log.d("authentication","data:"+buffer_server_response_decrypted_String);
         return new Gson().fromJson(buffer_server_response_decrypted_String, Map.class);
     }
-    static public Map<String, String> convertStringToMap(String data) {
-        Map<String, String> map = new HashMap<>();
-        StringTokenizer tokenizer = new StringTokenizer(data, " ");
 
-        while (tokenizer.hasMoreTokens()) {
-            String token = tokenizer.nextToken();
-            String[] keyValue = token.split("=");
-            map.put(keyValue[0], keyValue[1]);
-        }
-        return map;
-    }
 }

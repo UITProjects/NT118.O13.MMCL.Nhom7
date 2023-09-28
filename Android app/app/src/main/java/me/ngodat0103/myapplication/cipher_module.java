@@ -6,10 +6,10 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-
 public class cipher_module {
     private
-    static SecretKey key = string_to_secretkey(System.getenv("symmetric_key"));
+
+    static SecretKey key = string_to_secretkey(cipher_key.symmetric_key);
     public cipher_module(){
         key = string_to_secretkey(System.getenv("symmetric_key"));
     }

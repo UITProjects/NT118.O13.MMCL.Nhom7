@@ -33,8 +33,12 @@ class Handle_raspberry_app_socket:
         while len(buffer_data_byte) < header_length_int:
             chunk = self.raspberry_app_socket.recv(header_length_int)
             buffer_data_byte += chunk
-        message_encrypted_bytes = buffer_data_byte
-        message_plaintext_str = Cipher_module.decryt(message_encrypted_bytes)
+        #decrypt_mode
+        # message_encrypted_bytes = buffer_data_byte
+        # message_plaintext_str = Cipher_module.decryt(message_encrypted_bytes)
+        # raspberry_app_message: dict = json.loads(message_plaintext_str)
+        #not decrypt
+        message_plaintext_str =  buffer_data_byte.decode()
         raspberry_app_message: dict = json.loads(message_plaintext_str)
         return raspberry_app_message
 

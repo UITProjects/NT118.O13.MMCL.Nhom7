@@ -28,7 +28,7 @@ public class handle_request_types_module {
         request_message_Map.put("username_primary",username_primary);
         request_message_Map.put("password",password);
         send_message_to_client(request_message_Map);
-        System.out.println(client_connection_module.listen_response_from_server());
+        System.out.println(client_connection_module.listen_response_from_server().get("status").toString());
     }
     public static void forgot_password(String username_primary,String email) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeyException, InvalidAlgorithmParameterException {
         request_message_Map = new HashMap<>();

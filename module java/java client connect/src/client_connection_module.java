@@ -36,10 +36,10 @@ public class client_connection_module {
     }
     public static Map listen_response_from_server() throws IOException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
             byte[] buffer_header_length_bytes = new byte[4];
-            buffer_header_length_bytes = input.readNBytes(4);
+            input.read(buffer_header_length_bytes);
             int header_length_int = new BigInteger(buffer_header_length_bytes).intValue();
             byte[] buffer_server_response_encrypted_bytes = new byte[header_length_int];
-             buffer_server_response_encrypted_bytes = input.readNBytes(header_length_int);
+            input.read(buffer_server_response_encrypted_bytes);
             String buffer_server_response_decrypted_String = cipher_module.decrypt(buffer_server_response_encrypted_bytes);
         return new Gson().fromJson(buffer_server_response_decrypted_String, Map.class);
     }

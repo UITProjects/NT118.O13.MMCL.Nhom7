@@ -19,7 +19,6 @@ def authentication(argument: dict) -> dict[str, str]:
     full_statement = general_statements["authentication"].format(username_primary=argument["username_primary"],
                                                                  hashed_password=hash_password(argument["password"]))
     response_from_mysql = database_module.access_database(full_statement)
-    print(response_from_mysql)
     if response_from_mysql is not None:
         return {"type": "login", "status": "success"}
     else:

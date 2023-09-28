@@ -1,11 +1,8 @@
 package me.ngodat0103.myapplication;
-
 import com.google.gson.Gson;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -21,13 +18,13 @@ public class handle_request_types_module {
         byte[] encrypt_request_message_bytes = cipher_module.encrypt(request_message_json_format_String);
         client_connection_module.send(encrypt_request_message_bytes);
     }
-    public static void authentication(String username_primary,String password) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, IOException, InvalidAlgorithmParameterException {
+    public static Map<String,String> authentication(String username_primary,String password) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, IOException, InvalidAlgorithmParameterException {
         request_message_Map = new HashMap<>();
         request_message_Map.put("type","authentication");
         request_message_Map.put("username_primary",username_primary);
         request_message_Map.put("password",password);
         send_message_to_client(request_message_Map);
-        System.out.println(client_connection_module.listen_response_from_server());
+        return client_connection_module.listen_response_from_server();
     }
     public static void forgot_password(String username_primary,String email) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeyException, InvalidAlgorithmParameterException {
         request_message_Map = new HashMap<>();

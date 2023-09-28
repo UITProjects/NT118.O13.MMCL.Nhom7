@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 public class handle_thread extends Thread {
     String type;
     public handle_thread() {
+
     }
     public void run(){
         try {
@@ -18,6 +19,5 @@ public class handle_thread extends Thread {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
