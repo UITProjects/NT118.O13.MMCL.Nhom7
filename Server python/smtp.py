@@ -2,12 +2,15 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-SMTP_HOST = "smtp.gmail.com"
+
+SMTP_HOST = "smtp.mailgun.org"
 SMTP_PORT = 587
 SMTP_USERNAME = os.getenv("SMTP_USERNAME")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
-sender_email = 'mobile@uitprojects.com'
-def send_email_otp(random_otp:str,to_recipient:str = "ngovuminhdat@gmail.com"):
+sender_email = 'Android_app@uitprojects.com'
+
+
+def send_email_otp(random_otp: str, to_recipient: str = "ngovuminhdat@gmail.com"):
     message = MIMEMultipart()
     message['From'] = sender_email
     message['Subject'] = "Recovery password"

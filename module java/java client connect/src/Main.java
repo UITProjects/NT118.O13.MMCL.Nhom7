@@ -11,7 +11,7 @@ public class Main {
            client_connection_module.client_connection_module_init("localhost",2509);
             handle_request_types_module.authentication("test_account1","123456789");
             handle_request_types_module.forgot_password("test_account2","ngovuminhdat@gmail.com");
-            handle_request_types_module.upload_image_profile("test_account1");
-            handle_request_types_module.upload_image_profile("test_account2");
+//            handle_request_types_module.upload_image_profile("test_account1");
+//            handle_request_types_module.upload_image_profile("test_account2");
     }
 }
