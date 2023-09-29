@@ -1,12 +1,6 @@
-import io
 
 import mysql.connector
 import os
-
-from PIL import Image
-
-from database_statements_module import general_statements
-from hash_password_module import hash_password
 USERNAME = os.getenv("username_mysql")
 PASSWORD = os.getenv("password_mysql")
 HOST = "app.mariadb.uitprojects.com"

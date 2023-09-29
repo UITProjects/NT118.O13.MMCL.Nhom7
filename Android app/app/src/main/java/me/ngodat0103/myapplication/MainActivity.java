@@ -41,10 +41,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBtnClick(View view) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeyException {
         EditText username = findViewById(R.id.username);
         EditText password = findViewById(R.id.password);
-        EditText editEmail = findViewById(R.id.editEmail);
-        TextView viewFirstName = findViewById(R.id.texFirstName);
-        TextView viewLastName = findViewById(R.id.textLastName);
-        TextView viewEmail = findViewById(R.id.textEmail);
         Thread thread = new Thread(new Runnable() {
 
             @Override
@@ -52,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, String> status = null;
                 try {
                     status = handle_request_types_module.authentication(username.getText().toString(), password.getText().toString());
-                   editEmail.setText(status.get("status"));
                 } catch (Exception e) {
                     Log.d("authentication", String.valueOf(e.getCause()));
                     Log.d("authentication", String.valueOf(e.getMessage()));

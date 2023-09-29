@@ -1,18 +1,9 @@
 import base64
-import io
-import random
-from socket import socket
-
 import mysql.connector.errors
-from PIL import Image
-
-import server_core
 import smtp
 from database_statements_module import general_statements
 import database_module
-from hash_password_module import hash_password
-
-otp_valid = False
+from cipher_module import hash_password
 
 
 def authentication(argument: dict) -> dict[str, str]:
@@ -64,7 +55,6 @@ def upload_image_profile(argument: dict):
     image_encoded_base64_string: str = argument["image_encoded_base64_string"]
     image_bytes = base64.b64decode(image_encoded_base64_string)
     fullstatement = general_statements["upload_image_profile"].format(username_primary=argument["username_primary"])
-    param_image_bytes = (image_bytes,)
     database_module.access_database(fullstatement, (image_bytes,))
     return {"type": "upload_image_profile", "status": "success"}
 

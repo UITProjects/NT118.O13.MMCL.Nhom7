@@ -96,7 +96,7 @@ class Handle_android_app_socket:
             chunk = self.server_handle_client_socket.recv(header_length_int)
             buffer_data_byte += chunk
         message_encrypted_bytes = buffer_data_byte
-        message_plaintext_str = Cipher_module.decryt(message_encrypted_bytes)
+        message_plaintext_str = Cipher_module.decrypt(message_encrypted_bytes)
         print(message_plaintext_str)
         client_message: dict = json.loads(message_plaintext_str)
         return client_message

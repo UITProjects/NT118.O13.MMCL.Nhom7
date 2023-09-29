@@ -5,6 +5,15 @@ from Crypto.Util.Padding import pad
 from Crypto.Util.Padding import unpad
 import os
 
+import hashlib
+
+
+def hash_password(plain_password_str: str):
+    hash_interpreter = hashlib.sha256()
+    password_bytes = plain_password_str.encode()
+    hash_interpreter.update(password_bytes)
+    hash_password = hash_interpreter.hexdigest()
+    return hash_password
 
 class Cipher_module:
     key_bytes = base64.b64decode(os.getenv("symmetric_key"))
@@ -23,11 +32,9 @@ class Cipher_module:
         return encrypted_plaintext_bytes
 
     @staticmethod
-    def decryt(ciphertext_bytes: bytes) -> str:
+    def decrypt(ciphertext_bytes: bytes) -> str:
         plaintext_bytes = Cipher_module.cipher_ecbmode.decrypt(ciphertext_bytes)
         plaintext_unpadding_bytes = unpad(plaintext_bytes, 16)
         plaintext_string = plaintext_unpadding_bytes.decode()
         return plaintext_string
 
-    def test_method(self):
-        pass
