@@ -1,3 +1,6 @@
 /Server python/venv/
 Android app/app/src/main/java/me/ngodat0103/myapplication/key.java
 Android app/app/src/main/java/me/ngodat0103/myapplication/cipher_key.java
+/Server python/.idea/
+/Server python/__pycache__/
+/module java/java client connect/

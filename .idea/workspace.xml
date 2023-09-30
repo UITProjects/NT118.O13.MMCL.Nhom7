@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="523b4ec5-cf98-48aa-a015-ad71ce433046" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Server python/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server python/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server python/.idea/Server python.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Server python/.idea/Server python.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server python/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Server python/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server python/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Server python/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server python/.vs/Server python/v17/.wsuo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server python/.vs/VSWorkspaceState.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server python/.vs/slnx.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module java/java client connect/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module java/java client connect/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module java/java client connect/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/module java/java client connect/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module java/java client connect/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/module java/java client connect/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module java/java client connect/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/module java/java client connect/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/module java/java client connect/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module java/java client connect/src/handle_request_types_module.java" beforeDir="false" afterPath="$PROJECT_DIR$/module java/java client connect/src/handle_request_types_module.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2W7XUt96ATSY0PqCPbQ3fLhR1Gj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "E:/MobileAppGithub/Android app"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="523b4ec5-cf98-48aa-a015-ad71ce433046" name="Changes" comment="" />
+      <created>1696084610292</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696084610292</updated>
+    </task>
+    <servers />
+  </component>
+</project>
