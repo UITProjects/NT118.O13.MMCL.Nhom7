@@ -4,8 +4,10 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -58,25 +60,40 @@ public class handle_request_types_module {
         }
 
     }
-//    public static void upload_image_profile(String username_primary) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
-//        JFileChooser fileChooser = new JFileChooser();
-//        String image_file_path = "";
-//        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-//        File new_file = new File("C:\\Users\\ngovu\\OneDrive\\mobile project");
-//        fileChooser.setCurrentDirectory(new_file);
-//        int result = fileChooser.showOpenDialog(null);
-//        if (result == JFileChooser.APPROVE_OPTION){
-//            image_file_path = fileChooser.getSelectedFile().getAbsolutePath();
-//        }
-//        request_message_Map = new HashMap<>();
-//        request_message_Map.put("type","upload_image_profile");
-//        request_message_Map.put("username_primary",username_primary);
-//        FileInputStream image_open_file = new FileInputStream(image_file_path);
-//        byte[] image_bytes = image_open_file.readAllBytes();
-//        String image_encoded_base64_String = Base64.getEncoder().encodeToString(image_bytes);
-//        request_message_Map.put("image_encoded_base64_string",image_encoded_base64_String);
-//        handle_request_types_module.send_message_to_client(request_message_Map);
-//        System.out.println(client_connection_module.listen_response_from_server());
-//
-//    }
+    public static void upload_image_profile(String username_primary) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
+        JFileChooser fileChooser = new JFileChooser();
+        String image_file_path = "";
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        File new_file = new File("C:\\Users\\ngovu\\OneDrive\\mobile project");
+        fileChooser.setCurrentDirectory(new_file);
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION){
+            image_file_path = fileChooser.getSelectedFile().getAbsolutePath();
+        }
+        request_message_Map = new HashMap<>();
+        request_message_Map.put("type","upload_image_profile");
+        request_message_Map.put("username_primary",username_primary);
+        FileInputStream image_open_file = new FileInputStream(image_file_path);
+        byte[] image_bytes = image_open_file.readAllBytes();
+        String image_encoded_base64_String = Base64.getEncoder().encodeToString(image_bytes);
+        request_message_Map.put("image_encoded_base64_string",image_encoded_base64_String);
+        handle_request_types_module.send_message_to_client(request_message_Map);
+        System.out.println(client_connection_module.listen_response_from_server());
+
+    }
+    public static void load_profile_image(String username_primary) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeyException, InvalidAlgorithmParameterException {
+        request_message_Map = new HashMap<>();
+        request_message_Map.put("type","load_profile_image");
+        request_message_Map.put("username_primary",username_primary);
+        handle_request_types_module.send_message_to_client(request_message_Map);
+       Map response_from_server_map =  client_connection_module.listen_response_from_server();
+       System.out.println(response_from_server_map);
+       byte[] image_bytes = client_connection_module.listen_response_from_server_large_file(response_from_server_map);
+       File temp_file = File.createTempFile(username_primary+"_profile_image", ".jpeg");
+        FileOutputStream temp_file_fileoutputstream = new FileOutputStream(temp_file);
+        temp_file_fileoutputstream.write(image_bytes);
+        temp_file_fileoutputstream.flush();
+        Desktop my_desktop = Desktop.getDesktop();
+        my_desktop.open(temp_file);
+    }
 }

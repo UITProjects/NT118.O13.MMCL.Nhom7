@@ -43,6 +43,17 @@ public class client_connection_module {
             String buffer_server_response_decrypted_String = cipher_module.decrypt(buffer_server_response_encrypted_bytes);
         return new Gson().fromJson(buffer_server_response_decrypted_String, Map.class);
     }
+    public static byte[] listen_response_from_server_large_file(Map response_from_server_map) throws IOException {
+        String large_file_size_String = String.valueOf(response_from_server_map.get("large_file_size"));
+        int large_file_size_int = Integer.valueOf(large_file_size_String);
+        byte[] large_file_bytes = new byte[large_file_size_int];
+        int byte_actually_read_int = 0 ;
+        while (byte_actually_read_int<large_file_size_int){
+            byte_actually_read_int+= input.read(large_file_bytes,byte_actually_read_int,large_file_size_int-byte_actually_read_int);
+        }
+        return large_file_bytes;
+    }
+
     static public Map<String, String> convertStringToMap(String data) {
         Map<String, String> map = new HashMap<>();
         StringTokenizer tokenizer = new StringTokenizer(data, " ");

@@ -33,19 +33,21 @@ class Handle_raspberry_app_socket:
         while len(buffer_data_byte) < header_length_int:
             chunk = self.raspberry_app_socket.recv(header_length_int)
             buffer_data_byte += chunk
-        #decrypt_mode
+        # decrypt_mode
         # message_encrypted_bytes = buffer_data_byte
         # message_plaintext_str = Cipher_module.decryt(message_encrypted_bytes)
         # raspberry_app_message: dict = json.loads(message_plaintext_str)
-        #not decrypt
-        message_plaintext_str =  buffer_data_byte.decode()
+        # not decrypt
+        message_plaintext_str = buffer_data_byte.decode()
         raspberry_app_message: dict = json.loads(message_plaintext_str)
         return raspberry_app_message
 
 
 class Handle_android_app_socket:
+    large_data: bytes = b''
+
     def __init__(self, android_app_socket: socket):
-        self.server_handle_client_socket = android_app_socket
+        self.server_handle_client_socket:socket = android_app_socket
         new_thread = threading.Thread(target=self.listen_mode)
         new_thread.start()
 
@@ -70,16 +72,26 @@ class Handle_android_app_socket:
 
                 else:
                     self.response_to_client({"type": "forgot_password", "otp_valid": "invalid"})
+            elif client_message_dict["type"] == "load_profile_image":
+                self.response_to_client(handle_types_message_client_module.process(client_message_dict))
+                self.response_to_client(handle_types_message_client_module.process(client_message_dict),large_data=True)
             else:
                 self.response_to_client(handle_types_message_client_module.process(client_message_dict))
 
-    def response_to_client(self, message: dict):
-        response_to_client_message_json_string = json.dumps(message)
-        response_to_client_message_json_encrypted_bytes = Cipher_module.encrypt(response_to_client_message_json_string)
-        response_to_client_message_header_int = len(response_to_client_message_json_encrypted_bytes)
-        response_to_client_message_header_bytes = response_to_client_message_header_int.to_bytes(4, "big")
-        self.server_handle_client_socket.send(response_to_client_message_header_bytes)
-        self.server_handle_client_socket.send(response_to_client_message_json_encrypted_bytes)
+
+
+    def response_to_client(self, message: dict, large_data: bool = False):
+        if large_data is False:
+            response_to_client_message_json_string = json.dumps(message)
+            response_to_client_message_json_encrypted_bytes = Cipher_module.encrypt(
+                response_to_client_message_json_string)
+            response_to_client_message_header_int = len(response_to_client_message_json_encrypted_bytes)
+            response_to_client_message_header_bytes = response_to_client_message_header_int.to_bytes(4, "big")
+            self.server_handle_client_socket.send(response_to_client_message_header_bytes)
+            self.server_handle_client_socket.send(response_to_client_message_json_encrypted_bytes)
+        else:
+            self.server_handle_client_socket.send(Handle_android_app_socket.large_data)
+            Handle_android_app_socket.large_data = None
 
     def listen(self):
         header_length_bytearray = bytearray(4)

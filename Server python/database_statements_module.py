@@ -11,5 +11,6 @@ general_statements: dict[str, str] = {
                            "WHERE (`username_primary` = '{username_primary}' and `email` = '{email}');",
     'upload_image_profile': "UPDATE `mobile_project`.`account`"
                             " SET `image_profile` = %s "
-                            "WHERE (`username_primary` = '{username_primary}');"
+                            "WHERE (`username_primary` = '{username_primary}');",
+    'load_profile_image': "SELECT * FROM mobile_project.account where username_primary = '{username_primary}';"
 }

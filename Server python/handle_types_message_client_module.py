@@ -1,5 +1,7 @@
 import base64
 import mysql.connector.errors
+
+import server_core
 import smtp
 from database_statements_module import general_statements
 import database_module
@@ -59,11 +61,22 @@ def upload_image_profile(argument: dict):
     return {"type": "upload_image_profile", "status": "success"}
 
 
+def load_profile_image(argument: dict):
+    fullstatement:str = general_statements["load_profile_image"].format(username_primary=argument["username_primary"])
+    # fullstatement: str = general_statements["load_profile_image"].format(username_primary="test_account2")
+
+    response_from_mysql = database_module.access_database(fullstatement)
+    load_image_bytes: bytes = response_from_mysql[3]
+    server_core.Handle_android_app_socket.large_data = load_image_bytes
+    return {"type": "load_profile_image", "status": "pending_download", "large_file_size": str(len(load_image_bytes)),"large_data":"true"}
+
+
 type_client_message = {
     "authentication": authentication,
     "create_account": create_account,
     "forgot_password": forgot_password,
-    "upload_image_profile": upload_image_profile
+    "upload_image_profile": upload_image_profile,
+    "load_profile_image":load_profile_image
 }
 
 
