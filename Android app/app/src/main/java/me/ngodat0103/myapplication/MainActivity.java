@@ -2,6 +2,7 @@ package me.ngodat0103.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -23,13 +23,11 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 public class MainActivity extends AppCompatActivity {
-    Handler handler = new Handler();
-    private ImageView image_profile_ImageView;
+    Handler ui_Handle = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        image_profile_ImageView = findViewById(R.id.imageView);
         Thread thread = new Thread(new Runnable() {
 
             @Override
@@ -45,16 +43,14 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
 
     }
-    public void onBtnClick(View view) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeyException {
-        EditText username = findViewById(R.id.username);
-        EditText password = findViewById(R.id.password);
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
+    public void login_Button(View view) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeyException {
+        EditText username_EditText = findViewById(R.id.username);
+        EditText password_EditText = findViewById(R.id.password);
+        Thread authentication_thread = new Thread(new Runnable() {
+            Map response_from_server_Map;
             public void run() {
-                byte[] image_profile_bytes;
                 try {
-                  image_profile_bytes =  handle_request_types_module.load_profile_image("test_account3");
+                    response_from_server_Map = handle_request_types_module.authentication(username_EditText.getText().toString(),password_EditText.getText().toString());
                 } catch (NoSuchPaddingException e) {
                     throw new RuntimeException(e);
                 } catch (IllegalBlockSizeException e) {
@@ -63,25 +59,25 @@ public class MainActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 } catch (BadPaddingException e) {
                     throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
                 } catch (InvalidKeyException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (InvalidAlgorithmParameterException e) {
                     throw new RuntimeException(e);
                 }
-                handler.post(new Runnable() {
+                ui_Handle.post(new Runnable() {
                     @Override
                     public void run() {
-                        Bitmap image_Bitmap = BitmapFactory.decodeByteArray(image_profile_bytes,0,image_profile_bytes.length);
-                        image_profile_ImageView.setImageBitmap(image_Bitmap);
+                        Log.d("authentication",response_from_server_Map.toString());
+                        Intent dashboard_Intent = new Intent(MainActivity.this,DashboardActivity.class);
+                        dashboard_Intent.putExtra("username_primary","test_account1");
+                        startActivity(dashboard_Intent);
                     }
                 });
             }
         });
-
-        thread.start();
-
+    authentication_thread.start();
 
     }
 }
