@@ -1,8 +1,5 @@
 package me.ngodat0103.myapplication;
 
-import android.os.Build;
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import javax.crypto.BadPaddingException;
@@ -29,6 +26,7 @@ public class client_connection_module {
         client_socket = new Socket(host,port);
         output = client_socket.getOutputStream();
         input = client_socket.getInputStream();
+        System.out.println("Connected");
     }
     public static void send(byte[] message_bytes) throws IOException {
         int message_byte_length_int = message_bytes.length;
@@ -41,12 +39,32 @@ public class client_connection_module {
     public static Map listen_response_from_server() throws IOException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
             byte[] buffer_header_length_bytes = new byte[4];
             input.read(buffer_header_length_bytes);
-        int header_length_int = new BigInteger(buffer_header_length_bytes).intValue();
+            int header_length_int = new BigInteger(buffer_header_length_bytes).intValue();
             byte[] buffer_server_response_encrypted_bytes = new byte[header_length_int];
             input.read(buffer_server_response_encrypted_bytes);
-        String buffer_server_response_decrypted_String = cipher_module.decrypt(buffer_server_response_encrypted_bytes);
-        Log.d("authentication","data:"+buffer_server_response_decrypted_String);
+            String buffer_server_response_decrypted_String = cipher_module.decrypt(buffer_server_response_encrypted_bytes);
         return new Gson().fromJson(buffer_server_response_decrypted_String, Map.class);
     }
+    public static byte[] listen_response_from_server_large_file(Map response_from_server_map) throws IOException {
+        String large_file_size_String = String.valueOf(response_from_server_map.get("large_file_size"));
+        int large_file_size_int = Integer.valueOf(large_file_size_String);
+        byte[] large_file_bytes = new byte[large_file_size_int];
+        int byte_actually_read_int = 0 ;
+        while (byte_actually_read_int<large_file_size_int){
+            byte_actually_read_int+= input.read(large_file_bytes,byte_actually_read_int,large_file_size_int-byte_actually_read_int);
+        }
+        return large_file_bytes;
+    }
 
+    static public Map<String, String> convertStringToMap(String data) {
+        Map<String, String> map = new HashMap<>();
+        StringTokenizer tokenizer = new StringTokenizer(data, " ");
+
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken();
+            String[] keyValue = token.split("=");
+            map.put(keyValue[0], keyValue[1]);
+        }
+        return map;
+    }
 }
