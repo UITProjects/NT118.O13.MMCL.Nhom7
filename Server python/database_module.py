@@ -23,19 +23,7 @@ def access_database(statement: str, param_binary_data=None):
                                                ssl_key=SSL_key, )
     execute_command_interpreter = mysql_connection.cursor()
     execute_command_interpreter.execute(statement, param_binary_data)
-    response_tuple = execute_command_interpreter.fetchone()
+    response_tuple = execute_command_interpreter.fetchall()
     mysql_connection.commit()
     mysql_connection.close()
     return response_tuple
-
-
-# image_byte: bytes = access_database("SELECT * FROM mobile_project.account where username_primary = 'test_account2';")[3]
-# image_base64_encoded_bytes: bytes = base64.b64encode(image_byte)
-# print(image_base64_encoded_bytes.decode())
-
-# image = Image.open(image_byte_object)
-# image.show()
-#
-# image_byte_object = io.BytesIO(access_database("SELECT * FROM mobile_project.account where username_primary = 'test_account2';")[3])
-# image = Image.open(image_byte_object)
-# image.show()

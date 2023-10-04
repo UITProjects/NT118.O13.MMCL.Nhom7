@@ -1,6 +1,9 @@
 import os
 from datetime import datetime
 import database_module
+import smtp
+
+
 class WeatherData:
     def __init__(self, coord, weather, base, main, visibility, wind, clouds, dt):
         self.coord = coord
@@ -58,10 +61,20 @@ params ={
   ,
   "lat": "10.8698"
 }
+
+params_rain_test ={
+  "appid": os.getenv("appid"),
+  "lon": "108.2694",
+  "lat": "14.6763"
+}
+
+
 headers = {
     "accept":"application/json"
 }
-response = requests.get(base_url,params=params,headers= headers)
+#response = requests.get(base_url,params=params,headers= headers)
+response = requests.get(base_url,params=params_rain_test,headers= headers)
+
 json_data = response.json()
 coord = Coord(json_data['coord']['lon'], json_data['coord']['lat'])
 weather = []
@@ -109,3 +122,14 @@ data = (
     weather_data.clouds.all,
     weather_data.dt
 )
+
+def notify_rain_to_user():
+    response_from_mysql = database_module.access_database("SELECT email  FROM mobile_project.account;")
+    email_users_dict:list = [item[0] for item in response_from_mysql]
+
+    print(weather_data.weather[0].id)
+    print(type(weather_data.weather[0].id))
+    if weather_data.weather[0].id < 600:
+        for email in email_users_dict:
+            smtp.send_email_notify_rain(email)
+notify_rain_to_user()
