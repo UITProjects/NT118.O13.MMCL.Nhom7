@@ -1,4 +1,5 @@
 import threading
+import api_weatherdata_module
 from server_core import *
 server_android = Server_core("localhost", 2509)
 server_raspberry = Server_core("localhost", 2590)

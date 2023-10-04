@@ -4,6 +4,7 @@ import base64
 from Crypto.Util.Padding import pad
 from Crypto.Util.Padding import unpad
 import os
+import secrets
 
 import hashlib
 
@@ -14,6 +15,7 @@ def hash_password(plain_password_str: str):
     hash_interpreter.update(password_bytes)
     hash_password = hash_interpreter.hexdigest()
     return hash_password
+
 
 class Cipher_module:
     key_bytes = base64.b64decode(os.getenv("symmetric_key"))
@@ -38,3 +40,6 @@ class Cipher_module:
         plaintext_string = plaintext_unpadding_bytes.decode()
         return plaintext_string
 
+
+def generate_random_token(length:int) -> str:
+    return secrets.token_hex(length)

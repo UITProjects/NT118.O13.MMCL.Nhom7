@@ -1,4 +1,5 @@
 package me.ngodat0103.myapplication;
+import android.os.Build;
 import android.util.Log;
 import com.google.gson.Gson;
 import javax.crypto.BadPaddingException;
@@ -24,6 +25,7 @@ public class handle_request_types_module {
         request_message_Map.put("type","authentication");
         request_message_Map.put("username_primary",username_primary);
         request_message_Map.put("password",password);
+        request_message_Map.put("device_name", Build.MODEL);
         send_message_to_client(request_message_Map);
         return client_connection_module.listen_response_from_server();
     }

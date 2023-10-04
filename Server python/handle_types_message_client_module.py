@@ -1,6 +1,7 @@
 import base64
 import mysql.connector.errors
 
+import cipher_module
 import server_core
 import smtp
 from database_statements_module import general_statements
@@ -9,11 +10,15 @@ from cipher_module import hash_password
 
 
 def authentication(argument: dict) -> dict[str, str]:
-    full_statement = general_statements["authentication"].format(username_primary=argument["username_primary"],
+    full_statement_str = general_statements["authentication"].format(username_primary=argument["username_primary"],
                                                                  hashed_password=hash_password(argument["password"]))
-    response_from_mysql = database_module.access_database(full_statement)
+    response_from_mysql = database_module.access_database(full_statement_str)
     if response_from_mysql is not None:
-        return {"type": "login", "status": "success"}
+        refresh_token_str = cipher_module.generate_random_token(32)
+        uuid_str = cipher_module.generate_random_token(10)
+        update_token_fullstatement_str = general_statements["update_token"].format(username_foreignkey=argument["username_primary"],device_name=argument["device_name"],refresh_token=refresh_token_str,uuid=uuid_str)
+        database_module.access_database(update_token_fullstatement_str)
+        return {"type": "login", "status": "success","refresh_token":refresh_token_str}
     else:
         return {"type": "login", "status": "failed"}
 

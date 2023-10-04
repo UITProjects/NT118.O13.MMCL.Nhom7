@@ -2,7 +2,9 @@ package me.ngodat0103.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -23,10 +25,14 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 public class MainActivity extends AppCompatActivity {
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor share_PreFerences_Editor;
     Handler ui_Handle = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
+        share_PreFerences_Editor = sharedPreferences.edit();
         setContentView(R.layout.activity_main);
         Thread thread = new Thread(new Runnable() {
 
@@ -70,9 +76,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Log.d("authentication",response_from_server_Map.toString());
+                        share_PreFerences_Editor.putString("refresh_token",response_from_server_Map.get("refresh_token").toString());
+                        share_PreFerences_Editor.apply();
+                       String refresh_token= sharedPreferences.getString("refresh_token","NULL");
+                        Log.d("authentication","token: "+refresh_token);
                         Intent dashboard_Intent = new Intent(MainActivity.this,DashboardActivity.class);
-                        dashboard_Intent.putExtra("username_primary","test_account1");
+                        dashboard_Intent.putExtra("username_primary",username_EditText.getText().toString());
                         startActivity(dashboard_Intent);
+
                     }
                 });
             }

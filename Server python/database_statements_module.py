@@ -12,5 +12,6 @@ general_statements: dict[str, str] = {
     'upload_image_profile': "UPDATE `mobile_project`.`account`"
                             " SET `image_profile` = %s "
                             "WHERE (`username_primary` = '{username_primary}');",
-    'load_profile_image': "SELECT * FROM mobile_project.account where username_primary = '{username_primary}';"
-}
+    'load_profile_image': "SELECT * FROM mobile_project.account where username_primary = '{username_primary}';",
+    'update_token': "INSERT INTO `mobile_project`.`devices`(`uuid`,`device_name`,`username_foreignkey`,`refresh_token`)"
+                    "VALUES('{uuid}','{device_name}','{username_foreignkey}','{refresh_token}');"}
