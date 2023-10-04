@@ -27,13 +27,13 @@ Handler ui_Handler = new Handler();
         setContentView(R.layout.dashboard);
         image_profile_ImageView = findViewById(R.id.image_profile_ImageView);
         Intent self_Intent = getIntent();
-        String username_primary = self_Intent.getStringExtra("username_primary");
+        String refresh_token = self_Intent.getStringExtra("refresh_token");
         Thread load_profile_image_Thread = new Thread(new Runnable() {
             byte[] image_profile_bytes;
             @Override
             public void run() {
                 try {
-                    image_profile_bytes =  handle_request_types_module.load_profile_image(username_primary);
+                    image_profile_bytes =  handle_request_types_module.load_profile_image(refresh_token);
                 } catch (NoSuchPaddingException e) {
                     throw new RuntimeException(e);
                 } catch (IllegalBlockSizeException e) {

@@ -109,6 +109,3 @@ data = (
     weather_data.clouds.all,
     weather_data.dt
 )
-
-database_module.access_database(fullstatement,data)
-

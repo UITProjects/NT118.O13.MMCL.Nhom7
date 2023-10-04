@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         share_PreFerences_Editor = sharedPreferences.edit();
-        setContentView(R.layout.activity_main);
-        Thread thread = new Thread(new Runnable() {
+        Thread connection_server_client_Thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -45,9 +44,51 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        connection_server_client_Thread.start();
+        String refresh_token = sharedPreferences.getString("refresh_token","null");
+        Log.d("authentication","refresh_token: "+refresh_token);
+        if (!refresh_token.equals("null"))
+            authentication_usingtoken(refresh_token);
+        setContentView(R.layout.activity_main);
 
-        thread.start();
+    }
 
+    private void authentication_usingtoken(String refresh_token){
+        Thread authentication_usingtoken_Thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Map response_from_server;
+                try {
+                  response_from_server = handle_request_types_module.authentication("null","null",refresh_token);
+                } catch (NoSuchPaddingException e) {
+                    throw new RuntimeException(e);
+                } catch (IllegalBlockSizeException e) {
+                    throw new RuntimeException(e);
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
+                } catch (BadPaddingException e) {
+                    throw new RuntimeException(e);
+                } catch (InvalidKeyException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InvalidAlgorithmParameterException e) {
+                    throw new RuntimeException(e);
+                }
+                ui_Handle.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("authentication",response_from_server.toString());
+                        if (response_from_server.get("status").toString().equals("success")) {
+                            Intent dashboard_Intent = new Intent(MainActivity.this, DashboardActivity.class);
+                            dashboard_Intent.putExtra("refresh_token",response_from_server.get("refresh_token").toString());
+                            startActivity(dashboard_Intent);
+                        }
+                    }
+                });
+            }
+        });
+        authentication_usingtoken_Thread.start();
     }
     public void login_Button(View view) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, IOException, InvalidKeyException {
         EditText username_EditText = findViewById(R.id.username);
@@ -56,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             Map response_from_server_Map;
             public void run() {
                 try {
-                    response_from_server_Map = handle_request_types_module.authentication(username_EditText.getText().toString(),password_EditText.getText().toString());
+                    response_from_server_Map = handle_request_types_module.authentication(username_EditText.getText().toString(),password_EditText.getText().toString(),"null");
                 } catch (NoSuchPaddingException e) {
                     throw new RuntimeException(e);
                 } catch (IllegalBlockSizeException e) {
@@ -79,9 +120,8 @@ public class MainActivity extends AppCompatActivity {
                         share_PreFerences_Editor.putString("refresh_token",response_from_server_Map.get("refresh_token").toString());
                         share_PreFerences_Editor.apply();
                        String refresh_token= sharedPreferences.getString("refresh_token","NULL");
-                        Log.d("authentication","token: "+refresh_token);
                         Intent dashboard_Intent = new Intent(MainActivity.this,DashboardActivity.class);
-                        dashboard_Intent.putExtra("username_primary",username_EditText.getText().toString());
+                        dashboard_Intent.putExtra("refresh_token",response_from_server_Map.get("refresh_token").toString());
                         startActivity(dashboard_Intent);
 
                     }

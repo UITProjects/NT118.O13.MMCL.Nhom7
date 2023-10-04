@@ -10,15 +10,27 @@ from cipher_module import hash_password
 
 
 def authentication(argument: dict) -> dict[str, str]:
-    full_statement_str = general_statements["authentication"].format(username_primary=argument["username_primary"],
-                                                                 hashed_password=hash_password(argument["password"]))
+    refresh_token_str = argument["refresh_token"]
+    if refresh_token_str == "null":
+        full_statement_str = general_statements["authentication_credential"].format(
+            username_primary=argument["username_primary"],
+            hashed_password=hash_password(
+                argument["password"]))
+    else:
+        full_statement_str = general_statements["authentication_token"].format(refresh_token=argument["refresh_token"])
+
     response_from_mysql = database_module.access_database(full_statement_str)
     if response_from_mysql is not None:
-        refresh_token_str = cipher_module.generate_random_token(32)
-        uuid_str = cipher_module.generate_random_token(10)
-        update_token_fullstatement_str = general_statements["update_token"].format(username_foreignkey=argument["username_primary"],device_name=argument["device_name"],refresh_token=refresh_token_str,uuid=uuid_str)
-        database_module.access_database(update_token_fullstatement_str)
-        return {"type": "login", "status": "success","refresh_token":refresh_token_str}
+        if refresh_token_str == "null":
+            refresh_token_str = cipher_module.generate_random_token(32)
+            uuid_str = cipher_module.generate_random_token(10)
+            update_token_fullstatement_str = general_statements["update_token"].format(
+                username_foreignkey=argument["username_primary"], device_name=argument["device_name"],
+                refresh_token=refresh_token_str, uuid=uuid_str)
+            database_module.access_database(update_token_fullstatement_str)
+            return {"type": "login", "status": "success", "refresh_token": refresh_token_str}
+        else:
+            return {"type": "login", "status": "success", "refresh_token": refresh_token_str}
     else:
         return {"type": "login", "status": "failed"}
 
@@ -67,13 +79,13 @@ def upload_image_profile(argument: dict):
 
 
 def load_profile_image(argument: dict):
-    fullstatement:str = general_statements["load_profile_image"].format(username_primary=argument["username_primary"])
-    # fullstatement: str = general_statements["load_profile_image"].format(username_primary="test_account2")
+    fullstatement: str = general_statements["load_profile_image"].format(refresh_token=argument["refresh_token"])
 
     response_from_mysql = database_module.access_database(fullstatement)
-    load_image_bytes: bytes = response_from_mysql[3]
+    load_image_bytes: bytes = response_from_mysql[0]
     server_core.Handle_android_app_socket.large_data = load_image_bytes
-    return {"type": "load_profile_image", "status": "pending_download", "large_file_size": str(len(load_image_bytes)),"large_data":"true"}
+    return {"type": "load_profile_image", "status": "pending_download", "large_file_size": str(len(load_image_bytes)),
+            "large_data": "true"}
 
 
 type_client_message = {
@@ -81,7 +93,7 @@ type_client_message = {
     "create_account": create_account,
     "forgot_password": forgot_password,
     "upload_image_profile": upload_image_profile,
-    "load_profile_image":load_profile_image
+    "load_profile_image": load_profile_image
 }
 
 
