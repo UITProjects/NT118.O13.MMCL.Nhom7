@@ -126,10 +126,6 @@ data = (
 def notify_rain_to_user():
     response_from_mysql = database_module.access_database("SELECT email  FROM mobile_project.account;")
     email_users_dict:list = [item[0] for item in response_from_mysql]
-
-    print(weather_data.weather[0].id)
-    print(type(weather_data.weather[0].id))
     if weather_data.weather[0].id < 600:
         for email in email_users_dict:
             smtp.send_email_notify_rain(email)
-notify_rain_to_user()

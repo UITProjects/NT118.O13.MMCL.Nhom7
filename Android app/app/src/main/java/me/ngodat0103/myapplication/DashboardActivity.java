@@ -7,12 +7,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -30,10 +32,12 @@ Handler ui_Handler = new Handler();
         String refresh_token = self_Intent.getStringExtra("refresh_token");
         Thread load_profile_image_Thread = new Thread(new Runnable() {
             byte[] image_profile_bytes;
+            Map weather_data_Map;
             @Override
             public void run() {
                 try {
                     image_profile_bytes =  handle_request_types_module.load_profile_image(refresh_token);
+                    weather_data_Map = handle_request_types_module.get_weather();
                 } catch (NoSuchPaddingException e) {
                     throw new RuntimeException(e);
                 } catch (IllegalBlockSizeException e) {
@@ -52,8 +56,9 @@ Handler ui_Handler = new Handler();
                 ui_Handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Bitmap image_Bitmap = BitmapFactory.decodeByteArray(image_profile_bytes,0,image_profile_bytes.length);
+                        Bitmap image_Bitmap = BitmapFactory.decodeByteArray(image_profile_bytes, 0, image_profile_bytes.length);
                         image_profile_ImageView.setImageBitmap(image_Bitmap);
+                        Log.d("weather", weather_data_Map.toString());
                     }
                 });
             }

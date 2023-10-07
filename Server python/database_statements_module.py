@@ -15,5 +15,6 @@ general_statements: dict[str, str] = {
     'load_profile_image': "SELECT image_profile FROM mobile_project.account "
                           "join devices on username_foreignkey = username_primary "
                           "where refresh_token = '{refresh_token}'",
+    'get_weather': "SELECT * FROM mobile_project.weather_api order by date_primarykey desc",
     'update_token': "INSERT INTO `mobile_project`.`devices`(`uuid`,`device_name`,`username_foreignkey`,`refresh_token`)"
                     "VALUES('{uuid}','{device_name}','{username_foreignkey}','{refresh_token}');"}

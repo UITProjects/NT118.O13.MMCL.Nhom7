@@ -117,12 +117,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Log.d("authentication",response_from_server_Map.toString());
-                        share_PreFerences_Editor.putString("refresh_token",response_from_server_Map.get("refresh_token").toString());
-                        share_PreFerences_Editor.apply();
-                       String refresh_token= sharedPreferences.getString("refresh_token","NULL");
-                        Intent dashboard_Intent = new Intent(MainActivity.this,DashboardActivity.class);
-                        dashboard_Intent.putExtra("refresh_token",response_from_server_Map.get("refresh_token").toString());
-                        startActivity(dashboard_Intent);
+                        String status_login_string = response_from_server_Map.get("status").toString();
+                        if(status_login_string.equals("success")) {
+                            share_PreFerences_Editor.putString("refresh_token", response_from_server_Map.get("refresh_token").toString());
+                            share_PreFerences_Editor.apply();
+                            String refresh_token = sharedPreferences.getString("refresh_token", "NULL");
+                            Intent dashboard_Intent = new Intent(MainActivity.this, DashboardActivity.class);
+                            dashboard_Intent.putExtra("refresh_token", response_from_server_Map.get("refresh_token").toString());
+                            startActivity(dashboard_Intent);
+                        }
 
                     }
                 });

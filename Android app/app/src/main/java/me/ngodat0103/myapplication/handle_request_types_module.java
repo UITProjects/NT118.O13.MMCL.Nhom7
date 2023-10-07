@@ -58,6 +58,16 @@ public class handle_request_types_module {
         }
 
     }
+
+    public static Map get_weather() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        request_message_Map = new HashMap<>();
+        request_message_Map.put("type","get_weather_data");
+       send_message_to_client(request_message_Map);
+       Map response_from_server =  client_connection_module.listen_response_from_server();
+       String weather_data_String = response_from_server.get("weather_data").toString();
+       Map weather_data_Map = new Gson().fromJson(weather_data_String,Map.class);
+        return weather_data_Map;
+    }
 //    public static void upload_image_profile(String username_primary) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
 //        JFileChooser fileChooser = new JFileChooser();
 //        String image_file_path = "";
