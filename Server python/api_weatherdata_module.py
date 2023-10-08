@@ -50,82 +50,58 @@ class Clouds:
     def __init__(self, all):
         self.all = all
 
+
 import requests
-base_url = "https://api.openweathermap.org/data/2.5/weather"
-params ={
-  "appid": os.getenv("appid")
-  ,
-  "lon": "106.8031"
-  ,
-  "units": "metric"
-  ,
-  "lat": "10.8698"
-}
 
-params_rain_test ={
-  "appid": os.getenv("appid"),
-  "lon": "108.2694",
-  "lat": "14.6763"
-}
+import datetime
+def update_history_weather_data(start_unix_time_str: str, end_unix_time_strstr):
+    base_url = "https://history.openweathermap.org/data/2.5/history/city"
+    params = {
+        "appid": os.getenv("appid"),
+        "lon": "106.8031",
+        "units": "metric",
+        "lat": "10.8698",
+        "start": start_unix_time_str,
+        "end": end_unix_time_strstr
+    }
 
-
-headers = {
-    "accept":"application/json"
-}
-#response = requests.get(base_url,params=params,headers= headers)
-response = requests.get(base_url,params=params_rain_test,headers= headers)
-
-json_data = response.json()
-coord = Coord(json_data['coord']['lon'], json_data['coord']['lat'])
-weather = []
-for weather_item in json_data['weather']:
-    weather_obj = Weather(weather_item['id'], weather_item['main'], weather_item['description'], weather_item['icon'])
-    weather.append(weather_obj)
-base = json_data['base']
-main = Main(json_data['main']['temp'], json_data['main']['feels_like'], json_data['main']['temp_min'],
-            json_data['main']['temp_max'], json_data['main']['pressure'], json_data['main']['humidity'])
-visibility = json_data['visibility']
-wind = Wind(json_data['wind']['speed'], json_data['wind']['deg'])
-
-clouds = Clouds(json_data['clouds']['all'])
-
-dt = json_data['dt']
-
-# Create WeatherData object
-weather_data = WeatherData(coord, weather, base, main, visibility, wind, clouds, dt)
-fullstatement = ("INSERT INTO weather_api "
-                 "(date_primarykey,location_name,coord_lon, coord_lat, weather_id, weather_main, weather_description, "
-                 "weather_icon, base, main_temp, main_feels_like, main_temp_min, main_temp_max, main_pressure, "
-                 "main_humidity, visibility, wind_speed, wind_deg, clouds_all, dt)"
-                 "VALUES (%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-
-current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-data = (
-    current_time,
-    "UIT",
-    weather_data.coord.lon,
-    weather_data.coord.lat,
-    weather_data.weather[0].id,
-    weather_data.weather[0].main,
-    weather_data.weather[0].description,
-    weather_data.weather[0].icon,
-    weather_data.base,
-    weather_data.main.temp,
-    weather_data.main.feels_like,
-    weather_data.main.temp_min,
-    weather_data.main.temp_max,
-    weather_data.main.pressure,
-    weather_data.main.humidity,
-    weather_data.visibility,
-    weather_data.wind.speed,
-    weather_data.wind.deg,
-    weather_data.clouds.all,
-    weather_data.dt
-)
-
-def notify_rain_to_user():
-    response_from_mysql = database_module.access_database("SELECT email  FROM mobile_project.account;")
-    email_users_dict:list = [item[0] for item in response_from_mysql]
-    if weather_data.weather[0].id < 600:
-        for email in email_users_dict:
-            smtp.send_email_notify_rain(email)
+    headers = {
+        "accept": "application/json"
+    }
+    response = requests.get(base_url, params=params, headers=headers)
+    json_data = response.json()
+    fullstatement = ("INSERT INTO weather_data (time_primarykey,dt, temp, feels_like, pressure, humidity, temp_min, temp_max, "
+                     "wind_speed"
+                     ", wind_deg, wind_gust, clouds_all, weather_id, weather_main, weather_description, weather_icon)" 
+                     "VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);")
+    weather_data_list = json_data["list"]
+    for weather_data_list_row in weather_data_list:
+        timestamp = datetime.datetime.fromtimestamp(weather_data_list_row['dt'])
+        time_str = timestamp.strftime("%d-%m-%Y: %H:%M:%S")
+        weather_statistic_tuple = (
+            time_str,
+            weather_data_list_row['dt'],
+            weather_data_list_row['main']['temp'],
+            weather_data_list_row['main']['feels_like'],
+            weather_data_list_row['main']['pressure'],
+            weather_data_list_row['main']['humidity'],
+            weather_data_list_row['main']['temp_min'],
+            weather_data_list_row['main']['temp_max'],
+            weather_data_list_row['wind']['speed'],
+            weather_data_list_row['wind']['deg'],
+            weather_data_list_row['wind']['gust'],
+            weather_data_list_row['clouds']['all'],
+            weather_data_list_row['weather'][0]['id'],
+            weather_data_list_row['weather'][0]['main'],
+            weather_data_list_row['weather'][0]['description'],
+            weather_data_list_row['weather'][0]['icon'],
+        )
+        database_module.access_database(fullstatement,weather_statistic_tuple)
+    print("done")
+update_history_weather_data("1696179540","1696697940")
+# def notify_rain_to_user():
+#     response_from_mysql = database_module.access_database("SELECT email  FROM mobile_project.account;")
+#     email_users_dict:list = [item[0] for item in response_from_mysql]
+#     if weather_data.weather[0].id < 600:
+#         for email in email_users_dict:
+#             smtp.send_email_notify_rain(email)

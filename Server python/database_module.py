@@ -21,9 +21,9 @@ mysql_connection = mysql.connector.connect(user=USERNAME, password=PASSWORD,
                                            ssl_key=SSL_key, )
 
 
-def access_database(statement: str, param_binary_data=None):
+def access_database(statement: str, param_any=None):
     execute_command_interpreter = mysql_connection.cursor()
-    execute_command_interpreter.execute(statement, param_binary_data)
+    execute_command_interpreter.execute(statement, param_any)
     response_tuple = execute_command_interpreter.fetchall()
     mysql_connection.commit()
     return response_tuple
