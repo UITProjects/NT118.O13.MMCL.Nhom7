@@ -54,51 +54,64 @@ class Clouds:
 import requests
 
 import datetime
-def update_history_weather_data(start_unix_time_str: str, end_unix_time_strstr):
-    base_url = "https://history.openweathermap.org/data/2.5/history/city"
-    params = {
-        "appid": os.getenv("appid"),
-        "lon": "106.8031",
-        "units": "metric",
-        "lat": "10.8698",
-        "start": start_unix_time_str,
-        "end": end_unix_time_strstr
-    }
 
+
+def update_history_weather_data(start_unix_time_int: int, end_unix_time_int:int):
+    timestamp_interval_int = 518400
+
+    fullstatement = (
+        "INSERT INTO weather_data (time_primarykey,dt, temp, feels_like, pressure, humidity, temp_min, temp_max, "
+        "wind_speed"
+        ", wind_deg, wind_gust, clouds_all, weather_id, weather_main, weather_description, weather_icon)"
+        "VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);")
+    base_url = "https://history.openweathermap.org/data/2.5/history/city"
     headers = {
         "accept": "application/json"
     }
-    response = requests.get(base_url, params=params, headers=headers)
-    json_data = response.json()
-    fullstatement = ("INSERT INTO weather_data (time_primarykey,dt, temp, feels_like, pressure, humidity, temp_min, temp_max, "
-                     "wind_speed"
-                     ", wind_deg, wind_gust, clouds_all, weather_id, weather_main, weather_description, weather_icon)" 
-                     "VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s);")
-    weather_data_list = json_data["list"]
-    for weather_data_list_row in weather_data_list:
-        timestamp = datetime.datetime.fromtimestamp(weather_data_list_row['dt'])
-        time_str = timestamp.strftime("%d-%m-%Y: %H:%M:%S")
-        weather_statistic_tuple = (
-            time_str,
-            weather_data_list_row['dt'],
-            weather_data_list_row['main']['temp'],
-            weather_data_list_row['main']['feels_like'],
-            weather_data_list_row['main']['pressure'],
-            weather_data_list_row['main']['humidity'],
-            weather_data_list_row['main']['temp_min'],
-            weather_data_list_row['main']['temp_max'],
-            weather_data_list_row['wind']['speed'],
-            weather_data_list_row['wind']['deg'],
-            weather_data_list_row['wind']['gust'],
-            weather_data_list_row['clouds']['all'],
-            weather_data_list_row['weather'][0]['id'],
-            weather_data_list_row['weather'][0]['main'],
-            weather_data_list_row['weather'][0]['description'],
-            weather_data_list_row['weather'][0]['icon'],
-        )
-        database_module.access_database(fullstatement,weather_statistic_tuple)
-    print("done")
-update_history_weather_data("1696179540","1696697940")
+    current_unix_time_int = start_unix_time_int
+    while current_unix_time_int < end_unix_time_int:
+        params = {
+            "appid": os.getenv("appid"),
+            "lon": "106.8031",
+            "units": "metric",
+            "lat": "10.8698",
+            "start": str(current_unix_time_int),
+            "end": str(current_unix_time_int + timestamp_interval_int)
+        }
+
+        response = requests.get(base_url, params=params, headers=headers)
+        json_data = response.json()
+        print(json_data)
+        weather_data_list = json_data["list"]
+        for weather_data_list_row in weather_data_list:
+            timestamp = datetime.datetime.fromtimestamp(weather_data_list_row['dt'])
+            time_str = timestamp.strftime("%d-%m-%Y: %H:%M:%S")
+            gust_check = weather_data_list_row['wind'].get("gust",None)
+            weather_statistic_tuple = (
+                time_str,
+                weather_data_list_row['dt'],
+                weather_data_list_row['main']['temp'],
+                weather_data_list_row['main']['feels_like'],
+                weather_data_list_row['main']['pressure'],
+                weather_data_list_row['main']['humidity'],
+                weather_data_list_row['main']['temp_min'],
+                weather_data_list_row['main']['temp_max'],
+                weather_data_list_row['wind']['speed'],
+                weather_data_list_row['wind']['deg'],
+
+                gust_check,
+                weather_data_list_row['clouds']['all'],
+                weather_data_list_row['weather'][0]['id'],
+                weather_data_list_row['weather'][0]['main'],
+                weather_data_list_row['weather'][0]['description'],
+                weather_data_list_row['weather'][0]['icon'],
+            )
+            database_module.access_database(fullstatement, weather_statistic_tuple)
+        print(datetime.datetime.fromtimestamp(current_unix_time_int).strftime("%d-%m-%Y: %H:%M:%S"))
+        current_unix_time_int += timestamp_interval_int
+
+
+update_history_weather_data(1667235660, 1672333260)
 # def notify_rain_to_user():
 #     response_from_mysql = database_module.access_database("SELECT email  FROM mobile_project.account;")
 #     email_users_dict:list = [item[0] for item in response_from_mysql]
