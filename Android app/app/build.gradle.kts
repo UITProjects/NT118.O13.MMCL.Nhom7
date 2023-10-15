@@ -42,3 +42,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+repositories {
+    mavenCentral()
+    maven(url = "<MAVEN REPO URL>")
+}
