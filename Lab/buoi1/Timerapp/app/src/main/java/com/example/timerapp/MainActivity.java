@@ -14,10 +14,13 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     TextView timer_tv;
     Button start_btn;
+    Button reset_btn;
     CountDownTimer countDownTimer;
     Boolean counterIsActive = false;
     ProgressBar timer_pg;
     MediaPlayer mediaPlayer;
+
+    public long TimeLeft = 30000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +30,17 @@ public class MainActivity extends AppCompatActivity {
         timer_pg.setProgress(0);
         timer_tv = findViewById(R.id.timer_tv);
         start_btn = findViewById(R.id.start_btn);
+        reset_btn = findViewById(R.id.reset_btn);
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
+        reset_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimeReset();
+
+            }
+        });
     }
+
 
     private void update(int progress){
         int minutes = progress / 60;
@@ -48,15 +60,16 @@ public class MainActivity extends AppCompatActivity {
         if(counterIsActive == false){
             counterIsActive = true;
             start_btn.setText("STOP");
-            countDownTimer = new CountDownTimer(30 *1000, 1000) {
+            countDownTimer = new CountDownTimer(TimeLeft, 1000) {
                 @Override
-                public void onTick(long millisUntilFinished) {
-                    update((int) millisUntilFinished/ 1000);
+                public void onTick(long l) {
+                    TimeLeft = l;
+                    update((int) l/ 1000);
                 }
 
                 @Override
                 public void onFinish() {
-                    reset();
+                    stop();
                     int count = 0;
                     if(mediaPlayer != null)
                         mediaPlayer.start();
@@ -77,19 +90,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }.start();
         }else{
-            reset();
+            stop();
         }
     }
 
-    private void reset(){
-        timer_tv.setText("0:30");
+    private void stop(){
+        //timer_tv.setText("0:30");
         timer_pg.setProgress(0);
-        countDownTimer.cancel();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
         start_btn.setText("START");
         timer_pg.setEnabled(true);
         counterIsActive = false;
     }
-
+    public void TimeReset(){
+        TimeLeft = 30000;
+        counterIsActive = false;
+        timer_tv.setText("00:30");
+    }
     @Override
     protected void onPause() {
         super.onPause();
