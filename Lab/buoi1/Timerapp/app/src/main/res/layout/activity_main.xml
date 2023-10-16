@@ -13,33 +13,40 @@
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
 
-        android:layout_width="275dp"
+        android:layout_width="0dp"
         android:layout_height="270dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginEnd="68dp"
         android:background="@drawable/circle_shape"
         android:indeterminate="false"
         android:max="100"
         android:progress="50"
         android:progressDrawable="@drawable/circular_progress_bar"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="261dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/timer_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="0:30"
+        android:text="00:00:00"
         android:textSize="60sp"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="325dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/start_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/timer_tv"
-        android:layout_marginEnd="212dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="220dp"
+        android:layout_marginBottom="156dp"
         android:onClick="start_timer"
         android:text="START"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,11 +57,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/timer_tv"
-        android:layout_marginEnd="84dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="156dp"
         android:onClick="start_timer"
         android:text="reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+    <NumberPicker
+        android:id="@+id/npHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/npMinutes"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <NumberPicker
+        android:id="@+id/npMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/npSeconds"
+        app:layout_constraintStart_toEndOf="@+id/npHours"
+        app:layout_constraintTop_toTopOf="@+id/npHours" />
+
+    <NumberPicker
+        android:id="@+id/npSeconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/npMinutes"
+        app:layout_constraintTop_toTopOf="@+id/npMinutes" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
