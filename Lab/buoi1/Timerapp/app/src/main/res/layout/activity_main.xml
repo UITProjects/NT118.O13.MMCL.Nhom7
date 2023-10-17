@@ -40,29 +40,36 @@
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/start_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/timer_tv"
-        android:layout_marginEnd="220dp"
-        android:layout_marginBottom="156dp"
-        android:onClick="start_timer"
-        android:text="START"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
+    <ImageButton
         android:id="@+id/reset_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/timer_tv"
-        android:layout_marginEnd="92dp"
-        android:layout_marginBottom="156dp"
+        android:layout_width="60dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="116dp"
+        android:background="@null"
         android:onClick="start_timer"
-        android:text="reset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/baseline_replayed_circle_filled_24"
+        android:contentDescription="Reset timer has already countdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+    <ImageButton
+        android:id="@+id/start_btn"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="end"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="48dp"
+        android:background="@color/white"
+        android:onClick="start_timer"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/baseline_play_circle_24"
+        android:contentDescription="Start countdown timer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
     <NumberPicker
         android:id="@+id/npHours"
         android:layout_width="wrap_content"

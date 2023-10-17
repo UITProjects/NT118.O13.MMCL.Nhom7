@@ -7,14 +7,15 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     TextView timer_tv;
-    Button start_btn;
-    Button reset_btn;
+    ImageButton start_btn;
+    ImageButton reset_btn;
     CountDownTimer countDownTimer;
     Boolean counterIsActive = false;
     ProgressBar timer_pg;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     NumberPicker npSeconds;
 
     public long TimeLeft = 30000;
+    private int progressStatus = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     public void start_timer(View view){
         if(counterIsActive == false){
             counterIsActive = true;
-            start_btn.setText("STOP");
+            start_btn.setImageResource(R.drawable.baseline_stop_circle_24);
             TimeLeft = 0 ;
             TimeLeft += (long) npHours.getValue()*60*60;
             TimeLeft += (long) npMinutes.getValue()*60;
@@ -124,13 +126,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stop(){
-        //timer_tv.setText("0:30");
-        timer_pg.setProgress(0);
+        progressStatus = timer_pg.getProgress();
         if (countDownTimer != null) {
             countDownTimer.cancel();
             countDownTimer = null;
         }
-        start_btn.setText("START");
+        start_btn.setImageResource(R.drawable.baseline_play_circle_24);
         timer_pg.setEnabled(true);
         counterIsActive = false;
     }
