@@ -23,14 +23,15 @@ public class MainActivity extends AppCompatActivity {
     NumberPicker npHours;
     NumberPicker npMinutes;
     NumberPicker npSeconds;
+    ImageButton stop_btn;
 
-    public long TimeLeft = 30000;
-    private int progressStatus = 0;
+    public long TimeLeft = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         timer_pg = findViewById(R.id.progressBar);
+        stop_btn = findViewById(R.id.stop_btn);
         timer_pg.setMax(30);
         timer_pg.setProgress(0);
         timer_tv = findViewById(R.id.timer_tv);
@@ -54,6 +55,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        stop_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stop();
+            }
+        });
+        reset_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimeReset();
+            }
+        });
+
     }
 
 
@@ -78,19 +92,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void start_timer(View view){
         if(counterIsActive == false){
-            counterIsActive = true;
-            start_btn.setImageResource(R.drawable.baseline_stop_circle_24);
-            TimeLeft = 0 ;
-            TimeLeft += (long) npHours.getValue()*60*60;
-            TimeLeft += (long) npMinutes.getValue()*60;
-            TimeLeft += (long) npSeconds.getValue();
-            timer_pg.setMax(((int)TimeLeft));
-            TimeLeft = TimeLeft*1000;
-            timer_pg.setProgress(0);
+            if (TimeLeft==0){
+                counterIsActive = true;
+                TimeLeft = 0 ;
+                TimeLeft += (long) npHours.getValue()*60*60;
+                TimeLeft += (long) npMinutes.getValue()*60;
+                TimeLeft += (long) npSeconds.getValue();
+                timer_pg.setMax(((int)TimeLeft));
+                TimeLeft = TimeLeft*1000;
+                timer_pg.setProgress(0);
+            }
+
             npHours.setVisibility(View.GONE);
             npMinutes.setVisibility(View.GONE);
             npSeconds.setVisibility(View.GONE);
             timer_tv.setVisibility(View.VISIBLE);
+            start_btn.setVisibility(View.GONE);
+
+            stop_btn.setVisibility(View.VISIBLE);
             countDownTimer = new CountDownTimer(TimeLeft, 1000) {
                 @Override
                 public void onTick(long l) {
@@ -125,7 +144,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void stop(){
+    public void stop(){
+        stop_btn.setVisibility(View.GONE);
+        start_btn.setVisibility(View.VISIBLE);
         progressStatus = timer_pg.getProgress();
         if (countDownTimer != null) {
             countDownTimer.cancel();
@@ -136,11 +157,16 @@ public class MainActivity extends AppCompatActivity {
         counterIsActive = false;
     }
     public void TimeReset(){
+        stop();
         counterIsActive = false;
         timer_tv.setVisibility(View.GONE);
         npHours.setVisibility(View.VISIBLE);
         npMinutes.setVisibility(View.VISIBLE);
         npSeconds.setVisibility(View.VISIBLE);
+        timer_pg.setProgress(0);
+        timer_tv.setVisibility(View.GONE);
+        TimeLeft = 0 ;
+
     }
     @Override
     protected void onPause() {
