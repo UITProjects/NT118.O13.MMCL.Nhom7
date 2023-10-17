@@ -12,6 +12,8 @@ import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.sql.Time;
+
 public class MainActivity extends AppCompatActivity {
     TextView timer_tv;
     ImageButton start_btn;
@@ -74,9 +76,24 @@ public class MainActivity extends AppCompatActivity {
         int hours = progress/60/60;
         int minutes = progress/60%60;
         int seconds = progress;
-        String second_String = String.valueOf(seconds-hours*3600-minutes*60);
+        String hours_String;
+        String minutes_String;
+        String seconds_String;
+        if (hours<=9)
+            hours_String ="0"+hours;
+        else
+            hours_String=String.valueOf(hours);
+        if (minutes<=9)
+            minutes_String = "0" + minutes;
+        else
+            minutes_String = String.valueOf(minutes);
+        int second_int = seconds-hours*3600-minutes*60;
+        if (second_int<=9)
+            seconds_String="0"+second_int;
+        else
+            seconds_String=String.valueOf(second_int);
         timer_pg.setProgress(progress);
-        timer_tv.setText(hours+":" + minutes + ":" + second_String);
+        timer_tv.setText(hours_String+":" + minutes_String + ":" + seconds_String);
     }
 
     public void start_timer(View view){
@@ -108,24 +125,9 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-                    stop();
-                    int count = 0;
+                    TimeReset();
                     if(mediaPlayer != null)
                         mediaPlayer.start();
-                    while (count>5){
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        count+=1;
-                        if (count==3)
-                        {
-                            mediaPlayer.stop();
-                            break;
-                        }
-
-                    }
                 }
             }.start();
         }else{
