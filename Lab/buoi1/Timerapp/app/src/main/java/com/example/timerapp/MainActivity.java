@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     NumberPicker npMinutes;
     NumberPicker npSeconds;
     ImageButton stop_btn;
-
     public long TimeLeft = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +74,9 @@ public class MainActivity extends AppCompatActivity {
         int hours = progress/60/60;
         int minutes = progress/60%60;
         int seconds = progress;
-        if (seconds==0 && minutes>=1)
-            minutes-=1;
-        if (minutes==0 && hours>=1)
-            hours-=1;
-        String secondsFinal = "";
-        if(seconds <= 9){
-            secondsFinal = "0" + seconds;
-        }
-        else{
-            secondsFinal = "" + seconds;
-        }
+        String second_String = String.valueOf(seconds-hours*3600-minutes*60);
         timer_pg.setProgress(progress);
-        timer_tv.setText(hours+":" + minutes + ":" + secondsFinal);
+        timer_tv.setText(hours+":" + minutes + ":" + second_String);
     }
 
     public void start_timer(View view){
@@ -147,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
     public void stop(){
         stop_btn.setVisibility(View.GONE);
         start_btn.setVisibility(View.VISIBLE);
-        progressStatus = timer_pg.getProgress();
         if (countDownTimer != null) {
             countDownTimer.cancel();
             countDownTimer = null;
