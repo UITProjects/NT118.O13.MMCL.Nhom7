@@ -2,6 +2,7 @@ package com.example.mobileproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -10,12 +11,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+=======
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.Locale;
 
 public class Register extends AppCompatActivity {
     Spinner spinner;
     public static final String[] languages = {"Choose Language", "English", "Vietnamese"};
+    Button signup_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,5 +60,13 @@ public class Register extends AppCompatActivity {
         Configuration config = resources.getConfiguration();
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
+        signup_button = findViewById(R.id.btn_signup);
+        signup_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent webview = new Intent(getApplicationContext(),WebviewRegister.class);
+                startActivity(webview);
+            }
+        });
     }
 }
