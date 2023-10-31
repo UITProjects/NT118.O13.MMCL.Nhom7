@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-=======
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -52,14 +51,8 @@ public class Register extends AppCompatActivity {
 
             }
         });
-    }
-    public void setLocal(Activity activity, String langcode){
-        Locale locale = new Locale(langcode);
-        locale.setDefault(locale);
-        Resources resources = activity.getResources();
-        Configuration config = resources.getConfiguration();
-        config.setLocale(locale);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
+
+
         signup_button = findViewById(R.id.btn_signup);
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,5 +61,15 @@ public class Register extends AppCompatActivity {
                 startActivity(webview);
             }
         });
+
+    }
+    public void setLocal(Activity activity, String langcode){
+        Locale locale = new Locale(langcode);
+        locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+
     }
 }

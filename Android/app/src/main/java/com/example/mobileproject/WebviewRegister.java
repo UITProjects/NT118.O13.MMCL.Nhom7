@@ -24,7 +24,6 @@ public class WebviewRegister extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Log.d("webview",request.getUrl().toString());
                 view.loadUrl(request.getUrl().toString());
-                request.
                 return super.shouldOverrideUrlLoading(view, request);
 
             }
