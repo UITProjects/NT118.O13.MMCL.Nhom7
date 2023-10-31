@@ -2,10 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="Android_project">
-        <State />
-      </entry>
-      <entry key="app">
+      <entry key="android_app">
         <State />
       </entry>
     </value>
