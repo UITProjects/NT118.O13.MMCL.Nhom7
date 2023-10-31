@@ -25,14 +25,14 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/custom_button"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_sign_up"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Sign up"
+            android:text="@string/signup"
             android:layout_marginBottom="10dp"
             android:background="@drawable/custom_button"
             android:textColor="@color/black"/>
@@ -41,7 +41,7 @@
             android:id="@+id/btn_google"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Sign in with google"
+            android:text="@string/google"
             android:layout_marginBottom="10dp"
             android:background="@drawable/custom_button"
             android:textColor="@color/black"/>
@@ -50,10 +50,24 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Forgot password?"
+            android:text="@string/forgot_password"
             android:textColor="#000"
-
             android:textSize="17dp" />
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_marginBottom="50dp"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="250dp"/>
+
+    <ImageView
+        android:layout_width="61dp"
+        android:layout_height="61dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="350dp"
+        android:src="@drawable/iconuit" />
 
 </RelativeLayout>

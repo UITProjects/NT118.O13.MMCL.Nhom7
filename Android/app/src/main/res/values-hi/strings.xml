@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mobileproject</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="back">Quay lại</string>
+    <string name="username">Tên đăng nhập</string>
+    <string name="email">Hộp thư đến</string>
+    <string name="password">Mật khẩu</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="google">Đăng nhập bằng google</string>
+    <string name="signup">Đăng kí</string>
+    <string name="login">Đăng nhập</string>
+    <string name="Back">Quay lại</string>
+    <string name="Login">Đăng nhập</string>
+    <string name="Password">Mật khẩu</string>
+    <string name="Username">Tên đăng nhập</string>
+</resources>
