@@ -62,9 +62,6 @@ public class Register extends AppCompatActivity {
         }
 
 
-
-
-
         signup_Webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -76,18 +73,13 @@ public class Register extends AppCompatActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                Log.i("webview", "Finished loading URL: " + url);
+
                 if (url.contains("auth?")) {
-                    Log.i("webview", "Finished loading URL: " + url);
                     view.evaluateJavascript(
                                     "let elements = document.getElementsByTagName(\"*\");\n" +
                                     "elements[33].click()",
-
-                            new ValueCallback<String>() {
-                                @Override
-                                public void onReceiveValue(String value) {
-                                    Log.d("js return", value);
-                                }
-                            });
+                            null);
                 }
                 else if(url.contains("registration?client_id")){
 
@@ -123,6 +115,39 @@ public class Register extends AppCompatActivity {
                     signup_Webview.clearHistory();
                     Toast.makeText(getApplicationContext(), "Đăng ký tài khoản thành công", Toast.LENGTH_SHORT).show();
                     finish();
+                }
+                else if(url.contains("registration?execution")){
+                    view.evaluateJavascript(
+                            "let elements = document.getElementsByTagName(\"span\");"+
+                                    "let my_list = [];"+
+                                    "for(let i = 0 ; i<elements.length;i++){\n" +
+                                    " my_list.push(elements[i].getAttribute(\"data-error\")); \n" +
+                                    "};"+
+                                    "(function() {\n" +
+                                    "  return my_list.toString();\n" +
+                                    "})();"
+
+
+                            , new ValueCallback<String>() {
+                                @Override
+                                public void onReceiveValue(String value) {
+
+                                    value = value.trim();
+                                    value = value.replace("\"","");
+                                    String[] value_array = value.split(",");
+
+
+                                    Log.d("error_registation",value);
+                                    for (int i = 0 ; i< value_array.length;i++) {
+                                        Toast.makeText(getApplicationContext(), value_array[i], Toast.LENGTH_SHORT).show();
+                                        try {
+                                            Thread.sleep(300);
+                                        } catch (InterruptedException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }
+                            });
                 }
             }
         });
@@ -171,7 +196,6 @@ public class Register extends AppCompatActivity {
                 signup_Webview.clearHistory();
                 signup_Webview.clearCache(true);
                 signup_Webview.loadUrl("https://uiot.ixxc.dev/manager/");
-                signup_Webview.setVisibility(View.VISIBLE);
             }
         });
 
