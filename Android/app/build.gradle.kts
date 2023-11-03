@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.mobileproject"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 28
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -30,6 +30,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildToolsVersion = "33.0.1"
 }
 
 dependencies {

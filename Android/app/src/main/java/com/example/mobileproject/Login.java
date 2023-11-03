@@ -2,12 +2,18 @@ package com.example.mobileproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.DataOutputStream;
@@ -18,9 +24,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
+    Spinner spinner;
+    public static final String[] languages = {"Choose Language", "English", "Vietnamese"};
     EditText username_edt;
     EditText password_edt;
     Button login_btn;
@@ -92,5 +101,38 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+        spinner = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedLang = parent.getItemAtPosition(position).toString();
+                if(selectedLang.equals("English")){
+                    setLocal(Login.this, "en");
+                    finish();
+                    startActivity(getIntent());
+                }else if(selectedLang.equals("Vietnamese")){
+                    setLocal(Login.this, "hi");
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    public void setLocal(Activity activity, String langCode){
+        Locale locale = new Locale(langCode);
+        locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config,resources.getDisplayMetrics());
     }
 }
