@@ -1,32 +1,143 @@
 package com.example.mobileproject;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.ValueCallback;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.Locale;
 
 public class Register extends AppCompatActivity {
     Spinner spinner;
+    EditText username_edt,password_edt,email_edt,confirm_password_edt;
+
     public static final String[] languages = {"Choose Language", "English", "Vietnamese"};
     Button signup_button;
+    WebView signup_Webview;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         spinner = findViewById(R.id.spinner);
+        username_edt = findViewById(R.id.edt_username);
+        password_edt = findViewById(R.id.edt_password);
+        email_edt = findViewById(R.id.edt_email);
+        confirm_password_edt = findViewById(R.id.edt_confirmpassword);
+        signup_Webview = findViewById(R.id.Webview_signup);
+        signup_Webview.getSettings().setJavaScriptEnabled(true);
+        signup_Webview.clearCache(true);
+
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.removeAllCookies(null);
+        }
+        else {
+            cookieManager.removeAllCookie();
+        }
+
+
+
+
+
+        signup_Webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Log.d("webview",request.getUrl().toString());
+                view.loadUrl(request.getUrl().toString());
+                return super.shouldOverrideUrlLoading(view, request);
+
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if (url.contains("auth?")) {
+                    Log.i("webview", "Finished loading URL: " + url);
+                    view.evaluateJavascript(
+                                    "let elements = document.getElementsByTagName(\"*\");\n" +
+                                    "elements[33].click()",
+
+                            new ValueCallback<String>() {
+                                @Override
+                                public void onReceiveValue(String value) {
+                                    Log.d("js return", value);
+                                }
+                            });
+                }
+                else if(url.contains("registration?client_id")){
+
+
+                    String string_placeholder = "let %s =document.getElementById(\"%s\");";
+                    String auto_fill_placeholder = "%s.value=\"%s\";";
+
+
+                    Log.d("registration","email: " +email_edt.getText().toString());
+                    view.evaluateJavascript(
+
+
+                            String.format(string_placeholder,"username_input","username")+
+                                    String.format(string_placeholder,"password_input","password")+
+                                    String.format(string_placeholder,"email_input","email")+
+                                    String.format(string_placeholder,"confirm_password_input","password-confirm")+
+
+
+                                    String.format(auto_fill_placeholder,"email_input",email_edt.getText().toString())+
+                                    String.format(auto_fill_placeholder,"username_input",username_edt.getText().toString())+
+                                    String.format(auto_fill_placeholder,"password_input",password_edt.getText().toString())+
+                                    String.format(auto_fill_placeholder,"confirm_password_input",confirm_password_edt.getText().toString())+
+                                    "let elements = document.getElementsByTagName(\"*\");"+
+                                    "elements[39].click();"
+
+
+
+                            ,null
+                    );
+
+                }else if(url.contains("registration?session_code")){
+                    signup_Webview.clearCache(true);
+                    signup_Webview.clearHistory();
+                    Toast.makeText(getApplicationContext(), "Đăng ký tài khoản thành công", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -57,12 +168,15 @@ public class Register extends AppCompatActivity {
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent webview = new Intent(getApplicationContext(),WebviewRegister.class);
-                startActivity(webview);
+                signup_Webview.clearHistory();
+                signup_Webview.clearCache(true);
+                signup_Webview.loadUrl("https://uiot.ixxc.dev/manager/");
+                signup_Webview.setVisibility(View.VISIBLE);
             }
         });
 
     }
+
     public void setLocal(Activity activity, String langcode){
         Locale locale = new Locale(langcode);
         locale.setDefault(locale);
