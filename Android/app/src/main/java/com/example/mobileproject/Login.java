@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,13 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -32,7 +25,7 @@ public class Login extends AppCompatActivity {
     public static final String[] languages = {"Choose Language", "English", "Vietnamese"};
     EditText username_edt;
     EditText password_edt;
-    Button login_btn;
+    Button login_btn,back_btn;
     Handler ui_handle = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +33,13 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         username_edt = findViewById(R.id.edt_username);
         password_edt = findViewById(R.id.edt_password);
+        back_btn = findViewById(R.id.btn_back);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         login_btn = findViewById(R.id.btn_login);
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,49 +51,30 @@ public class Login extends AppCompatActivity {
                     Thread login_request_Thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            URL login_url;
-                            HttpURLConnection con;
-                            Map<String, String> parameters = new HashMap<>();
-                            DataOutputStream out;
+                            final String HOST = "https://uiot.ixxc.dev/auth/realms/master/protocol/openid-connect/token";
+                            Map<String,String> parameter = new HashMap<>();
+                            parameter.put("username",username_edt.getText().toString());
+                            parameter.put("password",password_edt.getText().toString());
+                            parameter.put("client_id","openremote");
+                            parameter.put("grant_type","password");
 
                             try {
-                                login_url = new URL("https://uiot.ixxc.dev/auth/realms/master/protocol/openid-connect/token");
-                                parameters.put("client_id","openremote");
-                                parameters.put("username",username_edt.getText().toString());
-                                parameters.put("password",password_edt.getText().toString());
-                                parameters.put("grant_type","password");
-                                con = (HttpURLConnection) login_url.openConnection();
-                                con.setRequestMethod("POST");
-                                con.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-
-
-                                con.setDoOutput(true);
-                                StringBuilder result = new StringBuilder();
-                                out = new DataOutputStream(con.getOutputStream());
-
-                                for(Map.Entry<String,String> entry: parameters.entrySet()) {
-                                    result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                                    result.append("=");
-                                    result.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-                                    result.append("&");
-                                }
-                                String resultString = result.toString();
-                                resultString = resultString.substring(0,resultString.length()-1);
-                                out.writeBytes(resultString);
-                                out.flush();
-                                out.close();
-                                int status = con.getResponseCode();
+                                CustomRequest login = new CustomRequest(HOST,"POST",null,parameter);
+                                Map<String,String> response_body = login.sendRequest();
                                 ui_handle.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.d("login","status code: "+ String.valueOf(status));
-
+                                        if (response_body.containsKey("error"))
+                                            Toast.makeText(getApplicationContext(),response_body.get("error_description"),Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(getApplicationContext(),"Login successful",Toast.LENGTH_SHORT).show();
                                     }
                                 });
 
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
+
                         }
 
                     });

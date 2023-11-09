@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Mobileproject"
         tools:targetApi="31">
         <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity
