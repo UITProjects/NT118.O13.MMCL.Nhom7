@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -146,8 +145,20 @@ public class ForgotPassword extends AppCompatActivity {
                                                                                                try {
 
 
-                                                                                                   Map<String,String> header = new HashMap<>();
                                                                                                    assert access_token != null;
+                                                                                                   Map<String,String> parameters = new HashMap<>();
+                                                                                                   parameters.put("username",AdminCredential.USERNAME);
+                                                                                                   parameters.put("password",AdminCredential.PASSWORD);
+                                                                                                   parameters.put("client_id","openremote");
+                                                                                                   parameters.put("grant_type","password");
+                                                                                                   admin_token_request = new CustomRequest(
+                                                                                                           "https://uiot.ixxc.dev/auth/realms/master/protocol/openid-connect/token",
+                                                                                                           "POST",
+                                                                                                           null,
+                                                                                                           parameters
+                                                                                                   );
+                                                                                                   Map<String,String> header = new HashMap<>();
+
                                                                                                    header.put("Content-Type","application/json");
                                                                                                    Map<String,String> json_data_Map = new HashMap<>();
                                                                                                    json_data_Map.put("type","string");
@@ -157,7 +168,7 @@ public class ForgotPassword extends AppCompatActivity {
                                                                                                    String access_token = response.get("access_token");
                                                                                                    header.put("Authorization","Bearer ".concat(access_token));
                                                                                                    CustomRequest change_password_request = new CustomRequest(
-                                                                                                     "https://uiot.ixxc.dev/api/master/user/master/reset-password".concat(user.getId().getUserId()),
+                                                                                                     "https://uiot.ixxc.dev/api/master/user/master/reset-password/".concat(user.getId().getUserId()),
                                                                                                            "PUT",
                                                                                                            header,
                                                                                                            null
@@ -169,6 +180,15 @@ public class ForgotPassword extends AppCompatActivity {
                                                                                                             public void run() {
                                                                                                                 Toast.makeText(getApplicationContext(), "Change password successfully", Toast.LENGTH_SHORT).show();
                                                                                                                 finish();
+                                                                                                            }
+                                                                                                        });
+                                                                                                    else
+                                                                                                        ui_handle.post(new Runnable() {
+                                                                                                            @Override
+                                                                                                            public void run() {
+                                                                                                                Toast.makeText(getApplicationContext(), "Something is not right", Toast.LENGTH_SHORT).show();
+                                                                                                                finish();
+
                                                                                                             }
                                                                                                         });
 
