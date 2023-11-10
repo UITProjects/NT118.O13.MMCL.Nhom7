@@ -1,5 +1,7 @@
 package com.example.mobileproject;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -61,10 +63,12 @@ public class CustomRequest {
     }
 
     public Map<String, String>  sendRequest() throws IOException {
-        DataOutputStream out = new DataOutputStream(con.getOutputStream());
-        out.writeBytes(body_url_encoded);
-        out.flush();
-        out.close();
+        if (Objects.equals(con.getRequestMethod(), "POST")) {
+            DataOutputStream out = new DataOutputStream(con.getOutputStream());
+            out.writeBytes(body_url_encoded);
+            out.flush();
+            out.close();
+        }
         BufferedReader in ;
 
         int status = con.getResponseCode();
@@ -79,6 +83,12 @@ public class CustomRequest {
         }
         in.close();
         return stringToMap(builder.toString());
+    }
+
+    public boolean sendPutRequest(Map<String,String> body_String) throws IOException {
+        DataOutputStream out = new DataOutputStream(con.getOutputStream());
+        out.writeBytes(new Gson().toJson(body_String));
+        return con.getResponseCode() == 204;
     }
 
     public String sendRequest(boolean string) throws IOException {
