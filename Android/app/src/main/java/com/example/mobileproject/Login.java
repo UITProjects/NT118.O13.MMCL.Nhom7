@@ -5,9 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +26,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class Login extends AppCompatActivity {
     Spinner spinner;
@@ -26,6 +34,7 @@ public class Login extends AppCompatActivity {
     EditText username_edt;
     EditText password_edt;
     Button login_btn,back_btn;
+    WebView login_webview;
     Handler ui_handle = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,48 @@ public class Login extends AppCompatActivity {
         username_edt = findViewById(R.id.edt_username);
         password_edt = findViewById(R.id.edt_password);
         back_btn = findViewById(R.id.btn_back);
+        login_webview = findViewById(R.id.webview_login);
+
+        login_webview.getSettings().setJavaScriptEnabled(true);
+        login_webview.clearCache(true);
+
+
+
+
+        login_webview.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Log.d("login",request.getUrl().toString());
+                view.loadUrl(request.getUrl().toString());
+                return super.shouldOverrideUrlLoading(view, request);
+
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if(url.contains("auth?client_id")){
+                    String auto_fill_placeholder = "%s.value=\"%s\";";
+                    view.evaluateJavascript(
+                            "let username = document.getElementById(\"username\"); "+
+                            "let password = document.getElementById(\"password\"); "+
+                                    String.format(auto_fill_placeholder,"username",username_edt.getText().toString())+
+                            String.format(auto_fill_placeholder,"password",password_edt.getText().toString())+
+                                    "let elements = document.getElementsByTagName(\"*\"); "+
+                                    "elements[31].click() ;"
+
+                    ,null);
+                }
+                else if(url.contains("authenticate?session_code")){
+                    Toast.makeText(getApplicationContext(),"Login ok",Toast.LENGTH_SHORT).show();
+
+                }else if(url.contains("authenticate?execution")){
+                    Toast.makeText(getApplicationContext(),"invalid username or password",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,39 +97,19 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 if (username_edt.getText().toString().isEmpty() || password_edt.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(),"Tài khoản hoặc mật khẩu không được để trống",Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 else {
-                    Thread login_request_Thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            final String HOST = "https://uiot.ixxc.dev/auth/realms/master/protocol/openid-connect/token";
-                            Map<String,String> parameter = new HashMap<>();
-                            parameter.put("username",username_edt.getText().toString());
-                            parameter.put("password",password_edt.getText().toString());
-                            parameter.put("client_id","openremote");
-                            parameter.put("grant_type","password");
-
-                            try {
-                                CustomRequest login = new CustomRequest(HOST,"POST",null,parameter);
-                                Map<String,String> response_body = login.sendRequest();
-                                ui_handle.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (response_body.containsKey("error"))
-                                            Toast.makeText(getApplicationContext(),response_body.get("error_description"),Toast.LENGTH_SHORT).show();
-                                        else
-                                            Toast.makeText(getApplicationContext(),"Login successful",Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                        }
-
-                    });
-                    login_request_Thread.start();
+                    CookieManager cookieManager = CookieManager.getInstance();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        cookieManager.removeAllCookies(null);
+                    }
+                    else {
+                        cookieManager.removeAllCookie();
+                    }
+                    login_webview.clearCache(true);
+                    login_webview.clearHistory();
+                    login_webview.loadUrl("https://uiot.ixxc.dev/manager/");
                 }
             }
         });
