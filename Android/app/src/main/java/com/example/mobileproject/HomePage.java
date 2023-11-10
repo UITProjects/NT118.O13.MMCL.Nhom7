@@ -18,24 +18,33 @@ import java.util.Locale;
 public class HomePage extends AppCompatActivity {
     Spinner spinner;
     public static final String[] languages = {"Choose Language", "English", "Vietnamese"};
-    Button btn_login;
-    Button btn_signup;
+    Button login_btn;
+    Button signup_btn;
+    Button forgot_password_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
-        btn_signup = findViewById(R.id.btn_sign_up);
-        btn_login = findViewById(R.id.btn_login);
+        signup_btn = findViewById(R.id.btn_sign_up);
+        login_btn = findViewById(R.id.btn_login);
+        forgot_password_btn = findViewById(R.id.btn_forgot_password);
+        forgot_password_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent forgot_password = new Intent(getApplicationContext(),ForgotPassword.class);
+                startActivity(forgot_password);
+            }
+        });
 
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent login = new Intent(getApplicationContext(), Login.class);
                 startActivity(login);
             }
         });
-        btn_signup.setOnClickListener(new View.OnClickListener() {
+        signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent sign_up = new Intent(getApplicationContext(), Register.class);
