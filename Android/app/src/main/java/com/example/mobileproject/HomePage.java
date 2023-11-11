@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.Locale;
 
@@ -20,14 +21,14 @@ public class HomePage extends AppCompatActivity {
     public static final String[] languages = {"Choose Language", "English", "Vietnamese"};
     Button login_btn;
     Button signup_btn;
-    Button forgot_password_btn;
+    TextView forgot_password_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         signup_btn = findViewById(R.id.btn_sign_up);
         login_btn = findViewById(R.id.btn_login);
-        forgot_password_btn = findViewById(R.id.btn_forgot_password);
+        forgot_password_btn = findViewById(R.id.txtview_forgot_password);
         forgot_password_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

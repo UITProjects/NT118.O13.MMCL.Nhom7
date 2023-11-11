@@ -21,4 +21,15 @@
     <string name="sign_in">Sign in</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="sign_up_rgt">Sign up</string>
+    <string name="otp_verification">OTP verification</string>
+    <string name="we_will_send_you_an_one_time_password_via_your_email">We will send you an One Time Password via your Email</string>
+    <string name="edt_username">Enter your username</string>
+    <string name="get_otp">Search</string>
+    <string name="verify">Verify</string>
+    <string name="enter_the_otp_sent_to">Enter the OTP sent to</string>
+    <string name="enter_the_otp">Enter the OTP</string>
+    <string name="don_t_receive_the_otp">Don\'t receive the OTP?</string>
+    <string name="resend_otp">Resend OTP</string>
+
+
 </resources>

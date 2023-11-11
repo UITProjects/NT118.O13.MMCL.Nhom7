@@ -1,32 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ForgotPassword">
 
-    <EditText
-        android:id="@+id/edt_otp_code"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:hint="OTP"
-        android:textSize="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_marginBottom="50dp"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="250dp"/>
 
-    <Button
-        android:id="@+id/btn_verify"
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="160dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="-23dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/pic1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="599dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/undraw_messaging_fun_re_vic9" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:text="@string/otp_verification"
+            android:textColor="#000000"
+            android:textSize="22dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="@string/enter_the_otp_sent_to"
+            android:textColor="#888888"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/edt_otp_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_edt"
+            android:ems="15"
+            android:hint="@string/enter_the_otp"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:layout_width="385dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/img1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_verify"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/custom_button"
+            android:text="@string/verify"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verify"
-        android:textSize="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.619" />
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        android:layout_marginLeft="90dp"
+        android:text="@string/don_t_receive_the_otp"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        android:layout_marginLeft="245dp"
+        android:text="@string/resend_otp"
+        android:textColor="#55D5E7"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

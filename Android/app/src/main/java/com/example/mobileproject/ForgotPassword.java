@@ -2,15 +2,23 @@ package com.example.mobileproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
+
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,11 +26,56 @@ public class ForgotPassword extends AppCompatActivity {
     Button search_btn,verify_btn,change_password_btn;
     EditText otp_code_edt,new_password_edt,confirm_new_password_edt;
     Handler ui_handle = new Handler();
+    public static final String[] languages = {"Choose Language", "English", "Vietnamese"};
+    Spinner spinner;
     CustomRequest admin_token_request;
+
+
+    public void setLocal(Activity activity, String langCode){
+        Locale locale = new Locale(langCode);
+        locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config,resources.getDisplayMetrics());
+    }
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
+
+
+        spinner = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedLang = parent.getItemAtPosition(position).toString();
+                if (selectedLang.equals("English")) {
+                    setLocal(ForgotPassword.this, "en");
+                    finish();
+                    startActivity(getIntent());
+                } else if (selectedLang.equals("Vietnamese")) {
+                    setLocal(ForgotPassword.this,"hi");
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         search_btn = findViewById(R.id.btn_search);
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override

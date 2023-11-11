@@ -3,6 +3,7 @@ package com.example.mobileproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -11,7 +12,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
-import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -20,13 +20,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 
 public class Login extends AppCompatActivity {
     Spinner spinner;
@@ -35,6 +32,7 @@ public class Login extends AppCompatActivity {
     EditText password_edt;
     Button login_btn,back_btn;
     WebView login_webview;
+    TextView forgot_password_textview, signup_textview;
     Handler ui_handle = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +42,29 @@ public class Login extends AppCompatActivity {
         password_edt = findViewById(R.id.edt_password);
         back_btn = findViewById(R.id.btn_back);
         login_webview = findViewById(R.id.webview_login);
+
+        forgot_password_textview = findViewById(R.id.txtview_forgot_password);
+        signup_textview = findViewById(R.id.txtview_sign_up);
+
+        forgot_password_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent forgot_password = new Intent(getApplicationContext(),ForgotPassword.class);
+                startActivity(forgot_password);
+            }
+        });
+
+        signup_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signup = new Intent(getApplicationContext(), Register.class);
+                startActivity(signup);
+            }
+        });
+
+
+
+
 
         login_webview.getSettings().setJavaScriptEnabled(true);
         login_webview.clearCache(true);
@@ -76,9 +97,11 @@ public class Login extends AppCompatActivity {
                 }
                 else if(url.contains("authenticate?session_code")){
                     Toast.makeText(getApplicationContext(),"Login ok",Toast.LENGTH_SHORT).show();
+                    login_webview.getSettings().setJavaScriptEnabled(false);
 
                 }else if(url.contains("authenticate?execution")){
                     Toast.makeText(getApplicationContext(),"invalid username or password",Toast.LENGTH_SHORT).show();
+                    login_webview.getSettings().setJavaScriptEnabled(false);
                 }
 
             }
@@ -109,6 +132,7 @@ public class Login extends AppCompatActivity {
                     }
                     login_webview.clearCache(true);
                     login_webview.clearHistory();
+                    login_webview.getSettings().setJavaScriptEnabled(true);
                     login_webview.loadUrl("https://uiot.ixxc.dev/manager/");
                 }
             }

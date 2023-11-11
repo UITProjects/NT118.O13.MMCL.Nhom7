@@ -58,6 +58,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:text="@string/forgot_password"
+            android:id="@+id/txtview_forgot_password"
             android:textColor="#55D5E7"
             android:textStyle="bold"
             android:textSize="17dp" />
