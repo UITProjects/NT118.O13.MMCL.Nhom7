@@ -66,32 +66,31 @@ public class Login extends AppCompatActivity {
 
 
 
-        login_webview.getSettings().setJavaScriptEnabled(true);
-        login_webview.clearCache(true);
-
-
-
 
         login_webview.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Log.d("login",request.getUrl().toString());
+                Log.d("webview","Should called");
+                Log.d("webview",request.getUrl().toString());
                 view.loadUrl(request.getUrl().toString());
-                return super.shouldOverrideUrlLoading(view, request);
+                return false;
 
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                Log.d("webview","onpage called");
+                Log.d("webview",url);
+
                 if(url.contains("auth?client_id")){
                     String auto_fill_placeholder = "%s.value=\"%s\";";
                     view.evaluateJavascript(
                             "let username = document.getElementById(\"username\"); "+
                             "let password = document.getElementById(\"password\"); "+
-                                    String.format(auto_fill_placeholder,"username",username_edt.getText().toString())+
+                            String.format(auto_fill_placeholder,"username",username_edt.getText().toString())+
                             String.format(auto_fill_placeholder,"password",password_edt.getText().toString())+
-                                    "let elements = document.getElementsByTagName(\"*\"); "+
-                                    "elements[31].click() ;"
+                            "let elements = document.getElementsByTagName(\"*\"); "+
+                            "elements[31].click() ;"
 
                     ,null);
                 }
@@ -124,12 +123,9 @@ public class Login extends AppCompatActivity {
                 }
                 else {
                     CookieManager cookieManager = CookieManager.getInstance();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        cookieManager.removeAllCookies(null);
-                    }
-                    else {
-                        cookieManager.removeAllCookie();
-                    }
+                    cookieManager.removeAllCookies(null);
+
+
                     login_webview.clearCache(true);
                     login_webview.clearHistory();
                     login_webview.getSettings().setJavaScriptEnabled(true);
