@@ -36,7 +36,7 @@
             android:layout_width="200dp"
             android:layout_height="120dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/undraw_messaging_fun_re_vic9" />
+            android:src="@drawable/undraw_mail_sent_re_0ofv" />
 
         <TextView
             android:layout_width="wrap_content"

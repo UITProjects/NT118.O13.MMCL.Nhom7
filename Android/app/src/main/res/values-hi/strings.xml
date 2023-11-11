@@ -31,6 +31,10 @@
     <string name="enter_the_otp">Nhập OTP</string>
     <string name="don_t_receive_the_otp">Chưa nhận được OTP?</string>
     <string name="resend_otp">Gửi lại OTP</string>
-
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="confirm_password1">Xác nhận mật khẩu</string>
+    <string name="change_password">Thay đổi mật khẩu</string>
+    <string name="change_password1">Thay đổi mật khẩu</string>
+    <string name="make_you_a_brand_new_password">Giúp bạn thay đổi mật khẩu mới</string>
 
 </resources>

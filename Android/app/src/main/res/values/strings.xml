@@ -30,6 +30,11 @@
     <string name="enter_the_otp">Enter the OTP</string>
     <string name="don_t_receive_the_otp">Don\'t receive the OTP?</string>
     <string name="resend_otp">Resend OTP</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_password1">Confirm password</string>
+    <string name="change_password">Change password</string>
+    <string name="change_password1">Change password</string>
+    <string name="make_you_a_brand_new_password">Make you a brand new password</string>
 
 
 </resources>
