@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomePage"
-    android:background="@drawable/background">
+    tools:context=".HomePage">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,19 +13,20 @@
         android:orientation="vertical"
         android:layout_centerInParent="true">
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/iconweather"
-            android:layout_marginBottom="40dp"/>
+            android:layout_width="300dp"
+            android:layout_height="180dp"
+            android:src="@drawable/undraw_weather_re_qsmd"
+            android:layout_marginBottom="13dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_login"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/custom_button"
             android:text="@string/login"
-            android:textColor="@color/black" />
+            android:textSize="15dp"
+            android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_sign_up"
@@ -35,7 +35,14 @@
             android:text="@string/signup"
             android:layout_marginBottom="10dp"
             android:background="@drawable/custom_button"
-            android:textColor="@color/black"/>
+            android:textSize="15dp"
+            android:textColor="@color/white"/>
+
+        <ImageView
+            android:layout_width="285dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/or" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_google"
@@ -43,18 +50,17 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/custom_button"
-            android:text="@string/google"
-            android:textColor="@color/black" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="200dp"
+            android:textSize="15dp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/custom_button"
+            android:layout_marginBottom="10dp"
             android:text="@string/forgot_password"
-            android:id="@+id/btn_forgot_password"
-             />
+            android:textColor="#55D5E7"
+            android:textStyle="bold"
+            android:textSize="17dp" />
     </LinearLayout>
 
     <Spinner
@@ -65,11 +71,10 @@
         android:layout_marginStart="250dp"/>
 
     <ImageView
-        android:layout_width="61dp"
-        android:layout_height="61dp"
+        android:layout_width="250dp"
+        android:layout_height="160dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="350dp"
-        android:src="@drawable/iconuit" />
-
+        android:layout_marginStart="-23dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/pic1" />
 </RelativeLayout>

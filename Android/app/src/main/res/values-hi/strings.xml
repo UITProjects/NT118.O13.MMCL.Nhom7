@@ -15,4 +15,14 @@
     <string name="Login">Đăng nhập</string>
     <string name="Password">Mật khẩu</string>
     <string name="Username">Tên đăng nhập</string>
+    <string name="welcome_back">Chào mừng bạn!</string>
+    <string name="welcome_newbie">Chào mừng người mới!</string>
+    <string name="let_s_help_you_create_your_account">Cùng nhau tạo tại khoản cho bạn</string>
+    <string name="already_have_an_account">Bạn đã có tài khoản rồi ư?</string>
+    <string name="sign_in">Đăng nhập</string>
+    <string name="don_t_have_an_account">Bạn chưa có tài khoản?</string>
+    <string name="sign_up_rgt">Đăng ký</string>
+
+
+
 </resources>
