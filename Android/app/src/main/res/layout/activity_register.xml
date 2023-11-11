@@ -4,7 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Register">
+    tools:context=".Register"
+    android:background="@drawable/background">
+
+    <WebView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Webview_signup"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +44,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/username"
             android:textSize="20dp"
+            android:text="EmmaMyers"
             android:ems="15"
+            android:id="@+id/edt_username"
             android:background="@drawable/custom_edt"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="30dp"/>
@@ -44,8 +54,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:id="@+id/edt_email"
             android:textSize="20dp"
             android:ems="15"
+            android:text="21521935@gm.uit.edu.vn"
             android:background="@drawable/custom_edt"
             android:layout_marginBottom="15dp"/>
 
@@ -54,7 +66,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:textSize="20dp"
+            android:id="@+id/edt_password"
             android:ems="15"
+            android:text="123456789"
             android:background="@drawable/custom_edt"
             android:inputType="textPassword"
             android:layout_marginBottom="15dp"/>
@@ -64,6 +78,8 @@
             android:hint="@string/confirm_password"
             android:textSize="20dp"
             android:ems="15"
+            android:text="123456789"
+            android:id="@+id/edt_confirmpassword"
             android:background="@drawable/custom_edt"
             android:inputType="textPassword"
             android:layout_marginBottom="15dp"/>

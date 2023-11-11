@@ -13,6 +13,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="0dp"
+
         android:gravity="center"
         android:orientation="vertical">
 
@@ -33,7 +34,14 @@
             android:ems="15"
             android:hint="@string/Username"
             android:textSize="20dp" />
+            android:layout_marginBottom="10dp"/>
 
+      
+        <WebView
+            android:id="@+id/webview_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
         <EditText
             android:id="@+id/edt_password"
             android:layout_width="wrap_content"
