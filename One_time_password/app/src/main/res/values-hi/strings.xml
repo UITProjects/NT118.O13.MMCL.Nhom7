@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="otp_verification">Xác thực OTP</string>
+    <string name="we_will_send_you_an_one_time_password_via_your_email">Chúng tôi sẽ gửi cho bạn mã OTP qua Email</string>
+    <string name="enter_your_email">Nhập Email</string>
+    <string name="get_otp">Lấy OTP</string>
+    <string name="verify">Xác thực</string>
+    <string name="enter_the_otp_sent_to">Nhập OTP đã gửi</string>
+    <string name="enter_the_otp">Nhập OTP</string>
+    <string name="don_t_receive_the_otp">Chưa nhận được OTP?</string>
+    <string name="resend_otp">Gửi lại OTP</string>
+</resources>
