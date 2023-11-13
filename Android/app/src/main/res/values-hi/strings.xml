@@ -36,5 +36,10 @@
     <string name="change_password">Thay đổi mật khẩu</string>
     <string name="change_password1">Thay đổi mật khẩu</string>
     <string name="make_you_a_brand_new_password">Giúp bạn thay đổi mật khẩu mới</string>
-
+    <string name="notice1">Đăng nhập thành công</string>
+    <string name="notice2">Tài khoản hoặc mật khẩu không đúng</string>
+    <string name="notice3">Tài khoản và mật khẩu không thể để trống</string>
+    <string name="notice4">Đăng ký tài khoản thành công</string>
+    <string name="notice5">Bạn sẽ sớm nhận được email kèm theo hướng dẫn thêm.</string>
+    <string name="notice6">Vui lòng nhập tên đăng nhập</string>
 </resources>

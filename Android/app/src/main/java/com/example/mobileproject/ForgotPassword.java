@@ -105,7 +105,7 @@ public class ForgotPassword extends AppCompatActivity {
                             value = value.trim().replace("\"","");
                             if (Objects.equals(value, "null")) {
                                 setContentView(R.layout.otp_layout);
-                                Toast.makeText(getApplicationContext(), "You should receive an email shortly with further instructions.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.notice5, Toast.LENGTH_SHORT).show();
                             }
                             else
                                 Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
@@ -165,7 +165,7 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (username_edt.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Please Enter your username",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.notice6,Toast.LENGTH_SHORT).show();
                 }
                 else {
                     CookieManager cookieManager = CookieManager.getInstance();

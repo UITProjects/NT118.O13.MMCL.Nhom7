@@ -35,6 +35,12 @@
     <string name="change_password">Change password</string>
     <string name="change_password1">Change password</string>
     <string name="make_you_a_brand_new_password">Make you a brand new password</string>
+    <string name="notice1">Login ok</string>
+    <string name="notice2">invalid username or password</string>
+    <string name="notice3">Account and password cannot be empty</string>
+    <string name="notice4">Register account successfully</string>
+    <string name="notice5">You should receive an email shortly with further instructions.</string>
+    <string name="notice6">Please Enter your username</string>
 
 
 </resources>
