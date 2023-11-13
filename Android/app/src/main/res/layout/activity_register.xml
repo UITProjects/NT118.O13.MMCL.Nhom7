@@ -50,7 +50,6 @@
             android:padding="10dp"
             android:ems="15"
             android:hint="@string/username"
-            android:text="EmmaMyers"
             android:textSize="20dp" />
 
         <EditText
@@ -61,7 +60,6 @@
             android:textSize="20dp"
             android:padding="10dp"
             android:ems="15"
-            android:text="21521935@gm.uit.edu.vn"
             android:background="@drawable/custom_edt"
             android:layout_marginBottom="15dp"/>
 
@@ -73,7 +71,6 @@
             android:id="@+id/edt_password"
             android:padding="10dp"
             android:ems="15"
-            android:text="123456789"
             android:background="@drawable/custom_edt"
             android:inputType="textPassword"
             android:layout_marginBottom="15dp"/>
@@ -84,7 +81,6 @@
             android:textSize="20dp"
             android:padding="10dp"
             android:ems="15"
-            android:text="123456789"
             android:id="@+id/edt_confirmpassword"
             android:background="@drawable/custom_edt"
             android:inputType="textPassword"
@@ -160,5 +156,6 @@
         android:text="@string/sign_in"
         android:textColor="#55D5E7"
         android:textSize="15dp"
+        android:id="@+id/txtview_sign_in"
         android:textStyle="bold"/>
 </RelativeLayout>
