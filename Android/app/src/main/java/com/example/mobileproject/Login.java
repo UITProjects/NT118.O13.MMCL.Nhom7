@@ -70,7 +70,7 @@ public class Login extends AppCompatActivity {
         login_webview.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Log.d("webview","Should called");
+                Log.d("webview","shouldOverrideUrlLoading called");
                 Log.d("webview",request.getUrl().toString());
                 view.loadUrl(request.getUrl().toString());
                 return false;
@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                Log.d("webview","onpage called");
+                Log.d("webview","onPageFinished called");
                 Log.d("webview",url);
 
                 if(url.contains("auth?client_id")){
