@@ -107,7 +107,7 @@ public class Register extends AppCompatActivity {
                 }else if(url.contains("registration?session_code")){
                     signup_Webview.clearCache(true);
                     signup_Webview.clearHistory();
-                    Toast.makeText(getApplicationContext(), "Đăng ký tài khoản thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.notice4, Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else if(url.contains("registration?execution")){

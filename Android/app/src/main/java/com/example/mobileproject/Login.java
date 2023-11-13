@@ -95,11 +95,11 @@ public class Login extends AppCompatActivity {
                     ,null);
                 }
                 else if(url.contains("authenticate?session_code")){
-                    Toast.makeText(getApplicationContext(),"Login ok",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.notice2,Toast.LENGTH_SHORT).show();
                     login_webview.getSettings().setJavaScriptEnabled(false);
 
                 }else if(url.contains("authenticate?execution")){
-                    Toast.makeText(getApplicationContext(),"invalid username or password",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.notice3,Toast.LENGTH_SHORT).show();
                     login_webview.getSettings().setJavaScriptEnabled(false);
                 }
 
@@ -118,7 +118,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (username_edt.getText().toString().isEmpty() || password_edt.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Tài khoản hoặc mật khẩu không được để trống",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.notice1,Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else {

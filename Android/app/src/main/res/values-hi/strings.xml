@@ -36,5 +36,15 @@
     <string name="change_password">Thay đổi mật khẩu</string>
     <string name="change_password1">Thay đổi mật khẩu</string>
     <string name="make_you_a_brand_new_password">Giúp bạn thay đổi mật khẩu mới</string>
-
+    <string name="notice1">Tài khoản và mật khẩu không được để trống</string>
+    <string name="notice2">Đăng nhập thành công</string>
+    <string name="notice3">Tên đăng nhập hoặc mật khẩu không đúng</string>
+    <string name="notice4">Đăng ký tài khoản thành công</string>
+    <string name="notice5">Nhập mã OTP đã được gửi qua Email</string>
+    <string name="notice6">Hãy nhập mật khẩu mới</string>
+    <string name="notice7">Mật khẩu không khớp</string>
+    <string name="notice8">Đổi mật khẩu thành công</string>
+    <string name="notice9">Có gì đó không ổn</string>
+    <string name="notice10">OTP không hợp lệ</string>
+    <string name="notice11">không tìm thấy tên đăng nhập</string>
 </resources>

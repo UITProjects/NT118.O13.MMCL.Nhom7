@@ -64,7 +64,7 @@ public class ForgotPassword extends AppCompatActivity {
                     finish();
                     startActivity(getIntent());
                 } else if (selectedLang.equals("Vietnamese")) {
-                    setLocal(ForgotPassword.this,"hi");
+                    setLocal(ForgotPassword.this, "hi");
                     finish();
                     startActivity(getIntent());
                 }
@@ -144,7 +144,7 @@ public class ForgotPassword extends AppCompatActivity {
                                            @Override
                                            public void run() {
                                                setContentView(R.layout.otp_layout);
-                                               Toast.makeText(getApplicationContext(),"Enter the OTP code sent to email", Toast.LENGTH_SHORT).show();
+                                               Toast.makeText(getApplicationContext(), R.string.notice5, Toast.LENGTH_SHORT).show();
                                                otp_code_edt = findViewById(R.id.edt_otp_code);
                                                verify_btn = findViewById(R.id.btn_verify);
 
@@ -177,7 +177,7 @@ public class ForgotPassword extends AppCompatActivity {
                                                                            @Override
                                                                            public void run() {
                                                                                setContentView(R.layout.new_password_layout);
-                                                                               Toast.makeText(getApplicationContext(),"Enter new password",Toast.LENGTH_SHORT).show();
+                                                                               Toast.makeText(getApplicationContext(), R.string.notice6,Toast.LENGTH_SHORT).show();
                                                                                change_password_btn = findViewById(R.id.btn_change_password);
                                                                                new_password_edt = findViewById(R.id.edt_new_password);
                                                                                confirm_new_password_edt = findViewById(R.id.edt_confirm_new_password);
@@ -187,7 +187,7 @@ public class ForgotPassword extends AppCompatActivity {
 
                                                                                        if (!confirm_new_password_edt.getText().toString().equals(new_password_edt.getText().toString()))
                                                                                        {
-                                                                                           Toast.makeText(getApplicationContext(),"Password didn't match",Toast.LENGTH_SHORT).show();
+                                                                                           Toast.makeText(getApplicationContext(), R.string.notice7,Toast.LENGTH_SHORT).show();
                                                                                            return;
                                                                                        }
                                                                                        Thread change_new_password_Thread = new Thread(new Runnable() {
@@ -231,7 +231,7 @@ public class ForgotPassword extends AppCompatActivity {
                                                                                                         ui_handle.post(new Runnable() {
                                                                                                             @Override
                                                                                                             public void run() {
-                                                                                                                Toast.makeText(getApplicationContext(), "Change password successfully", Toast.LENGTH_SHORT).show();
+                                                                                                                Toast.makeText(getApplicationContext(), R.string.notice8, Toast.LENGTH_SHORT).show();
                                                                                                                 finish();
                                                                                                             }
                                                                                                         });
@@ -239,7 +239,7 @@ public class ForgotPassword extends AppCompatActivity {
                                                                                                         ui_handle.post(new Runnable() {
                                                                                                             @Override
                                                                                                             public void run() {
-                                                                                                                Toast.makeText(getApplicationContext(), "Something is not right", Toast.LENGTH_SHORT).show();
+                                                                                                                Toast.makeText(getApplicationContext(), R.string.notice9, Toast.LENGTH_SHORT).show();
                                                                                                                 finish();
 
                                                                                                             }
@@ -264,7 +264,7 @@ public class ForgotPassword extends AppCompatActivity {
                                                                        ui_handle.post(new Runnable() {
                                                                            @Override
                                                                            public void run() {
-                                                                               Toast.makeText(getApplicationContext(),"OTP invalid",Toast.LENGTH_SHORT).show();
+                                                                               Toast.makeText(getApplicationContext(), R.string.notice10,Toast.LENGTH_SHORT).show();
 
                                                                            }
                                                                        });
@@ -288,7 +288,7 @@ public class ForgotPassword extends AppCompatActivity {
                            ui_handle.post(new Runnable() {
                                @Override
                                public void run() {
-                                   Toast.makeText(getApplicationContext(),"username didn't found",Toast.LENGTH_SHORT).show();
+                                   Toast.makeText(getApplicationContext(), R.string.notice11,Toast.LENGTH_SHORT).show();
                                }
                            });
                            return;
@@ -303,5 +303,13 @@ public class ForgotPassword extends AppCompatActivity {
 
             }
         });
+    }
+    public void setLocal(Activity activity, String langCode){
+        Locale locale = new Locale(langCode);
+        locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config,resources.getDisplayMetrics());
     }
 }

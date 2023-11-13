@@ -35,6 +35,17 @@
     <string name="change_password">Change password</string>
     <string name="change_password1">Change password</string>
     <string name="make_you_a_brand_new_password">Make you a brand new password</string>
+    <string name="notice1">Account and password cannot be empty</string>
+    <string name="notice2">Login ok</string>
+    <string name="notice3">invalid username or password</string>
+    <string name="notice4">Register account successfully</string>
+    <string name="notice5">Enter the OTP code sent to email</string>
+    <string name="notice6">Enter new password</string>
+    <string name="notice7">Password didn\'t match</string>
+    <string name="notice8">Change password successfully</string>
+    <string name="notice9">Something is not right</string>
+    <string name="notice10">OTP invalid</string>
+    <string name="notice11">username didn\'t found</string>
 
 
 </resources>
