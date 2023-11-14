@@ -1,10 +1,10 @@
 package com.example.mobileproject;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -21,13 +20,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.Locale;
 
 public class Register extends AppCompatActivity {
@@ -36,8 +32,9 @@ public class Register extends AppCompatActivity {
 
     public static final String[] languages = {"Choose Language", "English", "Vietnamese"};
     Button signup_button;
+    Button back_button;
     WebView signup_Webview;
-
+    TextView sign_in_txtView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +44,32 @@ public class Register extends AppCompatActivity {
         username_edt = findViewById(R.id.edt_username);
         password_edt = findViewById(R.id.edt_password);
         email_edt = findViewById(R.id.edt_email);
+        sign_in_txtView = findViewById(R.id.txtview_sign_in);
+
+
+        sign_in_txtView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent login = new Intent(getApplicationContext(), Login.class);
+                login.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(login);
+                finish();
+            }
+        });
+
+
+        back_button = findViewById(R.id.btn_back);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         confirm_password_edt = findViewById(R.id.edt_confirmpassword);
         signup_Webview = findViewById(R.id.Webview_signup);
         signup_Webview.getSettings().setJavaScriptEnabled(true);
         signup_Webview.clearCache(true);
-
 
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -113,7 +131,7 @@ public class Register extends AppCompatActivity {
                 }else if(url.contains("registration?session_code")){
                     signup_Webview.clearCache(true);
                     signup_Webview.clearHistory();
-                    Toast.makeText(getApplicationContext(), "Đăng ký tài khoản thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.notice4, Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else if(url.contains("registration?execution")){
