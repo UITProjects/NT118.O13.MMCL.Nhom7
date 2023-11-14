@@ -22,6 +22,13 @@ public class HomePage extends AppCompatActivity {
     Button login_btn;
     Button signup_btn;
     TextView forgot_password_btn;
+
+    @Override
+    protected void onRestart() {
+        recreate();
+        super.onRestart();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

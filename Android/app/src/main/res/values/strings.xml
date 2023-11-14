@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mobileproject</string>
+    <string name="app_name">Weather</string>
     <string name="sign_up">Sign up</string>
     <string name="back">Back</string>
     <string name="username">Username</string>
