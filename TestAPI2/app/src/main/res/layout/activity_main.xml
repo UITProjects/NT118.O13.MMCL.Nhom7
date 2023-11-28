@@ -109,7 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Composite"
-                        android:textColor="@color/black"
+                        android:textColor="#FF00FF"
                         android:textSize="20dp" />
                 </LinearLayout>
 
@@ -137,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Assigned"
-                        android:textColor="@color/black"
+                        android:textColor="#FF00FF"
                         android:textSize="20dp" />
                 </LinearLayout>
             </LinearLayout>
