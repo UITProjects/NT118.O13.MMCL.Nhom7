@@ -128,7 +128,7 @@
         android:src="@drawable/pic1" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinner_attribute"
         android:layout_marginBottom="50dp"
         android:layout_width="250dp"
         android:layout_height="60dp"

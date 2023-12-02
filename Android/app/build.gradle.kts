@@ -7,13 +7,13 @@ android {
     namespace = "com.example.mobileproject"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "com.example.mobileproject"
-        minSdk = 28
+        minSdk = 30
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.gson)
+    implementation(libs.materialdatetimepicker)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

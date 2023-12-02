@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,7 +30,7 @@ public class Login extends AppCompatActivity {
     EditText username_edt;
     EditText password_edt;
     Button login_btn,back_btn;
-    WebView login_webview;
+    WebView login_webview,dashboard_webview;
     TextView forgot_password_textview, signup_textview;
     Handler ui_handle = new Handler();
     @Override
@@ -42,9 +41,26 @@ public class Login extends AppCompatActivity {
         password_edt = findViewById(R.id.edt_password);
         back_btn = findViewById(R.id.btn_back);
         login_webview = findViewById(R.id.webview_login);
-
+        username_edt.setText("user");
+        password_edt.setText("123");
         forgot_password_textview = findViewById(R.id.txtview_forgot_password);
         signup_textview = findViewById(R.id.txtview_sign_up);
+        login_webview.getSettings().setJavaScriptEnabled(true);
+        login_webview.getSettings().setLoadsImagesAutomatically(true);
+        login_webview.getSettings().setAllowContentAccess(true);
+
+        login_webview.getSettings().setUseWideViewPort(true);
+        login_webview.getSettings().setLoadWithOverviewMode(true);
+        login_webview.getSettings().setDomStorageEnabled(true);
+        login_webview.setHorizontalScrollBarEnabled(false);
+        login_webview.getSettings().setDatabaseEnabled(true);
+        login_webview.setVerticalScrollBarEnabled(false);
+        login_webview.getSettings().setBuiltInZoomControls(true);
+        login_webview.getSettings().setDisplayZoomControls(false);
+        login_webview.getSettings().setAllowFileAccess(true);
+        login_webview.setScrollbarFadingEnabled(false);
+        login_webview.setWebViewClient(new WebViewClient());
+        login_webview.setInitialScale(1);
 
         forgot_password_textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +112,13 @@ public class Login extends AppCompatActivity {
                 }
                 else if(url.contains("authenticate?session_code")){
                     Toast.makeText(getApplicationContext(), R.string.notice1,Toast.LENGTH_SHORT).show();
+                    Intent dashboard = new Intent(getApplicationContext(),Dashboard.class);
+                    dashboard.putExtra("username",username_edt.getText().toString());
+                    dashboard.putExtra("password",password_edt.getText().toString());
+                    startActivity(dashboard);
+
+
+
                     login_webview.getSettings().setJavaScriptEnabled(false);
 
                 }else if(url.contains("authenticate?execution")){
@@ -133,7 +156,7 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner_attribute);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
