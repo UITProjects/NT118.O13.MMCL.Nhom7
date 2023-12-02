@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.mobileproject"
-        minSdk = 30
+        minSdk = 28
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.gson)
     implementation(libs.materialdatetimepicker)
+    implementation(libs.graphview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

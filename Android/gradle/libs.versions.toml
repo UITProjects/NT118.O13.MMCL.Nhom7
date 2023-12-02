@@ -8,6 +8,7 @@ material = "1.10.0"
 constraintlayout = "2.1.4"
 gson = "2.10.1"
 materialdatetimepicker = "4.2.3"
+graphview = "4.2.2"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -18,6 +19,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 materialdatetimepicker = { group = "com.wdullaer", name = "materialdatetimepicker", version.ref = "materialdatetimepicker" }
+graphview = { group = "com.jjoe64", name = "graphview", version.ref = "graphview" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
