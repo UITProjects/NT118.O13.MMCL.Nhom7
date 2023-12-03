@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
@@ -49,7 +50,7 @@ public class ExportdataAPI {
 
     }
 
-    public Map<Calendar, Float> GetData() throws IOException {
+    public Map<Date, Float> GetData() throws IOException {
         InputStream in;
         int status = con.getResponseCode();
         if (status == 200)
@@ -82,7 +83,7 @@ public class ExportdataAPI {
         StringBuilder builder = new StringBuilder();
         String line;
         boolean first = true;
-        Map<Calendar, Float> list = new HashMap<>();
+        Map<Date, Float> list = new HashMap<>();
         while ((line = reader.readLine()) != null) {
             builder.append(line);
             builder.append("\n");
@@ -95,7 +96,7 @@ public class ExportdataAPI {
 
                 Calendar temp = Calendar.getInstance();
                 temp.setTimeInMillis(Timestamp.valueOf (elements[0]).getTime() +(long) (3600*6*1000));
-                list.put(temp, Float.valueOf(elements[3]));
+                list.put(temp.getTime(), Float.valueOf(elements[3]));
             } catch (IllegalArgumentException e){
                 continue;
             }

@@ -19,11 +19,17 @@ import java.util.ArrayList;
 public class Realtime extends Fragment {
     View view;
     Spinner timeframe_spinner;
+
+    @Override
+    public void onStart() {
+        Graph.mode = 0;
+        super.onStart();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Graph.mode = 0;
 
         view =  inflater.inflate(R.layout.fragment_realtime, container, false);
         timeframe_spinner = view.findViewById(R.id.spinner_timeframe);

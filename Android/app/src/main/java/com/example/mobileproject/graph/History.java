@@ -13,6 +13,13 @@ import com.example.mobileproject.R;
 public class History extends Fragment {
 
     View view;
+
+    @Override
+    public void onStart() {
+        Graph.mode = 1;
+        super.onStart();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

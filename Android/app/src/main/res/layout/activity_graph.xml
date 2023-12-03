@@ -8,48 +8,41 @@
 
     <Spinner
         android:id="@+id/spinner_attribute"
-        android:layout_width="325dp"
-        android:layout_height="93dp"
+        android:layout_width="204dp"
+        android:layout_height="57dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.579"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.053" />
 
     <TextView
-        android:id="@+id/mode_edt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/edt_mode"
+        android:layout_width="129dp"
+        android:layout_height="58dp"
+        android:gravity="center"
         android:text="Up to now"
-        android:textSize="28sp"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.691"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19" />
-
-    <Button
-        android:id="@+id/btn_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.316" />
+        app:layout_constraintVertical_bias="0.166" />
 
     <FrameLayout
-        android:id="@+id/mode_fragment"
-        android:layout_width="191dp"
-        android:layout_height="168dp"
+        android:id="@+id/layout_fragment"
+        android:layout_width="196dp"
+        android:layout_height="143dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.337" />
+        app:layout_constraintVertical_bias="0.318" >
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/txtview_realtime"
@@ -57,13 +50,13 @@
         android:layout_height="36dp"
         android:gravity="center"
         android:text="Realtime"
+        android:visibility="gone"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.344"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.24" />
+        app:layout_constraintVertical_bias="0.217" />
 
     <TextView
         android:id="@+id/txtview_history"
@@ -71,18 +64,19 @@
         android:layout_height="36dp"
         android:gravity="center"
         android:text="history"
+        android:visibility="gone"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.651"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.24" />
+        app:layout_constraintVertical_bias="0.217" />
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/idGraphView"
-        android:layout_width="match_parent"
-        android:layout_height="302dp"
+        android:layout_width="393dp"
+        android:layout_height="309dp"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="30dp"
@@ -92,5 +86,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/btn_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.637"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.483" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
