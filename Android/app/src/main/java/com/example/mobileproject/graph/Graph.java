@@ -23,13 +23,12 @@ import com.example.mobileproject.R;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,6 +41,7 @@ import java.util.TreeSet;
 public class Graph extends AppCompatActivity {
     Calendar date;
     public static long last_time ;
+    public static int axis_x_format;
     public static int mode;
     Paint paint;
 
@@ -93,22 +93,6 @@ public class Graph extends AppCompatActivity {
         history_fragment = new History();
         Graph.mode = 0;
 
-        NumberFormat nf = NumberFormat.getInstance();
-        nf.setMaximumFractionDigits(0);
-        nf.setMaximumIntegerDigits(2);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         mode_edt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,33 +111,42 @@ public class Graph extends AppCompatActivity {
 
 
         graphView = findViewById(R.id.idGraphView);
-        graphView.setCursorMode(true);
         paint = new Paint();
         paint.setColor(Color.BLUE);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(5);
         paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
-        // on below line we are adding data to our graph view.
 
-        // on below line we are setting
-        // text color to our graph view.
         graphView.setTitleColor(R.color.yellow);
 
-        // on below line we are setting
-        // our title text size.
-        graphView.setScrollBarSize(30);
+
+        graphView.setCursorMode(true);
 
 
-        // on below line we are setting
-        // text color to our graph view.
         graphView.setTitleColor(R.color.yellow);
 
-        // on below line we are setting
-        // our title text size.
-        graphView.setTitleTextSize(18);
 
-        // on below line we are adding
-        // data series to our graph view.
+        graphView.setTitleTextSize(30);
+
+        DefaultLabelFormatter custom_formatter = new DefaultLabelFormatter(){
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis((long)value);
+                    if (Graph.axis_x_format==0)
+                        return String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)).concat(":00");
+                    else if(Graph.axis_x_format==1)
+                        return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)).concat("/"+String.valueOf(calendar.get(Calendar.MONTH))).concat(" "+String.valueOf(calendar.get(Calendar.HOUR_OF_DAY))+":00");
+                }
+                DecimalFormat df = new DecimalFormat("0.00");
+                return df.format(value);
+            }
+        };
+
+
+        DateAsXAxisLabelFormatter test = new DateAsXAxisLabelFormatter(getApplicationContext());
+
 
 
 
@@ -208,33 +201,18 @@ public class Graph extends AppCompatActivity {
                                     public void run() {
                                         graphView.removeAllSeries();
                                         series.setCustomPaint(paint);
-                                        series.setThickness(5);
-                                        graphView.setTitleTextSize(50);
                                         series.setDrawDataPoints(true);
                                         series.setDataPointsRadius(10);
-                                       // graphView.getViewport().setYAxisBoundsManual(true);
-                                       // graphView.getViewport().setMinY(20);s
-                                        graphView.getLegendRenderer().setVisible(true);
+                                        graphView.getViewport().setYAxisBoundsManual(true);
+                                        graphView.getViewport().setMinY(0);
+                                        graphView.getViewport().setMaxY(35);
                                         graphView.addSeries(series);
-                                        graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
-                                            @Override
-                                            public String formatLabel(double value, boolean isValueX) {
-
-                                                if(isValueX) {
-                                                    Calendar calendar = Calendar.getInstance();
-                                                    calendar.setTimeInMillis((long)value);
-                                                    calendar.get(Calendar.HOUR_OF_DAY);
-                                                    return String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
-
-                                                }
-
-
-
-                                                else
-                                                    return super.formatLabel(value, false);
-
-                                            }
-                                        });
+                                        graphView.setTitleTextSize(50);
+                                        graphView.getViewport().setXAxisBoundsManual(true);
+                                        graphView.getViewport().setMinX(temp[0].getX());
+                                        graphView.getViewport().setMaxX(temp[temp.length-1].getX()+(double) 2*3600*1000);
+                                        graphView.getViewport().setScalable(true);
+                                        graphView.getGridLabelRenderer().setLabelFormatter(custom_formatter);
 
 
                                     }

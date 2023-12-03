@@ -38,10 +38,18 @@ public class Realtime extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
-                if (item.contains("day"))
-                    Graph.last_time = Long.parseLong(item.split(" ")[0])*86400*1000;
-                else
-                    Graph.last_time = Long.parseLong(item.split(" ")[0])*3600*1000;
+                if (item.contains("day")) {
+                    Graph.last_time = Long.parseLong(item.split(" ")[0]) * 86400 * 1000;
+                    Graph.axis_x_format = 0 ;
+                }
+                else if (item.contains("week")) {
+                    Graph.last_time = Long.parseLong(item.split(" ")[0])*86400*7*1000;
+                    Graph.axis_x_format = 1;
+                }
+                else if(item.contains("month")){
+                    Graph.last_time = Long.parseLong(item.split(" ")[0])*86400*30*1000;
+                    Graph.axis_x_format = 1;
+                }
             }
 
             @Override
@@ -51,10 +59,9 @@ public class Realtime extends Fragment {
 
 
         ArrayList<String> timeframe = new ArrayList<>();
-        timeframe.add("5 hours");
-        timeframe.add("10 hours");
-        timeframe.add("12 hours");
         timeframe.add("1 day");
+        timeframe.add("1 week");
+        timeframe.add("1 month");
 
         ArrayAdapter<String> adapter = new ArrayAdapter(
                 view.getContext(),
