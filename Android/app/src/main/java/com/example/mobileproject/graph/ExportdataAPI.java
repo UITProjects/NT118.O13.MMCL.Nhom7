@@ -84,6 +84,7 @@ public class ExportdataAPI {
         String line;
         boolean first = true;
         Map<Date, Float> list = new HashMap<>();
+        reader.readLine();
         while ((line = reader.readLine()) != null) {
             builder.append(line);
             builder.append("\n");
@@ -92,14 +93,16 @@ public class ExportdataAPI {
                 continue;
             }
             String[] elements = line.split(",");
-            try {
-
                 Calendar temp = Calendar.getInstance();
-                temp.setTimeInMillis(Timestamp.valueOf (elements[0]).getTime() +(long) (3600*6*1000));
-                list.put(temp.getTime(), Float.valueOf(elements[3]));
-            } catch (IllegalArgumentException e){
-                continue;
-            }
+                try {
+                    temp.setTimeInMillis(Timestamp.valueOf(elements[0]).getTime() + (long) (3600 * 6 * 1000));
+                    list.put(temp.getTime(), Float.valueOf(elements[3]));
+                }catch (java.lang.IllegalArgumentException e) {
+                    Log.d("custom_error",e.toString());
+                    Log.d("custom_error",line);
+
+                    continue;
+                }
         }
         return list;
 

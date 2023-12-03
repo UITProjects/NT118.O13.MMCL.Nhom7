@@ -1,82 +1,77 @@
 package com.example.mobileproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Toast;
+import android.widget.Button;
+
+import com.example.mobileproject.graph.Graph;
+import com.example.mobileproject.map.Map;
 
 public class Dashboard extends AppCompatActivity {
     String username,password;
-    WebView dashboard_webview;
+    Fragment map_fragment,graph_fragment;
+    Button map_btn,graph_btn;
+    void replaceFragment(Fragment fragment){
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout_main,fragment);
+        transaction.commit();
+    }
+
+    void hideFragment(Fragment fragment){
+        if(fragment.isHidden())
+            return;
+        FragmentManager manager  = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.hide(fragment);
+        transaction.commit();
+
+    }
+    void showFragment(Fragment fragment){
+        if(!fragment.isHidden())
+            return;
+        FragmentManager manager  = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.show(fragment);
+        transaction.commit();
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         Intent current_intent = getIntent();
-        username = current_intent.getStringExtra("username");
-        password = current_intent.getStringExtra("password");
+        map_btn = findViewById(R.id.btn_map);
+        graph_btn = findViewById(R.id.btn_graph);
 
-
-        dashboard_webview = findViewById(R.id.webview_dashboard);
-        dashboard_webview.getSettings().setJavaScriptEnabled(true);
-        dashboard_webview.getSettings().setLoadsImagesAutomatically(true);
-        dashboard_webview.getSettings().setAllowContentAccess(true);
-
-        dashboard_webview.getSettings().setUseWideViewPort(true);
-        dashboard_webview.getSettings().setLoadWithOverviewMode(true);
-        dashboard_webview.getSettings().setDomStorageEnabled(true);
-        dashboard_webview.setHorizontalScrollBarEnabled(false);
-        dashboard_webview.getSettings().setDatabaseEnabled(true);
-        dashboard_webview.setVerticalScrollBarEnabled(false);
-        dashboard_webview.getSettings().setBuiltInZoomControls(true);
-        dashboard_webview.getSettings().setDisplayZoomControls(false);
-        dashboard_webview.getSettings().setAllowFileAccess(true);
-        dashboard_webview.setScrollbarFadingEnabled(false);
-        dashboard_webview.setWebViewClient(new WebViewClient());
-        dashboard_webview.setInitialScale(1);
-        dashboard_webview.setWebViewClient(new WebViewClient(){
+        map_fragment = new Map();
+        graph_fragment = new Graph();
+        map_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(request.getUrl().toString());
-                return false;
-
+            public void onClick(View v) {
+                replaceFragment(new Map());
+            //    showFragment(map_fragment);
             }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                Log.d("webview","onPageFinished called");
-                Log.d("webview",url);
-
-                if(url.contains("auth?client_id")){
-                    String auto_fill_placeholder = "%s.value=\"%s\";";
-                    view.evaluateJavascript(
-                            "let username = document.getElementById(\"username\"); "+
-                                    "let password = document.getElementById(\"password\"); "+
-                                    String.format(auto_fill_placeholder,"username",username)+
-                                    String.format(auto_fill_placeholder,"password",password)+
-                                    "let elements = document.getElementsByTagName(\"*\"); "+
-                                    "elements[31].click() ;"
-
-                            ,null);
-                }
-            }
-
         });
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookies(null);
-        dashboard_webview.clearCache(true);
-        dashboard_webview.clearHistory();
-        dashboard_webview.loadUrl("https://uiot.ixxc.dev/manager/");
+
+        graph_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new Graph());
+            //    showFragment(graph_fragment);
+            }
+        });
+
+
+
 
     }
 }

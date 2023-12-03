@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.materialdatetimepicker)
     implementation(libs.graphview)
+    implementation(libs.osmdroid.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
