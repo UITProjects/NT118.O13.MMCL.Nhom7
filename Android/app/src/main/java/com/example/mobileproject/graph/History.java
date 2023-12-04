@@ -16,7 +16,7 @@ public class History extends Fragment {
 
     @Override
     public void onStart() {
-        Graph.mode = 1;
+        GraphFragment.mode = 1;
         super.onStart();
     }
 
@@ -24,7 +24,7 @@ public class History extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Graph.mode = 1;
+        GraphFragment.mode = 1;
         view =  inflater.inflate(R.layout.fragment_history, container, false);
         return view;
     }

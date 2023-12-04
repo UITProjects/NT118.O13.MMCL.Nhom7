@@ -28,7 +28,7 @@ public class Realtime extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Graph.mode = 0;
+        GraphFragment.mode = 0;
 
 
         view =  inflater.inflate(R.layout.fragment_realtime, container, false);
@@ -39,16 +39,16 @@ public class Realtime extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 if (item.contains("day")) {
-                    Graph.last_time = Long.parseLong(item.split(" ")[0]) * 86400 * 1000;
-                    Graph.axis_x_format = 0 ;
+                    GraphFragment.last_time = Long.parseLong(item.split(" ")[0]) * 86400 * 1000;
+                    GraphFragment.axis_x_format = 0 ;
                 }
                 else if (item.contains("week")) {
-                    Graph.last_time = Long.parseLong(item.split(" ")[0])*86400*7*1000;
-                    Graph.axis_x_format = 1;
+                    GraphFragment.last_time = Long.parseLong(item.split(" ")[0])*86400*7*1000;
+                    GraphFragment.axis_x_format = 1;
                 }
                 else if(item.contains("month")){
-                    Graph.last_time = Long.parseLong(item.split(" ")[0])*86400*30*1000;
-                    Graph.axis_x_format = 1;
+                    GraphFragment.last_time = Long.parseLong(item.split(" ")[0])*86400*30*1000;
+                    GraphFragment.axis_x_format = 1;
                 }
             }
 

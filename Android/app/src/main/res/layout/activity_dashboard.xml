@@ -4,30 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dashboard">
-
-    <FrameLayout
-        android:id="@+id/frameLayout_main"
+    tools:context=".MainActivity">
+    <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
-        android:layout_height="676dp" />
-
-    <Button
-        android:id="@+id/btn_map"
-        android:layout_width="71dp"
-        android:layout_height="51dp"
-        android:background="@drawable/baseline_map_24"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
+        android:id="@+id/viewPager"
         />
 
-    <Button
-        android:id="@+id/btn_graph"
-        android:layout_width="71dp"
-        android:layout_height="51dp"
-        android:background="@drawable/baseline_show_chart_24"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/btn_map"
-         />
+        android:layout_marginBottom="-2dp"
+        android:background="@color/colorAccent"
+        app:itemIconTint="@color/color_navigation"
+        app:itemTextColor="@color/color_navigation"
+
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_navigation" />
 
 
 </RelativeLayout>

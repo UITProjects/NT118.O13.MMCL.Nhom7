@@ -40,7 +40,7 @@ import java.util.TimeZone;
 import java.util.TreeSet;
 
 
-public class Graph extends Fragment {
+public class GraphFragment extends Fragment {
 
     View graph_View;
     public static long last_time ;
@@ -91,7 +91,7 @@ public class Graph extends Fragment {
         show_btn.setVisibility(View.GONE);
         mode_edt= graph_View.findViewById(R.id.edt_mode);
 
-        Graph.mode = 0;
+        GraphFragment.mode = 0;
         realtime_fragment = new Realtime();
         history_fragment = new History();
 
@@ -136,9 +136,9 @@ public class Graph extends Fragment {
                 if (isValueX) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis((long)value);
-                    if (Graph.axis_x_format==0)
+                    if (GraphFragment.axis_x_format==0)
                         return String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)).concat(":00");
-                    else if(Graph.axis_x_format==1)
+                    else if(GraphFragment.axis_x_format==1)
                         return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)).concat("/"+String.valueOf(calendar.get(Calendar.MONTH))).concat(" "+String.valueOf(calendar.get(Calendar.HOUR_OF_DAY))+":00");
                 }
                 DecimalFormat df = new DecimalFormat("0.00");
@@ -172,13 +172,13 @@ public class Graph extends Fragment {
         show_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Show", String.valueOf(Graph.last_time));
-                if (Graph.mode == 0){
+                Log.d("Show", String.valueOf(GraphFragment.last_time));
+                if (GraphFragment.mode == 0){
                     Map<String,String> query = new HashMap<>();
                     query.put("attributeRefs","[{\"id\":\"5zI6XqkQVSfdgOrZ1MyWEf\",\"name\":\"temperature\"}]\n");
                     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7"));
                     long to_timestamp =  calendar.getTimeInMillis();
-                    long from_timestamp = to_timestamp- Graph.last_time;
+                    long from_timestamp = to_timestamp- GraphFragment.last_time;
                     query.put("fromTimestamp",String.valueOf(from_timestamp));
                     query.put("toTimestamp",String.valueOf(to_timestamp));
                     Thread data_thread = new Thread(new Runnable() {
@@ -195,7 +195,7 @@ public class Graph extends Fragment {
                                     temp[count] = new DataPoint(key,data.get(key));
                                     count++;
                                 }
-                                if (Graph.mode == 0)
+                                if (GraphFragment.mode == 0)
                                     graphView.setTitle("Temperature");
                                 series = new LineGraphSeries<>(temp);
                                 ui_handler.post(new Runnable() {
