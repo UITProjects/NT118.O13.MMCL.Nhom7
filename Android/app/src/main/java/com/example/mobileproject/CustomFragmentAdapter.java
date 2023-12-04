@@ -9,8 +9,13 @@ import com.example.mobileproject.graph.GraphFragment;
 import com.example.mobileproject.map.MapFragment;
 
 public class CustomFragmentAdapter extends FragmentStateAdapter {
+
+    MapFragment mapFragment;
+    GraphFragment graphFragment;
     public CustomFragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
+
+
     }
     @NonNull
     @Override
@@ -25,7 +30,7 @@ public class CustomFragmentAdapter extends FragmentStateAdapter {
     }
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 
 

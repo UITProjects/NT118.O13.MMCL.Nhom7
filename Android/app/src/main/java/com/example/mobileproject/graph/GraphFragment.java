@@ -5,6 +5,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -57,6 +58,7 @@ public class GraphFragment extends Fragment {
     Handler ui_handler = new Handler();
     TextView mode_edt ;
     Fragment realtime_fragment,history_fragment;
+    Spinner attribute_spinner;
     void replaceFragment(Fragment fragment){
         FragmentManager manager = getChildFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -73,6 +75,42 @@ public class GraphFragment extends Fragment {
         transaction.commit();
 
     }
+
+    @Nullable
+    @Override
+    public View getView() {
+        return graphView;
+    }
+
+    @Override
+    public void onResume() {
+        show_btn.setVisibility(View.VISIBLE);
+        graphView.setVisibility(View.VISIBLE);
+        mode_edt.setVisibility(View.VISIBLE);
+        attribute_spinner.setVisibility(View.VISIBLE);
+
+        super.onResume();
+
+    }
+
+    @Override
+    public void onStart() {
+        show_btn.setVisibility(View.GONE);
+        graphView.setVisibility(View.GONE);
+        mode_edt.setVisibility(View.GONE);
+        attribute_spinner.setVisibility(View.GONE);
+        super.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        show_btn.setVisibility(View.GONE);
+        graphView.setVisibility(View.GONE);
+        mode_edt.setVisibility(View.GONE);
+        attribute_spinner.setVisibility(View.GONE);
+        super.onPause();
+    }
+
     void showFragment(Fragment fragment){
         if(!fragment.isHidden())
             return;
@@ -94,7 +132,6 @@ public class GraphFragment extends Fragment {
         GraphFragment.mode = 0;
         realtime_fragment = new Realtime();
         history_fragment = new History();
-
 
         mode_edt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,7 +318,7 @@ public class GraphFragment extends Fragment {
 
 
 
-        Spinner attribute_spinner = graph_View.findViewById(R.id.spinner_attribute);
+        attribute_spinner = graph_View.findViewById(R.id.spinner_attribute);
         attribute_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -305,6 +342,7 @@ public class GraphFragment extends Fragment {
         ArrayAdapter<String> attribute_adapter = new ArrayAdapter<>(graph_View.getContext(), android.R.layout.simple_spinner_item,attribute_ArrayList);
         attribute_adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
         attribute_spinner.setAdapter(attribute_adapter);
+
 
         return graph_View;
     }

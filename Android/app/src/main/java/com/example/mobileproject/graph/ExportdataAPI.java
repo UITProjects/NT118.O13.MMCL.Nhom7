@@ -46,8 +46,6 @@ public class ExportdataAPI {
         con.setRequestProperty("Authorization", "Bearer ".concat(token));
         con.setRequestMethod(method);
 
-
-
     }
 
     public Map<Date, Float> GetData() throws IOException {

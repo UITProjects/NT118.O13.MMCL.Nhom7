@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.materialdatetimepicker)
     implementation(libs.graphview)
     implementation(libs.osmdroid.android)
+    implementation(libs.androidx.viewpager2)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

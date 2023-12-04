@@ -2,24 +2,22 @@ package com.example.mobileproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
-import com.example.mobileproject.graph.GraphFragment;
-import com.example.mobileproject.map.MapFragment;
+import com.example.mobileproject.CustomFragmentAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class Dashboard extends AppCompatActivity {
 
 
     BottomNavigationView mBottomNavigationView;
+    ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +25,11 @@ public class Dashboard extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         Intent current_intent = getIntent();
 
-        ViewPager2 viewPager = findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPager);
         mBottomNavigationView = findViewById(R.id.bottom_navigation);
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setFocusable(View.FOCUSABLE);
+        viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
         viewPager.setAdapter(new CustomFragmentAdapter(this));
         viewPager.setPageTransformer(new ViewPager2.PageTransformer() {
@@ -56,27 +57,51 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
+
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        mBottomNavigationView.getMenu().findItem(R.id.menu_home).setChecked(true);
+                        mBottomNavigationView.getMenu().findItem(R.id.menu_map).setChecked(true);
+                        viewPager.setUserInputEnabled(false);
+
                         break;
                     case 1:
                         mBottomNavigationView.getMenu().findItem(R.id.menu_graph).setChecked(true);
-                        break;
-                    case 2:
-                        mBottomNavigationView.getMenu().findItem(R.id.menu_map).setChecked(true);
-                        break;
-                    case 3:
-                        mBottomNavigationView.getMenu().findItem(R.id.menu_user).setChecked(true);
+                        viewPager.setUserInputEnabled(true);
+
                         break;
                 }
             }
         });
 
 
+       mBottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+           @Override
+           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+               int itemId = item.getItemId();
+               if (itemId == R.id.menu_map){
+                   {
+                       viewPager.setUserInputEnabled(false);
+                       viewPager.setCurrentItem(0);
+                   }
+               } else if (itemId == R.id.menu_graph) {
+                   viewPager.setCurrentItem(1);
+                   viewPager.setUserInputEnabled(true);
+               }
+
+               return true;
+           }
+       });
+
+
+
+
+
+
 
     }
+
+
 }
