@@ -1,5 +1,6 @@
 package com.example.mobileproject.graph;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -49,7 +51,7 @@ public class GraphFragment extends Fragment {
     public static int axis_x_format;
     public static int mode;
     Paint paint;
-
+    int attribute_id;
     Button show_btn;
     TextView realtime_txtview,history_txtview;
     Map<Date,Float> data;
@@ -59,6 +61,26 @@ public class GraphFragment extends Fragment {
     TextView mode_edt ;
     Fragment realtime_fragment,history_fragment;
     Spinner attribute_spinner;
+
+    String getQueryAttribute() {
+        String template = "[{\"id\":\"%s\",\"name\":\"%s\"}]";
+        switch (attribute_id) {
+            case 0:
+                return String.format(template, "5zI6XqkQVSfdgOrZ1MyWEf", "temperature");
+            case 1:
+                return String.format(template, "5zI6XqkQVSfdgOrZ1MyWEf", "humidity");
+            case 2:
+                return String.format(template, "5zI6XqkQVSfdgOrZ1MyWEf", "rainfall");
+            case 3:
+                return String.format(template,"5zI6XqkQVSfdgOrZ1MyWEf","windSpeed");
+
+
+        }
+        return null;
+    }
+
+
+
     void replaceFragment(Fragment fragment){
         FragmentManager manager = getChildFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -120,6 +142,7 @@ public class GraphFragment extends Fragment {
         transaction.commit();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -127,12 +150,9 @@ public class GraphFragment extends Fragment {
         graph_View =  inflater.inflate(R.layout.fragment_graph_fragment, container, false);
         show_btn = graph_View.findViewById(R.id.btn_show);
         show_btn.setVisibility(View.GONE);
+
+
         mode_edt= graph_View.findViewById(R.id.edt_mode);
-
-        GraphFragment.mode = 0;
-        realtime_fragment = new Realtime();
-        history_fragment = new History();
-
         mode_edt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,29 +163,47 @@ public class GraphFragment extends Fragment {
                 showFragment(realtime_fragment);
             }
         });
+        GraphFragment.mode = 0;
+
+
+        realtime_fragment = new Realtime();
+        history_fragment = new History();
 
 
 
 
 
-
-        graphView = graph_View.findViewById(R.id.idGraphView);
         paint = new Paint();
         paint.setColor(Color.BLUE);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5);
         paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
 
+
+        graphView = graph_View.findViewById(R.id.idGraphView);
         graphView.setTitleColor(R.color.yellow);
-
-
         graphView.setCursorMode(true);
-
-
         graphView.setTitleColor(R.color.yellow);
-
-
         graphView.setTitleTextSize(30);
+        graphView.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP){
+                    Dashboard.viewPager.setUserInputEnabled(true);
+                    return true;
+                }
+                if (Dashboard.viewPager.isUserInputEnabled())
+                    Dashboard.viewPager.setUserInputEnabled(false);
+
+
+                return false;
+            }
+
+        });
+
+
+
 
         DefaultLabelFormatter custom_formatter = new DefaultLabelFormatter(){
             @Override
@@ -179,30 +217,26 @@ public class GraphFragment extends Fragment {
                         return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)).concat("/"+String.valueOf(calendar.get(Calendar.MONTH))).concat(" "+String.valueOf(calendar.get(Calendar.HOUR_OF_DAY))+":00");
                 }
                 DecimalFormat df = new DecimalFormat("0.00");
-                return df.format(value);
+                if (attribute_id==0)
+                    return df.format(value).concat(" ℃");
+                else if (attribute_id==1) {
+                    df = new DecimalFormat("0");
+
+                    return df.format(value).concat(" %");
+                }
+                else if (attribute_id==2) {
+                    df = new DecimalFormat("0.00");
+                    return df.format(value).concat(" mm");
+                }
+                else {
+                    df = new DecimalFormat("0.00");
+                    return df.format(value).concat(" km/h");
+                }
             }
         };
 
 
         DateAsXAxisLabelFormatter test = new DateAsXAxisLabelFormatter(graph_View.getContext());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         show_btn.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +245,7 @@ public class GraphFragment extends Fragment {
                 Log.d("Show", String.valueOf(GraphFragment.last_time));
                 if (GraphFragment.mode == 0){
                     Map<String,String> query = new HashMap<>();
-                    query.put("attributeRefs","[{\"id\":\"5zI6XqkQVSfdgOrZ1MyWEf\",\"name\":\"temperature\"}]\n");
+                    query.put("attributeRefs",getQueryAttribute());
                     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7"));
                     long to_timestamp =  calendar.getTimeInMillis();
                     long from_timestamp = to_timestamp- GraphFragment.last_time;
@@ -226,13 +260,28 @@ public class GraphFragment extends Fragment {
                                 int stop  = 0;
                                 SortedSet<Date> keys = new TreeSet<>(data.keySet());
                                 DataPoint[] temp = new DataPoint[keys.size()];
+                                if (data.isEmpty()){
+                                    ui_handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getContext(),"Empty data",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    return;
+                                }
                                 int count = 0 ;
                                 for (Date key :keys){
                                     temp[count] = new DataPoint(key,data.get(key));
                                     count++;
                                 }
-                                if (GraphFragment.mode == 0)
+                                if (attribute_id == 0)
                                     graphView.setTitle("Temperature");
+                                else if (attribute_id==1)
+                                    graphView.setTitle("Humidity");
+                                else if(attribute_id==2)
+                                    graphView.setTitle("Rainfall");
+                                else if(attribute_id==3)
+                                    graphView.setTitle("Wind speed");
                                 series = new LineGraphSeries<>(temp);
                                 ui_handler.post(new Runnable() {
                                     @Override
@@ -242,8 +291,22 @@ public class GraphFragment extends Fragment {
                                         series.setDrawDataPoints(true);
                                         series.setDataPointsRadius(10);
                                         graphView.getViewport().setYAxisBoundsManual(true);
-                                        graphView.getViewport().setMinY(0);
-                                        graphView.getViewport().setMaxY(35);
+                                        if (attribute_id==0) {
+                                            graphView.getViewport().setMinY(0);
+                                            graphView.getViewport().setMaxY(35);
+                                        }
+                                        else if(attribute_id==1){
+                                            graphView.getViewport().setMinY(0);
+                                            graphView.getViewport().setMaxY(90);
+                                        }
+                                        else if(attribute_id == 2){
+                                            graphView.getViewport().setMinY(0);
+                                            graphView.getViewport().setMaxY(10);
+                                        }
+                                        else if(attribute_id==3){
+                                            graphView.getViewport().setMinY(0);
+                                            graphView.getViewport().setMaxY(7);
+                                        }
                                         graphView.addSeries(series);
                                         graphView.setTitleTextSize(50);
                                         graphView.getViewport().setXAxisBoundsManual(true);
@@ -302,29 +365,14 @@ public class GraphFragment extends Fragment {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         attribute_spinner = graph_View.findViewById(R.id.spinner_attribute);
         attribute_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 ((TextView) parent.getChildAt(0)).setTextSize(20);
-
                 Toast.makeText(view.getContext(), item, Toast.LENGTH_SHORT).show();
+                attribute_id = position;
             }
 
 
@@ -338,6 +386,7 @@ public class GraphFragment extends Fragment {
         attribute_ArrayList.add("Temperature");
         attribute_ArrayList.add("Humidity");
         attribute_ArrayList.add("Rainfall");
+        attribute_ArrayList.add("Wind speed");
         ArrayAdapter<String> attribute_adapter = new ArrayAdapter<>(graph_View.getContext(), android.R.layout.simple_spinner_item,attribute_ArrayList);
         attribute_adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
         attribute_spinner.setAdapter(attribute_adapter);

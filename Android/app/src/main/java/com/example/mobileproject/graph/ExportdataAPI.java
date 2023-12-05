@@ -86,10 +86,6 @@ public class ExportdataAPI {
         while ((line = reader.readLine()) != null) {
             builder.append(line);
             builder.append("\n");
-            if (first) {
-                first = false;
-                continue;
-            }
             String[] elements = line.split(",");
                 Calendar temp = Calendar.getInstance();
                 try {

@@ -20,7 +20,7 @@ public class Dashboard extends AppCompatActivity {
 
 
     BottomNavigationView mBottomNavigationView;
-    ViewPager2 viewPager;
+   public static ViewPager2 viewPager;
     public static String token;
 
 
@@ -41,13 +41,7 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
+        
         viewPager = findViewById(R.id.viewPager);
         mBottomNavigationView = findViewById(R.id.bottom_navigation);
         viewPager.setOffscreenPageLimit(2);
