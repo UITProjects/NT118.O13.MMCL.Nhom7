@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobileproject.Dashboard;
 import com.example.mobileproject.R;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -51,7 +52,6 @@ public class GraphFragment extends Fragment {
 
     Button show_btn;
     TextView realtime_txtview,history_txtview;
-    String token;
     Map<Date,Float> data;
     GraphView graphView;
     LineGraphSeries<DataPoint> series;
@@ -205,7 +205,6 @@ public class GraphFragment extends Fragment {
 
 
 
-        token = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJoREkwZ2hyVlJvaE5zVy1wSXpZeDBpT2lHMzNlWjJxV21sRk4wWGE1dWkwIn0.eyJleHAiOjE3MDE3MDY1NjAsImlhdCI6MTcwMTYyMDE2MCwianRpIjoiNjg3MTYwNzItMDNmMy00MTNlLWI3ODktNTAxOTdmMWYzNjg0IiwiaXNzIjoiaHR0cHM6Ly91aW90Lml4eGMuZGV2L2F1dGgvcmVhbG1zL21hc3RlciIsImF1ZCI6WyJzdHJpbmctcmVhbG0iLCJtYXN0ZXItcmVhbG0iLCJhY2NvdW50Il0sInN1YiI6ImM2YzY0MzlkLWFiOWEtNDhiZC05ZTNhLTRmNDk5MDhkMTZkZCIsInR5cCI6IkJlYXJlciIsImF6cCI6Im9wZW5yZW1vdGUiLCJzZXNzaW9uX3N0YXRlIjoiY2Q5MjExNWEtMDFkOC00OTVmLTg2OGUtNzJhM2JjYzc5MmMyIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL3Vpb3QuaXh4Yy5kZXYiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImNyZWF0ZS1yZWFsbSIsImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsic3RyaW5nLXJlYWxtIjp7InJvbGVzIjpbInZpZXctaWRlbnRpdHktcHJvdmlkZXJzIiwidmlldy1yZWFsbSIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJvcGVucmVtb3RlIjp7InJvbGVzIjpbIndyaXRlOmxvZ3MiLCJyZWFkIiwid3JpdGU6YXNzZXRzIiwid3JpdGU6YWRtaW4iLCJyZWFkOmxvZ3MiLCJyZWFkOm1hcCIsInJlYWQ6YXNzZXRzIiwid3JpdGU6dXNlciIsInJlYWQ6dXNlcnMiLCJ3cml0ZTpydWxlcyIsInJlYWQ6cnVsZXMiLCJyZWFkOmluc2lnaHRzIiwid3JpdGU6YXR0cmlidXRlcyIsIndyaXRlIiwid3JpdGU6aW5zaWdodHMiLCJyZWFkOmFkbWluIl19LCJtYXN0ZXItcmVhbG0iOnsicm9sZXMiOlsidmlldy1pZGVudGl0eS1wcm92aWRlcnMiLCJ2aWV3LXJlYWxtIiwibWFuYWdlLWlkZW50aXR5LXByb3ZpZGVycyIsImltcGVyc29uYXRpb24iLCJjcmVhdGUtY2xpZW50IiwibWFuYWdlLXVzZXJzIiwicXVlcnktcmVhbG1zIiwidmlldy1hdXRob3JpemF0aW9uIiwicXVlcnktY2xpZW50cyIsInF1ZXJ5LXVzZXJzIiwibWFuYWdlLWV2ZW50cyIsIm1hbmFnZS1yZWFsbSIsInZpZXctZXZlbnRzIiwidmlldy11c2VycyIsInZpZXctY2xpZW50cyIsIm1hbmFnZS1hdXRob3JpemF0aW9uIiwibWFuYWdlLWNsaWVudHMiLCJxdWVyeS1ncm91cHMiXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6ImNkOTIxMTVhLTAxZDgtNDk1Zi04NjhlLTcyYTNiY2M3OTJjMiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IlN5c3RlbSBBZG1pbmlzdHJhdG9yIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW4iLCJnaXZlbl9uYW1lIjoiU3lzdGVtIiwiZmFtaWx5X25hbWUiOiJBZG1pbmlzdHJhdG9yIn0.mCuhqGHBsXBuukw2H3wg1ilJD-wKm1x3FnUkxUqnDHidtEszEXGxdisBf4DlAYps3HHCfPr6DSQbGTrtKGOgEyv9Y7ubyLuKtv2QF_qPReSVjtm7Yol6IMLEb6exs-p29jiDULL1S2v2rQhQZJDSwmQRacgK5DfohZApTRrU-EfrKeL3JKLGNSuXBHkexOY3m8OaQPgRdAauZu5KRuvO6N4ZBf9zNVL1XRoiC5Gz_0a_ZGN1QFYZrmiy-6_vkgKpqV6K-aYuw1Z1OGZ6PaS7YNzNxL3FOUdlB1Sz2XlcsYhHH9ITw7NXQWtMZh51Gk4n5qX1LKyFLAU2-Y6uK8NX4g";
         show_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,7 +221,7 @@ public class GraphFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                ExportdataAPI export_data = new ExportdataAPI("https://uiot.ixxc.dev/api/master/asset/datapoint/export","GET",query,token);
+                                ExportdataAPI export_data = new ExportdataAPI("https://uiot.ixxc.dev/api/master/asset/datapoint/export","GET",query, Dashboard.token);
                                 data = export_data.GetData();
                                 int stop  = 0;
                                 SortedSet<Date> keys = new TreeSet<>(data.keySet());

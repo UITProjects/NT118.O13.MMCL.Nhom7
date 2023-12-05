@@ -22,7 +22,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class Login extends AppCompatActivity {
     Spinner spinner;
@@ -145,14 +148,45 @@ public class Login extends AppCompatActivity {
                     return;
                 }
                 else {
-                    CookieManager cookieManager = CookieManager.getInstance();
-                    cookieManager.removeAllCookies(null);
+                    Map<String,String> parameter = new HashMap<>();
+                    parameter.put("client_id","openremote");
+                    parameter.put("username",username_edt.getText().toString());
+                    parameter.put("password",password_edt.getText().toString());
+                    parameter.put("grant_type","password");
+                    Thread login_Thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                CustomRequest request = new CustomRequest(
+                                        "https://uiot.ixxc.dev/auth/realms/master/protocol/openid-connect/token",
+                                        "POST",
+                                        null,
+                                        parameter
+                                );
+                                Map<String,String> response = request.sendRequest();
+                                String token = response.get("access_token");
+                                Intent dashboard = new Intent(getApplicationContext(),Dashboard.class);
+                                if (token==null){
+                                    ui_handle.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    return;
+                                }
+                                dashboard.putExtra("access_token",token);
+                                startActivity(dashboard);
+
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                        }
+                    });
+                    login_Thread.start();
 
 
-                    login_webview.clearCache(true);
-                    login_webview.clearHistory();
-                    login_webview.getSettings().setJavaScriptEnabled(true);
-                    login_webview.loadUrl("https://uiot.ixxc.dev/manager/");
                 }
             }
         });

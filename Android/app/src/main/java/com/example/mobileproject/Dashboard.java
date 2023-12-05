@@ -1,5 +1,7 @@
 package com.example.mobileproject;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.mobileproject.CustomFragmentAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,16 +21,36 @@ public class Dashboard extends AppCompatActivity {
 
     BottomNavigationView mBottomNavigationView;
     ViewPager2 viewPager;
+    public static String token;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_dashboard);
         Intent current_intent = getIntent();
+        Dashboard.token = current_intent.getStringExtra("access_token");
+
+
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                return;
+            }
+        });
+
+
+
+
+
+
+
 
         viewPager = findViewById(R.id.viewPager);
         mBottomNavigationView = findViewById(R.id.bottom_navigation);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setFocusable(View.FOCUSABLE);
         viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
@@ -70,7 +93,10 @@ public class Dashboard extends AppCompatActivity {
                     case 1:
                         mBottomNavigationView.getMenu().findItem(R.id.menu_graph).setChecked(true);
                         viewPager.setUserInputEnabled(true);
-
+                        break;
+                    case 2:
+                        mBottomNavigationView.getMenu().findItem(R.id.menu_user).setChecked(true);
+                        viewPager.setUserInputEnabled(true);
                         break;
                 }
             }
@@ -88,6 +114,9 @@ public class Dashboard extends AppCompatActivity {
                    }
                } else if (itemId == R.id.menu_graph) {
                    viewPager.setCurrentItem(1);
+                   viewPager.setUserInputEnabled(true);
+               } else if (itemId==R.id.menu_user) {
+                   viewPager.setCurrentItem(2);
                    viewPager.setUserInputEnabled(true);
                }
 

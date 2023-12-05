@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.mobileproject.graph.GraphFragment;
 import com.example.mobileproject.map.MapFragment;
+import com.example.mobileproject.user.UserSettingFragment;
 
 public class CustomFragmentAdapter extends FragmentStateAdapter {
 
@@ -25,12 +26,15 @@ public class CustomFragmentAdapter extends FragmentStateAdapter {
                 return new MapFragment();
             case 1:
                 return new GraphFragment();
+            case 2:
+                return new UserSettingFragment();
+
         }
         return new MapFragment();
     }
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 
 
