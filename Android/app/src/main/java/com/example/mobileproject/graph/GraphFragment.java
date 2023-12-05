@@ -311,7 +311,7 @@ public class GraphFragment extends Fragment {
                                         graphView.setTitleTextSize(50);
                                         graphView.getViewport().setXAxisBoundsManual(true);
                                         graphView.getViewport().setMinX(temp[0].getX());
-                                        graphView.getViewport().setMaxX(temp[temp.length-1].getX()+(double) 2*3600*1000);
+                                        graphView.getViewport().setMaxX(temp[temp.length-1].getX());
                                         graphView.getViewport().setScalable(true);
                                         graphView.getGridLabelRenderer().setLabelFormatter(custom_formatter);
 
