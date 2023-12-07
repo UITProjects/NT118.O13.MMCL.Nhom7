@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.mobileproject.CustomRequest;
 import com.example.mobileproject.Dashboard;
 import com.example.mobileproject.R;
 
@@ -35,6 +34,7 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MapFragment extends Fragment {
 
@@ -43,9 +43,37 @@ public class MapFragment extends Fragment {
     Handler ui_handler = new Handler();
     Map<String,String> asset_data;
 
-    void showMarkerDialog(View current_view,String title){
+    Thread createWeatherAssetThread(String asset_id){
+        Thread thread = new Thread(new Runnable() {
+            final Map<String,String> header = new HashMap<>();
+
+            @Override
+            public void run() {
+                header.put("Authorization", "Bearer ".concat(Dashboard.token));
+                header.put("accept","application/json");
+                try {
+                    AssetApi request = new AssetApi(
+                            String.format("https://uiot.ixxc.dev/api/master/asset/%s",asset_id),
+                            "GET",
+                            Dashboard.token
+                    );
+                    asset_data = request.GeData();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        return thread;
+    }
 
 
+
+
+
+    void showDefaultWeatherMarker(View current_view, String title) throws InterruptedException {
+        Thread thread = createWeatherAssetThread("5zI6XqkQVSfdgOrZ1MyWEf");
+        thread.start();
+        thread.join();
         Dialog marker_dialog = new Dialog(current_view.getContext());
         marker_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         marker_dialog.setContentView(R.layout.bottomsheetlayout_marker);
@@ -89,33 +117,6 @@ public class MapFragment extends Fragment {
 
     }
 
-    Thread weather_asset_thread = new Thread(new Runnable() {
-        Map<String,String> header = new HashMap<>();
-
-
-        @Override
-        public void run() {
-            header.put("Authorization", "Bearer ".concat(Dashboard.token));
-            header.put("accept","application/json");
-            try {
-                AssetApi request = new AssetApi(
-                        "https://uiot.ixxc.dev/api/master/asset/5zI6XqkQVSfdgOrZ1MyWEf",
-                        "GET",
-                        Dashboard.token
-                );
-                asset_data = request.GeData();
-
-
-                int stop = 0;
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-    });
-
-
 
 
 
@@ -136,12 +137,24 @@ public class MapFragment extends Fragment {
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMinZoomLevel(0.0);
         map.setMaxZoomLevel(19.0);
-        weather_asset_thread.start();
 
 
         IMapController mapController = map.getController();
         mapController.setZoom(19.0);
-        GeoPoint startPoint = new GeoPoint(10.869905172970164, 106.80345028525176);
+
+        Thread thread = createWeatherAssetThread("5zI6XqkQVSfdgOrZ1MyWEf");
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        GeoPoint startPoint = new GeoPoint(
+                Double.parseDouble(Objects.requireNonNull(asset_data.get("latitude"))),
+                Double.parseDouble(Objects.requireNonNull(asset_data.get("longitude")))
+                );
         mapController.setCenter(startPoint);
 
 
@@ -164,28 +177,49 @@ public class MapFragment extends Fragment {
 
         defaultweather_marker.setImage(icon);
         defaultweather_marker.setTitle("Default weather");
-        defaultweather_marker.setPosition(new GeoPoint(10.869778736885038,106.80280655508835));
+        defaultweather_marker.setPosition(new GeoPoint(
+                Double.parseDouble(Objects.requireNonNull(asset_data.get("latitude"))),
+                Double.parseDouble(Objects.requireNonNull(asset_data.get("longitude")))
+        ));
+
         defaultweather_marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        defaultweather_marker.setIcon(res.getDrawable(R.drawable.weather_partly_cloudy, ctx.getTheme()));
         defaultweather_marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker, MapView mapView) {
-                showMarkerDialog(mapView,marker.getTitle());
+                try {
+                    showDefaultWeatherMarker(mapView,marker.getTitle());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 return false;
             }
         });
 
 
-
-
-        map.getOverlays().add(defaultweather_marker);
-        map.invalidate();
-
-
+        thread = createWeatherAssetThread("6iWtSbgqMQsVq8RPkJJ9vo");
+        thread.start();
         try {
-            weather_asset_thread.join();
+            thread.join();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        Marker light_marker = new Marker(map);
+        light_marker.setTitle("Light");
+        light_marker.setPosition(new GeoPoint(
+                Double.parseDouble(Objects.requireNonNull(asset_data.get("latitude"))),
+                Double.parseDouble(Objects.requireNonNull(asset_data.get("longitude")))
+        ));
+        light_marker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
+
+
+
+
+        map.getOverlays().add(defaultweather_marker);
+        map.getOverlays().add(light_marker);
+        map.invalidate();
+
         return view;
     }
 

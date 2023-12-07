@@ -11,17 +11,6 @@ import java.util.Map;
 public class AssetApi {
    URL url;
    HttpURLConnection con;
-   void readWhile(InputStream stream, char[] specificChars) throws IOException {
-      InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-      char[] buffer = new char[specificChars.length];
-      while (reader.read(buffer) != -1) {
-         if (Arrays.equals(buffer, specificChars)) {
-            // the specific chars were found
-            return;
-         }
-      }
-   }
-
 
 
    String readUntilChar(BufferedReader reader, char until_char) throws IOException {
