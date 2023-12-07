@@ -35,6 +35,20 @@ public class AssetApi {
    }
 
 
+
+   String readToComma(BufferedReader reader) throws IOException {
+      StringBuilder builder = new StringBuilder();
+      char current_char;
+      while (true){
+         current_char = (char) reader.read();
+         if (current_char==',')
+            break;
+         builder.append(current_char);
+      }
+      return builder.toString();
+   }
+
+
    public AssetApi(String url, String method,String token) throws IOException
    {
       this.url = new URL(url);
@@ -63,25 +77,37 @@ public class AssetApi {
       in.close();
       InputStream response_stream = new ByteArrayInputStream(raw_data);
 
+      Map<String, String> result = new HashMap<>();
+
       BufferedReader reader = new BufferedReader(new InputStreamReader(response_stream));
+      String next ;
+      String[] elements;
+      String key;
+      String value;
+      try {
+         while (true) {
+            next = readToComma(reader);
+            if (next.contains("value")) {
+               elements = next.split(":");
+               value = elements[1];
+               next = readToComma(reader);
+               elements = next.split(":");
+               key = elements[1];
+               result.put(key, value);
 
 
-      StringBuilder builder  = new StringBuilder();
-      while (!builder.toString().contains("sunIrradiance")) {
-         char temp = (char) reader.read();
-         builder.append(temp);
-         builder.toString();
+            }
+
+         }
+      }catch (IOException e)
+      {
+         return result;
       }
 
-      String line = reader.readLine();
-      int stop = 0 ;
 
 
 
 
-      Map<String, String> list = new HashMap<>();
-
-      return list;
 
    }
 }
