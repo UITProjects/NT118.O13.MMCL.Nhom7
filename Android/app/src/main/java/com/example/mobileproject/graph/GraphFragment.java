@@ -390,8 +390,6 @@ public class GraphFragment extends Fragment {
         ArrayAdapter<String> attribute_adapter = new ArrayAdapter<>(graph_View.getContext(), android.R.layout.simple_spinner_item,attribute_ArrayList);
         attribute_adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
         attribute_spinner.setAdapter(attribute_adapter);
-
-
         return graph_View;
     }
 

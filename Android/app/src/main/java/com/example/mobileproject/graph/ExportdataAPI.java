@@ -80,7 +80,6 @@ public class ExportdataAPI {
 
         StringBuilder builder = new StringBuilder();
         String line;
-        boolean first = true;
         Map<Date, Float> list = new HashMap<>();
         reader.readLine();
         while ((line = reader.readLine()) != null) {
@@ -94,7 +93,6 @@ public class ExportdataAPI {
                 }catch (java.lang.IllegalArgumentException e) {
                     Log.d("custom_error",e.toString());
                     Log.d("custom_error",line);
-
                     continue;
                 }
         }
