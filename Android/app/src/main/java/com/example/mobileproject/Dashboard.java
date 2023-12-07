@@ -25,6 +25,7 @@ public class Dashboard extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,10 +118,6 @@ public class Dashboard extends AppCompatActivity {
                return true;
            }
        });
-
-
-
-
 
 
 
