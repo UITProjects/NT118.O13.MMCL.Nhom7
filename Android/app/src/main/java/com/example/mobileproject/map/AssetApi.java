@@ -1,37 +1,32 @@
 package com.example.mobileproject.map;
 
-import android.util.Log;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipInputStream;
 
 public class AssetApi {
    URL url;
    HttpURLConnection con;
-   void readWhile(InputStream stream, char[] specificChars) throws IOException {
-      InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-      char[] buffer = new char[specificChars.length];
-      while (reader.read(buffer) != -1) {
-         if (Arrays.equals(buffer, specificChars)) {
-            // the specific chars were found
-            return;
-         }
+
+
+   String readUntilChar(BufferedReader reader, char until_char) throws IOException {
+      StringBuilder builder = new StringBuilder();
+      char current_char;
+      while (true){
+         int char_int = reader.read();
+         if(char_int == -1)
+            return "";
+
+         current_char = (char) char_int;
+         if (current_char==until_char)
+            break;
+         builder.append(current_char);
       }
+      return builder.toString();
    }
 
 
@@ -63,25 +58,50 @@ public class AssetApi {
       in.close();
       InputStream response_stream = new ByteArrayInputStream(raw_data);
 
+      Map<String, String> result = new HashMap<>();
+
       BufferedReader reader = new BufferedReader(new InputStreamReader(response_stream));
 
 
-      StringBuilder builder  = new StringBuilder();
-      while (!builder.toString().contains("sunIrradiance")) {
-         char temp = (char) reader.read();
-         builder.append(temp);
-         builder.toString();
+
+
+      String next ;
+      String[] elements;
+      String key;
+      String value;
+      try {
+         while (true) {
+            next = readUntilChar(reader,',');
+
+
+            if (next.isEmpty())
+               return result;
+
+            if (next.contains("value")) {
+               elements = next.split(":");
+               value = elements[1];
+               next = readUntilChar(reader,',');
+               elements = next.split(":");
+               key = elements[1];
+               result.put(key.replace("\"",""), value.replace("\"",""));
+            }
+            else if(next.contains("location")){
+               readUntilChar(reader,'[');
+               String[] coordinate  = readUntilChar(reader,']').split(",");
+               result.put("longitude",coordinate[0]);
+               result.put("latitude",coordinate[1]);
+
+               for(int i = 0 ;i<3;i++)
+                  readUntilChar(reader,',');
+            }
+
+         }
+      }catch (IOException e)
+      {
+         return  result;
       }
 
-      String line = reader.readLine();
-      int stop = 0 ;
 
-
-
-
-      Map<String, String> list = new HashMap<>();
-
-      return list;
 
    }
 }
