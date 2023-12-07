@@ -74,27 +74,27 @@ public class MapFragment extends Fragment {
         Thread thread = createWeatherAssetThread("5zI6XqkQVSfdgOrZ1MyWEf");
         thread.start();
         thread.join();
-        Dialog marker_dialog = new Dialog(current_view.getContext());
-        marker_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        marker_dialog.setContentView(R.layout.bottomsheetlayout_marker);
-        marker_dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        marker_dialog.getWindow().setGravity(Gravity.BOTTOM);
-        marker_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        TextView title_textview = marker_dialog.findViewById(R.id.txtview_title);
-        TextView humidity_value = marker_dialog.findViewById(R.id.txtview_humidity_value);
-        TextView manufacturer = marker_dialog.findViewById(R.id.txtview_manufacturer_value);
-        TextView place = marker_dialog.findViewById(R.id.txtview_place_value);
-        TextView rainfall_value = marker_dialog.findViewById(R.id.txtview_rainfall_value);
-        TextView sun_altitude = marker_dialog.findViewById(R.id.txtview_sunaltitude_value);
-        TextView sun_zenith = marker_dialog.findViewById(R.id.txtview_zenith_value);
-        TextView tags = marker_dialog.findViewById(R.id.txtview_tags_value);
-        TextView temp_value = marker_dialog.findViewById(R.id.txtview_temperature_value);
-        TextView uv_index = marker_dialog.findViewById(R.id.txtview_uvindex_value);
-        TextView wind_direction = marker_dialog.findViewById(R.id.txtview_winddirection_value);
-        TextView wind_speed = marker_dialog.findViewById(R.id.txtview_windspeed_value);
+        Dialog dialog = new Dialog(current_view.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.weather_asset_marker);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        TextView title_textview = dialog.findViewById(R.id.txtview_title);
+        TextView humidity_value = dialog.findViewById(R.id.txtview_humidity_value);
+        TextView manufacturer = dialog.findViewById(R.id.txtview_manufacturer_value);
+        TextView place = dialog.findViewById(R.id.txtview_place_value);
+        TextView rainfall_value = dialog.findViewById(R.id.txtview_rainfall_value);
+        TextView sun_altitude = dialog.findViewById(R.id.txtview_sunaltitude_value);
+        TextView sun_zenith = dialog.findViewById(R.id.txtview_zenith_value);
+        TextView tags = dialog.findViewById(R.id.txtview_tags_value);
+        TextView temp_value = dialog.findViewById(R.id.txtview_temperature_value);
+        TextView uv_index = dialog.findViewById(R.id.txtview_uvindex_value);
+        TextView wind_direction = dialog.findViewById(R.id.txtview_winddirection_value);
+        TextView wind_speed = dialog.findViewById(R.id.txtview_windspeed_value);
 
-        TextView sun_azimuth = marker_dialog.findViewById(R.id.txtview_azimuth_value);
-        TextView sun_ir_radiance = marker_dialog.findViewById(R.id.txtview_sunirradiance_value);
+        TextView sun_azimuth = dialog.findViewById(R.id.txtview_azimuth_value);
+        TextView sun_ir_radiance = dialog.findViewById(R.id.txtview_sunirradiance_value);
         sun_ir_radiance.append(asset_data.get("sunIrradiance"));
         sun_azimuth.append(asset_data.get("sunAzimuth"));
 
@@ -111,11 +111,35 @@ public class MapFragment extends Fragment {
         wind_direction.append(asset_data.get("windDirection"));
 
         title_textview.setText(title);
-
-
-        marker_dialog.show();
-
+        dialog.show();
     }
+
+    void showLightMarker(View current_view,String title) throws InterruptedException {
+        Thread thread = createWeatherAssetThread("6iWtSbgqMQsVq8RPkJJ9vo");
+        thread.start();
+        thread.join();
+        Dialog dialog = new Dialog(current_view.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.light_marker);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        TextView brightness = dialog.findViewById(R.id.txtview_brightness_value);
+        TextView colour_r  = dialog.findViewById(R.id.txtview_colour_r_value);
+        TextView colour_k  = dialog.findViewById(R.id.txtview_colour_k_value);
+        TextView email = dialog.findViewById(R.id.txtview_email_value);
+        TextView status = dialog.findViewById(R.id.txtview_status_value);
+        TextView tags = dialog.findViewById(R.id.txtview_tags_value);
+        brightness.append(asset_data.get("brightness"));
+        colour_r.append(asset_data.get("colourRGB"));
+        colour_k.append(asset_data.get("colourTemperature"));
+        email.append(asset_data.get("email"));
+        status.append(asset_data.get("onOff"));
+        tags.append(asset_data.get("tags"));
+        dialog.show();
+    }
+
+
 
 
 
@@ -214,6 +238,17 @@ public class MapFragment extends Fragment {
         light_marker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
 
 
+        light_marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+                try {
+                    showLightMarker(mapView,marker.getTitle());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                return false;
+            }
+        });
 
 
         map.getOverlays().add(defaultweather_marker);

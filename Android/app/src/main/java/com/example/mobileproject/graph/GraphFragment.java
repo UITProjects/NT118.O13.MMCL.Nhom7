@@ -46,7 +46,7 @@ import java.util.TreeSet;
 
 public class GraphFragment extends Fragment {
 
-    View graph_View;
+    View view;
     public static long last_time ;
     public static int axis_x_format;
     public static int mode;
@@ -55,7 +55,7 @@ public class GraphFragment extends Fragment {
     Button show_btn;
     TextView realtime_txtview,history_txtview;
     Map<Date,Float> data;
-    GraphView graphView;
+    GraphView graph;
     LineGraphSeries<DataPoint> series;
     Handler ui_handler = new Handler();
     TextView mode_edt ;
@@ -101,13 +101,13 @@ public class GraphFragment extends Fragment {
     @Nullable
     @Override
     public View getView() {
-        return graphView;
+        return graph;
     }
 
     @Override
     public void onResume() {
         show_btn.setVisibility(View.VISIBLE);
-        graphView.setVisibility(View.VISIBLE);
+        graph.setVisibility(View.VISIBLE);
         mode_edt.setVisibility(View.VISIBLE);
         attribute_spinner.setVisibility(View.VISIBLE);
 
@@ -118,7 +118,7 @@ public class GraphFragment extends Fragment {
     @Override
     public void onStart() {
         show_btn.setVisibility(View.GONE);
-        graphView.setVisibility(View.GONE);
+        graph.setVisibility(View.GONE);
         mode_edt.setVisibility(View.GONE);
         attribute_spinner.setVisibility(View.GONE);
         super.onStart();
@@ -127,7 +127,7 @@ public class GraphFragment extends Fragment {
     @Override
     public void onPause() {
         show_btn.setVisibility(View.GONE);
-        graphView.setVisibility(View.GONE);
+        graph.setVisibility(View.GONE);
         mode_edt.setVisibility(View.GONE);
         attribute_spinner.setVisibility(View.GONE);
         super.onPause();
@@ -147,12 +147,12 @@ public class GraphFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        graph_View =  inflater.inflate(R.layout.fragment_graph_fragment, container, false);
-        show_btn = graph_View.findViewById(R.id.btn_show);
+        view =  inflater.inflate(R.layout.fragment_graph_fragment, container, false);
+        show_btn = view.findViewById(R.id.btn_show);
         show_btn.setVisibility(View.GONE);
 
 
-        mode_edt= graph_View.findViewById(R.id.edt_mode);
+        mode_edt= view.findViewById(R.id.edt_mode);
         mode_edt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,12 +180,12 @@ public class GraphFragment extends Fragment {
         paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
 
 
-        graphView = graph_View.findViewById(R.id.idGraphView);
-        graphView.setTitleColor(R.color.yellow);
-        graphView.setCursorMode(true);
-        graphView.setTitleColor(R.color.yellow);
-        graphView.setTitleTextSize(30);
-        graphView.setOnTouchListener(new View.OnTouchListener() {
+        graph = view.findViewById(R.id.idGraphView);
+        graph.setTitleColor(R.color.yellow);
+        graph.setCursorMode(true);
+        graph.setTitleColor(R.color.yellow);
+        graph.setTitleTextSize(30);
+        graph.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -195,7 +195,6 @@ public class GraphFragment extends Fragment {
                 }
                 if (Dashboard.viewPager.isUserInputEnabled())
                     Dashboard.viewPager.setUserInputEnabled(false);
-
 
                 return false;
             }
@@ -236,7 +235,7 @@ public class GraphFragment extends Fragment {
         };
 
 
-        DateAsXAxisLabelFormatter test = new DateAsXAxisLabelFormatter(graph_View.getContext());
+        DateAsXAxisLabelFormatter test = new DateAsXAxisLabelFormatter(view.getContext());
 
 
         show_btn.setOnClickListener(new View.OnClickListener() {
@@ -275,45 +274,44 @@ public class GraphFragment extends Fragment {
                                     count++;
                                 }
                                 if (attribute_id == 0)
-                                    graphView.setTitle("Temperature");
+                                    graph.setTitle("Temperature");
                                 else if (attribute_id==1)
-                                    graphView.setTitle("Humidity");
+                                    graph.setTitle("Humidity");
                                 else if(attribute_id==2)
-                                    graphView.setTitle("Rainfall");
+                                    graph.setTitle("Rainfall");
                                 else if(attribute_id==3)
-                                    graphView.setTitle("Wind speed");
+                                    graph.setTitle("Wind speed");
                                 series = new LineGraphSeries<>(temp);
                                 ui_handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        graphView.removeAllSeries();
+                                        graph.removeAllSeries();
                                         series.setCustomPaint(paint);
                                         series.setDrawDataPoints(true);
                                         series.setDataPointsRadius(10);
-                                        graphView.getViewport().setYAxisBoundsManual(true);
+                                        graph.getViewport().setYAxisBoundsManual(true);
                                         if (attribute_id==0) {
-                                            graphView.getViewport().setMinY(0);
-                                            graphView.getViewport().setMaxY(35);
+                                            graph.getViewport().setMinY(0);
+                                            graph.getViewport().setMaxY(35);
                                         }
                                         else if(attribute_id==1){
-                                            graphView.getViewport().setMinY(0);
-                                            graphView.getViewport().setMaxY(90);
+                                            graph.getViewport().setMinY(0);
+                                            graph.getViewport().setMaxY(90);
                                         }
                                         else if(attribute_id == 2){
-                                            graphView.getViewport().setMinY(0);
-                                            graphView.getViewport().setMaxY(10);
+                                            graph.getViewport().setMinY(0);
+                                            graph.getViewport().setMaxY(10);
                                         }
                                         else if(attribute_id==3){
-                                            graphView.getViewport().setMinY(0);
-                                            graphView.getViewport().setMaxY(7);
+                                            graph.getViewport().setMinY(0);
+                                            graph.getViewport().setMaxY(7);
                                         }
-                                        graphView.addSeries(series);
-                                        graphView.setTitleTextSize(50);
-                                        graphView.getViewport().setXAxisBoundsManual(true);
-                                        graphView.getViewport().setMinX(temp[0].getX());
-                                        graphView.getViewport().setMaxX(temp[temp.length-1].getX());
-                                        graphView.getViewport().setScalable(true);
-                                        graphView.getGridLabelRenderer().setLabelFormatter(custom_formatter);
+                                        graph.addSeries(series);
+                                        graph.setTitleTextSize(50);
+                                        graph.getViewport().setXAxisBoundsManual(true);
+                                        graph.getViewport().setMinX(temp[0].getX());
+                                        graph.getViewport().setMaxX(temp[temp.length-1].getX());
+                                        graph.getGridLabelRenderer().setLabelFormatter(custom_formatter);
 
 
                                     }
@@ -345,7 +343,7 @@ public class GraphFragment extends Fragment {
         });
 
 
-        realtime_txtview = graph_View.findViewById(R.id.txtview_realtime);
+        realtime_txtview = view.findViewById(R.id.txtview_realtime);
         realtime_txtview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -354,7 +352,7 @@ public class GraphFragment extends Fragment {
         });
 
 
-        history_txtview = graph_View.findViewById(R.id.txtview_history);
+        history_txtview = view.findViewById(R.id.txtview_history);
         history_txtview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -365,7 +363,7 @@ public class GraphFragment extends Fragment {
 
 
 
-        attribute_spinner = graph_View.findViewById(R.id.spinner_attribute);
+        attribute_spinner = view.findViewById(R.id.spinner_attribute);
         attribute_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -387,10 +385,10 @@ public class GraphFragment extends Fragment {
         attribute_ArrayList.add("Humidity");
         attribute_ArrayList.add("Rainfall");
         attribute_ArrayList.add("Wind speed");
-        ArrayAdapter<String> attribute_adapter = new ArrayAdapter<>(graph_View.getContext(), android.R.layout.simple_spinner_item,attribute_ArrayList);
+        ArrayAdapter<String> attribute_adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item,attribute_ArrayList);
         attribute_adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
         attribute_spinner.setAdapter(attribute_adapter);
-        return graph_View;
+        return view;
     }
 
 
