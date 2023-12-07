@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.mobileproject.Home.HomeFragment;
 import com.example.mobileproject.graph.GraphFragment;
 import com.example.mobileproject.map.MapFragment;
 import com.example.mobileproject.user.UserSettingFragment;
@@ -28,6 +29,8 @@ public class CustomFragmentAdapter extends FragmentStateAdapter {
                 return new GraphFragment();
             case 2:
                 return new UserSettingFragment();
+            case 3:
+                return new HomeFragment();
 
         }
         return new MapFragment();
