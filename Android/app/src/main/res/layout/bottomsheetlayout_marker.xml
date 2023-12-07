@@ -35,6 +35,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Place"
+                android:textSize="23dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Rainfall (mm)"
                 android:textSize="23dp" />
             <TextView
@@ -95,7 +101,80 @@
                 android:layout_height="wrap_content"
                 android:hint="value"
                 android:id="@+id/txtview_humidity_value"
-                android:textSize="25dp" />
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_manufacturer_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_place_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_rainfall_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_sunaltitude_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_azimuth_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_sunirradiance_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_zenith_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_tags_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_temperature_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_uvindex_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_winddirection_value"
+                android:textSize="23dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="value"
+                android:id="@+id/txtview_windspeed_value"
+                android:textSize="23dp" />
+
 
         </LinearLayout>
     </LinearLayout>

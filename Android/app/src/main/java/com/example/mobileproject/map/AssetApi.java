@@ -30,7 +30,7 @@ public class AssetApi {
       while (true){
          int char_int = reader.read();
          if(char_int == -1)
-            return null;
+            return "";
 
          current_char = (char) char_int;
          if (current_char==until_char)
@@ -72,6 +72,10 @@ public class AssetApi {
       Map<String, String> result = new HashMap<>();
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(response_stream));
+
+
+
+
       String next ;
       String[] elements;
       String key;
@@ -93,7 +97,6 @@ public class AssetApi {
                result.put(key.replace("\"",""), value.replace("\"",""));
             }
             else if(next.contains("location")){
-               elements = next.split(":");
                readUntilChar(reader,'[');
                String[] coordinate  = readUntilChar(reader,']').split(",");
                result.put("longitude",coordinate[0]);
@@ -104,7 +107,7 @@ public class AssetApi {
             }
 
          }
-      }catch (NullPointerException e)
+      }catch (IOException e)
       {
          return  result;
       }

@@ -54,7 +54,34 @@ public class MapFragment extends Fragment {
         marker_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         TextView title_textview = marker_dialog.findViewById(R.id.txtview_title);
         TextView humidity_value = marker_dialog.findViewById(R.id.txtview_humidity_value);
-        humidity_value.append("99");
+        TextView manufacturer = marker_dialog.findViewById(R.id.txtview_manufacturer_value);
+        TextView place = marker_dialog.findViewById(R.id.txtview_place_value);
+        TextView rainfall_value = marker_dialog.findViewById(R.id.txtview_rainfall_value);
+        TextView sun_altitude = marker_dialog.findViewById(R.id.txtview_sunaltitude_value);
+        TextView sun_zenith = marker_dialog.findViewById(R.id.txtview_zenith_value);
+        TextView tags = marker_dialog.findViewById(R.id.txtview_tags_value);
+        TextView temp_value = marker_dialog.findViewById(R.id.txtview_temperature_value);
+        TextView uv_index = marker_dialog.findViewById(R.id.txtview_uvindex_value);
+        TextView wind_direction = marker_dialog.findViewById(R.id.txtview_winddirection_value);
+        TextView wind_speed = marker_dialog.findViewById(R.id.txtview_windspeed_value);
+
+        TextView sun_azimuth = marker_dialog.findViewById(R.id.txtview_azimuth_value);
+        TextView sun_ir_radiance = marker_dialog.findViewById(R.id.txtview_sunirradiance_value);
+        sun_ir_radiance.append(asset_data.get("sunIrradiance"));
+        sun_azimuth.append(asset_data.get("sunAzimuth"));
+
+        humidity_value.append(asset_data.get("humidity"));
+        temp_value.append(asset_data.get("temperature"));
+        manufacturer.append(asset_data.get("manufacturer"));
+        place.append(asset_data.get("place"));
+        rainfall_value.append(asset_data.get("rainfall"));
+        sun_altitude.append(asset_data.get("sunAltitude"));
+        sun_zenith.append(asset_data.get("sunZenith"));
+        tags.append(asset_data.get("tags"));
+        uv_index.append(asset_data.get("uVIndex"));
+        wind_speed.append(asset_data.get("windSpeed"));
+        wind_direction.append(asset_data.get("windDirection"));
+
         title_textview.setText(title);
 
 
@@ -76,7 +103,7 @@ public class MapFragment extends Fragment {
                         "GET",
                         Dashboard.token
                 );
-                Map<String,String> asset_data = request.GeData();
+                asset_data = request.GeData();
 
 
                 int stop = 0;
