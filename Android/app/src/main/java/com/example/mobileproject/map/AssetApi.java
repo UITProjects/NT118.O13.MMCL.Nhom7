@@ -1,24 +1,12 @@
 package com.example.mobileproject.map;
 
-import android.util.Log;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipInputStream;
 
 public class AssetApi {
    URL url;
@@ -36,12 +24,16 @@ public class AssetApi {
 
 
 
-   String readToComma(BufferedReader reader) throws IOException {
+   String readUntilChar(BufferedReader reader, char until_char) throws IOException {
       StringBuilder builder = new StringBuilder();
       char current_char;
       while (true){
-         current_char = (char) reader.read();
-         if (current_char==',')
+         int char_int = reader.read();
+         if(char_int == -1)
+            return null;
+
+         current_char = (char) char_int;
+         if (current_char==until_char)
             break;
          builder.append(current_char);
       }
@@ -86,26 +78,36 @@ public class AssetApi {
       String value;
       try {
          while (true) {
-            next = readToComma(reader);
+            next = readUntilChar(reader,',');
+
+
+            if (next.isEmpty())
+               return result;
+
             if (next.contains("value")) {
                elements = next.split(":");
                value = elements[1];
-               next = readToComma(reader);
+               next = readUntilChar(reader,',');
                elements = next.split(":");
                key = elements[1];
-               result.put(key, value);
+               result.put(key.replace("\"",""), value.replace("\"",""));
+            }
+            else if(next.contains("location")){
+               elements = next.split(":");
+               readUntilChar(reader,'[');
+               String[] coordinate  = readUntilChar(reader,']').split(",");
+               result.put("longitude",coordinate[0]);
+               result.put("latitude",coordinate[1]);
 
-
+               for(int i = 0 ;i<3;i++)
+                  readUntilChar(reader,',');
             }
 
          }
-      }catch (IOException e)
+      }catch (NullPointerException e)
       {
-         return result;
+         return  result;
       }
-
-
-
 
 
 

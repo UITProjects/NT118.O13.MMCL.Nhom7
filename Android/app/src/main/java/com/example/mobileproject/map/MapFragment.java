@@ -41,6 +41,7 @@ public class MapFragment extends Fragment {
     View view;
     MapView map;
     Handler ui_handler = new Handler();
+    Map<String,String> asset_data;
 
     void showMarkerDialog(View current_view,String title){
 
