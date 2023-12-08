@@ -2,6 +2,7 @@ package com.example.mobileproject.home;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,12 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        background_Thread.interrupt();
+        super.onDestroyView();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -48,6 +55,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void run() {
                 while(true){
+
+
                     try {
                         AssetApi request = new AssetApi(
                                 String.format("https://uiot.ixxc.dev/api/master/asset/%s","5zI6XqkQVSfdgOrZ1MyWEf"),
@@ -63,6 +72,7 @@ public class HomeFragment extends Fragment {
                                 win_dir.setText(response.get("windDirection"));
                                 win_speed.setText(Objects.requireNonNull(response.get("windSpeed")).concat(" km/s"));
                                 rainfall.setText(Objects.requireNonNull(response.get("rainfall")).concat(" mm"));
+                                Log.d("interrupt","false");
 
 
                             }
@@ -71,7 +81,13 @@ public class HomeFragment extends Fragment {
 
                         Thread.sleep(1800000);
                     } catch (IOException | InterruptedException e) {
-                        throw new RuntimeException(e);
+                        ui_handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("interrupt","true");
+                            }
+                        });
+                        return;
                     }
                 }
             }
