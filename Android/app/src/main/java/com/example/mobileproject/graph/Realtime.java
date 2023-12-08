@@ -48,7 +48,7 @@ public class Realtime extends Fragment {
                 }
                 else if(item.contains("month")){
                     GraphFragment.last_time = Long.parseLong(item.split(" ")[0])*86400*30*1000;
-                    GraphFragment.axis_x_format = 1;
+                    GraphFragment.axis_x_format = 2;
                 }
             }
 

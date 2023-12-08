@@ -164,7 +164,7 @@ public class MapFragment extends Fragment {
 
 
         IMapController mapController = map.getController();
-        mapController.setZoom(19.0);
+        mapController.setZoom(16.0);
 
         Thread thread = createWeatherAssetThread("5zI6XqkQVSfdgOrZ1MyWEf");
         thread.start();

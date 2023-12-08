@@ -212,8 +212,8 @@ public class GraphFragment extends Fragment {
                     calendar.setTimeInMillis((long)value);
                     if (GraphFragment.axis_x_format==0)
                         return String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)).concat(":00");
-                    else if(GraphFragment.axis_x_format==1)
-                        return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)).concat("/"+String.valueOf(calendar.get(Calendar.MONTH))).concat(" "+String.valueOf(calendar.get(Calendar.HOUR_OF_DAY))+":00");
+                    else
+                        return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)).concat("/"+ calendar.get(Calendar.MONTH));
                 }
                 DecimalFormat df = new DecimalFormat("0.00");
                 if (attribute_id==0)
@@ -234,8 +234,6 @@ public class GraphFragment extends Fragment {
             }
         };
 
-
-        DateAsXAxisLabelFormatter test = new DateAsXAxisLabelFormatter(view.getContext());
 
 
         show_btn.setOnClickListener(new View.OnClickListener() {
@@ -258,7 +256,7 @@ public class GraphFragment extends Fragment {
                                 data = export_data.GetData();
                                 int stop  = 0;
                                 SortedSet<Date> keys = new TreeSet<>(data.keySet());
-                                DataPoint[] temp = new DataPoint[keys.size()];
+                                DataPoint[] datapoints_temp = new DataPoint[keys.size()];
                                 if (data.isEmpty()){
                                     ui_handler.post(new Runnable() {
                                         @Override
@@ -270,9 +268,10 @@ public class GraphFragment extends Fragment {
                                 }
                                 int count = 0 ;
                                 for (Date key :keys){
-                                    temp[count] = new DataPoint(key,data.get(key));
+                                    datapoints_temp[count] = new DataPoint(key,data.get(key));
                                     count++;
                                 }
+
                                 if (attribute_id == 0)
                                     graph.setTitle("Temperature");
                                 else if (attribute_id==1)
@@ -281,7 +280,7 @@ public class GraphFragment extends Fragment {
                                     graph.setTitle("Rainfall");
                                 else if(attribute_id==3)
                                     graph.setTitle("Wind speed");
-                                series = new LineGraphSeries<>(temp);
+                                series = new LineGraphSeries<>(datapoints_temp);
                                 ui_handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -296,7 +295,7 @@ public class GraphFragment extends Fragment {
                                         }
                                         else if(attribute_id==1){
                                             graph.getViewport().setMinY(0);
-                                            graph.getViewport().setMaxY(90);
+                                            graph.getViewport().setMaxY(100);
                                         }
                                         else if(attribute_id == 2){
                                             graph.getViewport().setMinY(0);
@@ -306,12 +305,26 @@ public class GraphFragment extends Fragment {
                                             graph.getViewport().setMinY(0);
                                             graph.getViewport().setMaxY(7);
                                         }
+                                        graph.getViewport().setXAxisBoundsManual(true);
                                         graph.addSeries(series);
                                         graph.setTitleTextSize(50);
-                                        graph.getViewport().setXAxisBoundsManual(true);
-                                        graph.getViewport().setMinX(temp[0].getX());
-                                        graph.getViewport().setMaxX(temp[temp.length-1].getX());
+
                                         graph.getGridLabelRenderer().setLabelFormatter(custom_formatter);
+
+                                        if (GraphFragment.axis_x_format==0 || GraphFragment.axis_x_format==1) {
+                                            graph.getViewport().setMinX(datapoints_temp[0].getX());
+                                            graph.setCursorMode(true);
+                                            graph.getViewport().setScrollable(false);
+                                            graph.getViewport().setMaxX(datapoints_temp[datapoints_temp.length - 1].getX());
+                                        }
+                                        else {
+                                            graph.getViewport().setMinX(datapoints_temp[0].getX());
+                                            graph.getViewport().setMaxX(datapoints_temp[(datapoints_temp.length/10)].getX());
+                                            graph.setCursorMode(false);
+                                            graph.getViewport().setScrollable(true);
+                                        }
+
+
 
 
                                     }
@@ -369,7 +382,6 @@ public class GraphFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 ((TextView) parent.getChildAt(0)).setTextSize(20);
-                Toast.makeText(view.getContext(), item, Toast.LENGTH_SHORT).show();
                 attribute_id = position;
             }
 
