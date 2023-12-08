@@ -31,13 +31,13 @@ public class CustomFragmentAdapter extends FragmentStateAdapter {
                 return new UserSettingFragment();
             case 3:
                 return new HomeFragment();
-
+            default:
+                return new MapFragment();
         }
-        return new MapFragment();
     }
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 
 
