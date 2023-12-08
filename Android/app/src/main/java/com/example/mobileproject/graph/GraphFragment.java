@@ -44,7 +44,7 @@ import java.util.TimeZone;
 import java.util.TreeSet;
 
 
-public class GraphFragment extends Fragment {
+public class GraphFragment extends Fragment{
 
     View view;
     public static long last_time ;
@@ -390,6 +390,4 @@ public class GraphFragment extends Fragment {
         attribute_spinner.setAdapter(attribute_adapter);
         return view;
     }
-
-
 }
