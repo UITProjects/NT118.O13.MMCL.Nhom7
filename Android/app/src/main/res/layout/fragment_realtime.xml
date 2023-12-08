@@ -11,13 +11,15 @@
         android:layout_height="wrap_content"
         android:text="Last"
         android:id="@+id/txtview_last"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_timeframe"
         android:layout_below="@id/txtview_last"
+        android:background="@drawable/bg_spinner"
+        android:dropDownVerticalOffset="22dp"
         />
 
 </RelativeLayout>

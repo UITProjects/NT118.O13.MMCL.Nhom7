@@ -1,4 +1,4 @@
-package com.example.mobileproject;
+package com.example.mobileproject.api;
 
 import com.google.gson.Gson;
 

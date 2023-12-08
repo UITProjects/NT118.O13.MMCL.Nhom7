@@ -1,4 +1,4 @@
-package com.example.mobileproject.map;
+package com.example.mobileproject.api;
 
 import java.io.*;
 import java.net.HttpURLConnection;

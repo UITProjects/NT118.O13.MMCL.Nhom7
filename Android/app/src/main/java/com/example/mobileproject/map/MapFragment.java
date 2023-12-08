@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mobileproject.Dashboard;
 import com.example.mobileproject.R;
+import com.example.mobileproject.api.AssetApi;
 
 
 import org.osmdroid.api.IMapController;

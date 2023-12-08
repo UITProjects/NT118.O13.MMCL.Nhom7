@@ -45,7 +45,7 @@ public class Dashboard extends AppCompatActivity {
         
         viewPager = findViewById(R.id.viewPager);
         mBottomNavigationView = findViewById(R.id.bottom_navigation);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setFocusable(View.FOCUSABLE);
         viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
@@ -93,6 +93,10 @@ public class Dashboard extends AppCompatActivity {
                         mBottomNavigationView.getMenu().findItem(R.id.menu_user).setChecked(true);
                         viewPager.setUserInputEnabled(true);
                         break;
+                    case 3:
+                        mBottomNavigationView.getMenu().findItem(R.id.menu_home).setChecked(true);
+                        viewPager.setUserInputEnabled(true);
+                        break;
                 }
             }
         });
@@ -113,8 +117,10 @@ public class Dashboard extends AppCompatActivity {
                } else if (itemId==R.id.menu_user) {
                    viewPager.setCurrentItem(2);
                    viewPager.setUserInputEnabled(true);
+               } else if (itemId==R.id.menu_home) {
+                   viewPager.setCurrentItem(3);
+                   viewPager.setUserInputEnabled(true);
                }
-
                return true;
            }
        });

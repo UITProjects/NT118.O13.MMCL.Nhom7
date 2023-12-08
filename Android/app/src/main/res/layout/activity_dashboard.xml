@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="-2dp"
-        android:background="@color/colorAccent"
+        android:background="#55D5E7"
         app:itemIconTint="@color/color_navigation"
         app:itemTextColor="@color/color_navigation"
 

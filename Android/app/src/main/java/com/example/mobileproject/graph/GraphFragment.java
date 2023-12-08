@@ -26,9 +26,9 @@ import android.widget.Toast;
 
 import com.example.mobileproject.Dashboard;
 import com.example.mobileproject.R;
+import com.example.mobileproject.api.ExportdataAPI;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -44,7 +44,7 @@ import java.util.TimeZone;
 import java.util.TreeSet;
 
 
-public class GraphFragment extends Fragment {
+public class GraphFragment extends Fragment{
 
     View view;
     public static long last_time ;
@@ -402,6 +402,4 @@ public class GraphFragment extends Fragment {
         attribute_spinner.setAdapter(attribute_adapter);
         return view;
     }
-
-
 }
