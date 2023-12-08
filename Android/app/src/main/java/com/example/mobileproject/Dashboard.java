@@ -81,20 +81,20 @@ public class Dashboard extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        mBottomNavigationView.getMenu().findItem(R.id.menu_map).setChecked(true);
-                        viewPager.setUserInputEnabled(false);
+                        mBottomNavigationView.getMenu().findItem(R.id.menu_home).setChecked(true);
+                        viewPager.setUserInputEnabled(true);
 
                         break;
                     case 1:
+                        mBottomNavigationView.getMenu().findItem(R.id.menu_map).setChecked(true);
+                        viewPager.setUserInputEnabled(false);
+                        break;
+                    case 2:
                         mBottomNavigationView.getMenu().findItem(R.id.menu_graph).setChecked(true);
                         viewPager.setUserInputEnabled(true);
                         break;
-                    case 2:
-                        mBottomNavigationView.getMenu().findItem(R.id.menu_user).setChecked(true);
-                        viewPager.setUserInputEnabled(true);
-                        break;
                     case 3:
-                        mBottomNavigationView.getMenu().findItem(R.id.menu_home).setChecked(true);
+                        mBottomNavigationView.getMenu().findItem(R.id.menu_user).setChecked(true);
                         viewPager.setUserInputEnabled(true);
                         break;
                 }
@@ -106,18 +106,19 @@ public class Dashboard extends AppCompatActivity {
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                int itemId = item.getItemId();
-               if (itemId == R.id.menu_map){
+               if (itemId == R.id.menu_home){
                    {
-                       viewPager.setUserInputEnabled(false);
                        viewPager.setCurrentItem(0);
+                       viewPager.setUserInputEnabled(true);
                    }
-               } else if (itemId == R.id.menu_graph) {
+               } else if (itemId == R.id.menu_map) {
+                   viewPager.setUserInputEnabled(false);
                    viewPager.setCurrentItem(1);
-                   viewPager.setUserInputEnabled(true);
-               } else if (itemId==R.id.menu_user) {
+
+               } else if (itemId==R.id.menu_graph) {
                    viewPager.setCurrentItem(2);
                    viewPager.setUserInputEnabled(true);
-               } else if (itemId==R.id.menu_home) {
+               } else if (itemId==R.id.menu_user) {
                    viewPager.setCurrentItem(3);
                    viewPager.setUserInputEnabled(true);
                }
@@ -126,6 +127,8 @@ public class Dashboard extends AppCompatActivity {
        });
 
 
+
+       viewPager.setCurrentItem(1);
 
     }
 

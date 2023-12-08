@@ -24,16 +24,20 @@ public class CustomFragmentAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new MapFragment();
-            case 1:
-                return new GraphFragment();
-            case 2:
-                return new UserSettingFragment();
-            case 3:
                 return new HomeFragment();
-            default:
+
+            case 1:
                 return new MapFragment();
+
+            case 2:
+                return new GraphFragment();
+
+            case 3:
+                return new UserSettingFragment();
+
+
         }
+        return new  MapFragment();
     }
     @Override
     public int getItemCount() {
