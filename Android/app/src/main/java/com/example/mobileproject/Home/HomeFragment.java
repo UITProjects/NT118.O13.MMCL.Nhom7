@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -21,8 +22,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,8 +35,9 @@ public class HomeFragment extends Fragment {
 
     View view;
     Thread background_Thread;
-    TextView temp,hum,win_dir,win_speed,rainfall, username;
+    TextView temp,hum,win_dir,win_speed,rainfall, username, daytime;
     Handler ui_handler = new Handler();
+    ImageView img;
     APIInterface apiInterface;
 
     @Override
@@ -61,7 +65,8 @@ public class HomeFragment extends Fragment {
         win_speed = view.findViewById(R.id.win_speed_value);
         rainfall =view.findViewById(R.id.rainfall_value);
         username = view.findViewById(R.id.name);
-
+        daytime = view.findViewById(R.id.daytime);
+        img = view.findViewById(R.id.imageView1);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call User = apiInterface.getUser();
         User.enqueue(new Callback() {
@@ -116,9 +121,20 @@ public class HomeFragment extends Fragment {
                             public void run() {
                                 temp.setText(Objects.requireNonNull(response.get("temperature")).concat(" °C"));
                                 hum.setText(Objects.requireNonNull(response.get("humidity")).concat(" %"));
-                                win_dir.setText(response.get("windDirection"));
+                                win_dir.setText(response.get("windDirection") + " degrees");
                                 win_speed.setText(Objects.requireNonNull(response.get("windSpeed")).concat(" km/s"));
                                 rainfall.setText(Objects.requireNonNull(response.get("rainfall")).concat(" mm"));
+                                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7"));
+                                int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+                                int minuteOfDay = calendar.get(Calendar.MINUTE);
+                                int secondOfDay = calendar.get(Calendar.SECOND);
+                                daytime.setText(String.valueOf(hourOfDay) + "h" + String.valueOf(minuteOfDay) + "m" + String.valueOf(secondOfDay) + "s" + " " + "(last updated)");
+                                if(hourOfDay >= 5 && hourOfDay <= 17)
+                                {
+                                    img.setImageResource(R.drawable.sunny);
+                                } else {
+                                    img.setImageResource(R.drawable.night);
+                                }
                                 Log.d("interrupt","false");
 
 
