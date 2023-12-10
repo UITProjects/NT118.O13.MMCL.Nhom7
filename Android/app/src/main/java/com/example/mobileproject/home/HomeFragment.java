@@ -1,4 +1,4 @@
-package com.example.mobileproject.Home;
+package com.example.mobileproject.home;
 
 import android.os.Bundle;
 import android.os.Handler;
