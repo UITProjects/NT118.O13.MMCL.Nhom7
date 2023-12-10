@@ -89,6 +89,7 @@ public class GraphFragment extends Fragment{
         show_btn.setVisibility(View.VISIBLE);
         graph.setVisibility(View.VISIBLE);
         attribute_spinner.setVisibility(View.VISIBLE);
+        timeframe_spinner.setVisibility(View.VISIBLE);
         super.onResume();
 
     }
@@ -98,6 +99,7 @@ public class GraphFragment extends Fragment{
         show_btn.setVisibility(View.GONE);
         graph.setVisibility(View.GONE);
         attribute_spinner.setVisibility(View.GONE);
+        timeframe_spinner.setVisibility(View.GONE);
         super.onStart();
     }
 
@@ -106,6 +108,7 @@ public class GraphFragment extends Fragment{
         show_btn.setVisibility(View.GONE);
         graph.setVisibility(View.GONE);
         attribute_spinner.setVisibility(View.GONE);
+        timeframe_spinner.setVisibility(View.GONE);
         super.onPause();
     }
 

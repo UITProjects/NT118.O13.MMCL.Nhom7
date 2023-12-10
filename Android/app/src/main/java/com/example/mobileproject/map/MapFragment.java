@@ -1,5 +1,6 @@
 package com.example.mobileproject.map;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
@@ -148,6 +149,7 @@ public class MapFragment extends Fragment {
 
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -237,6 +239,8 @@ public class MapFragment extends Fragment {
                 Double.parseDouble(Objects.requireNonNull(asset_data.get("longitude")))
         ));
         light_marker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
+
+        light_marker.setIcon(res.getDrawable(R.drawable.light_bulb_color_icon, ctx.getTheme()));
 
 
         light_marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
