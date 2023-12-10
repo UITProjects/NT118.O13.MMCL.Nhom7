@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
                                 int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
                                 int minuteOfDay = calendar.get(Calendar.MINUTE);
                                 int secondOfDay = calendar.get(Calendar.SECOND);
-                                daytime.setText(String.valueOf(hourOfDay) + "h" + String.valueOf(minuteOfDay) + "m" + String.valueOf(secondOfDay) + "s" + " " + "(last updated)");
+                                daytime.setText(String.valueOf(hourOfDay) + "h" + String.valueOf(minuteOfDay) + "m" + String.valueOf(secondOfDay) + "s" + " " + "\n(last updated)");
                                 if(hourOfDay >= 5 && hourOfDay <= 17)
                                 {
                                     img.setImageResource(R.drawable.sunny);
