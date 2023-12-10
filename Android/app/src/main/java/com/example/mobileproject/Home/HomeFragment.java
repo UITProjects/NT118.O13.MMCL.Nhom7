@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.mobileproject.APIClient;
-import com.example.mobileproject.APIInterface;
+import com.example.mobileproject.api.APIClient;
+import com.example.mobileproject.api.APIInterface;
 import com.example.mobileproject.Dashboard;
 import com.example.mobileproject.R;
 import com.example.mobileproject.api.AssetApi;

@@ -21,35 +21,6 @@
         android:background="@drawable/bg_spinner"/>
 
     <TextView
-        android:id="@+id/edt_mode"
-        android:layout_width="129dp"
-        android:layout_height="58dp"
-        android:layout_marginEnd="55dp"
-        android:gravity="center"
-        android:text="Up to now"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.691"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.166" />
-
-    <FrameLayout
-        android:id="@+id/layout_fragment"
-        android:layout_width="196dp"
-        android:layout_height="143dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.734"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.318">
-
-    </FrameLayout>
-
-    <TextView
         android:id="@+id/txtview_realtime"
         android:layout_width="95dp"
         android:layout_height="36dp"
@@ -62,6 +33,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.217" />
+
+    <Spinner
+        android:id="@+id/spinner_timeframe"
+        android:layout_width="207dp"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_spinner"
+        android:dropDownVerticalOffset="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.195" />
 
     <TextView
         android:id="@+id/txtview_history"
@@ -93,17 +77,17 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_show"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="107dp"
+        android:layout_height="54dp"
         android:layout_marginEnd="40dp"
         android:backgroundTint="#3399FF"
         android:text="Show"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.637"
+        app:layout_constraintHorizontal_bias="0.575"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.483"
+        app:layout_constraintVertical_bias="0.347"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp" />
 

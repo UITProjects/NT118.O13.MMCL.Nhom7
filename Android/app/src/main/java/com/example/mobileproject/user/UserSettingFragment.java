@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mobileproject.APIClient;
-import com.example.mobileproject.APIInterface;
+import com.example.mobileproject.api.APIClient;
+import com.example.mobileproject.api.APIInterface;
 import com.example.mobileproject.R;
 import com.google.gson.Gson;
 

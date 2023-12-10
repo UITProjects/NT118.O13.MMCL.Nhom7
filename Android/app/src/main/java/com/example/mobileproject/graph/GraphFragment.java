@@ -53,14 +53,11 @@ public class GraphFragment extends Fragment{
     Paint paint;
     int attribute_id;
     Button show_btn;
-    TextView realtime_txtview,history_txtview;
     Map<Date,Float> data;
     GraphView graph;
     LineGraphSeries<DataPoint> series;
     Handler ui_handler = new Handler();
-    TextView mode_edt ;
-    Fragment realtime_fragment,history_fragment;
-    Spinner attribute_spinner;
+    Spinner attribute_spinner,timeframe_spinner;
 
     String getQueryAttribute() {
         String template = "[{\"id\":\"%s\",\"name\":\"%s\"}]";
@@ -81,23 +78,6 @@ public class GraphFragment extends Fragment{
 
 
 
-    void replaceFragment(Fragment fragment){
-        FragmentManager manager = getChildFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.layout_fragment,fragment);
-        transaction.commit();
-    }
-
-    void hideFragment(Fragment fragment){
-        if(fragment.isHidden())
-            return;
-        FragmentManager manager  = getChildFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.hide(fragment);
-        transaction.commit();
-
-    }
-
     @Nullable
     @Override
     public View getView() {
@@ -108,9 +88,7 @@ public class GraphFragment extends Fragment{
     public void onResume() {
         show_btn.setVisibility(View.VISIBLE);
         graph.setVisibility(View.VISIBLE);
-        mode_edt.setVisibility(View.VISIBLE);
         attribute_spinner.setVisibility(View.VISIBLE);
-
         super.onResume();
 
     }
@@ -119,7 +97,6 @@ public class GraphFragment extends Fragment{
     public void onStart() {
         show_btn.setVisibility(View.GONE);
         graph.setVisibility(View.GONE);
-        mode_edt.setVisibility(View.GONE);
         attribute_spinner.setVisibility(View.GONE);
         super.onStart();
     }
@@ -128,19 +105,11 @@ public class GraphFragment extends Fragment{
     public void onPause() {
         show_btn.setVisibility(View.GONE);
         graph.setVisibility(View.GONE);
-        mode_edt.setVisibility(View.GONE);
         attribute_spinner.setVisibility(View.GONE);
         super.onPause();
     }
 
-    void showFragment(Fragment fragment){
-        if(!fragment.isHidden())
-            return;
-        FragmentManager manager  = getChildFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.show(fragment);
-        transaction.commit();
-    }
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -149,25 +118,53 @@ public class GraphFragment extends Fragment{
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_graph_fragment, container, false);
         show_btn = view.findViewById(R.id.btn_show);
-        show_btn.setVisibility(View.GONE);
 
 
-        mode_edt= view.findViewById(R.id.edt_mode);
-        mode_edt.setOnClickListener(new View.OnClickListener() {
+
+        timeframe_spinner = view.findViewById(R.id.spinner_timeframe);
+
+        timeframe_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                realtime_txtview.setVisibility(View.VISIBLE);
-                history_txtview.setVisibility(View.VISIBLE);
-                show_btn.setVisibility(View.VISIBLE);
-                replaceFragment( realtime_fragment);
-                showFragment(realtime_fragment);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                if (item.contains("day")) {
+                    GraphFragment.last_time = Long.parseLong(item.split(" ")[0]) * 86400 * 1000;
+                    GraphFragment.axis_x_format = 0 ;
+                }
+                else if (item.contains("week")) {
+                    GraphFragment.last_time = Long.parseLong(item.split(" ")[0])*86400*7*1000;
+                    GraphFragment.axis_x_format = 1;
+                }
+                else if(item.contains("month")){
+                    GraphFragment.last_time = Long.parseLong(item.split(" ")[0])*86400*30*1000;
+                    GraphFragment.axis_x_format = 2;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        GraphFragment.mode = 0;
 
 
-        realtime_fragment = new Realtime();
-        history_fragment = new History();
+        ArrayList<String> timeframe = new ArrayList<>();
+        timeframe.add("1 day");
+        timeframe.add("1 week");
+        timeframe.add("1 month");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(
+                view.getContext(),
+                android.R.layout.simple_spinner_item,
+                timeframe
+        );
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+        timeframe_spinner.setAdapter(adapter);
+        timeframe_spinner.setSelection(0);
+
+
+
+
+
 
 
 
@@ -244,6 +241,7 @@ public class GraphFragment extends Fragment{
                     Map<String,String> query = new HashMap<>();
                     query.put("attributeRefs",getQueryAttribute());
                     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7"));
+
                     long to_timestamp =  calendar.getTimeInMillis();
                     long from_timestamp = to_timestamp- GraphFragment.last_time;
                     query.put("fromTimestamp",String.valueOf(from_timestamp));
@@ -339,11 +337,6 @@ public class GraphFragment extends Fragment{
                         }
                     });
                     data_thread.start();
-                    show_btn.setVisibility(View.GONE);
-                    realtime_txtview.setVisibility(View.GONE);
-                    history_txtview.setVisibility(View.GONE);
-                    hideFragment(realtime_fragment);
-
 
 
                 }
@@ -356,23 +349,6 @@ public class GraphFragment extends Fragment{
         });
 
 
-        realtime_txtview = view.findViewById(R.id.txtview_realtime);
-        realtime_txtview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(realtime_fragment);
-            }
-        });
-
-
-        history_txtview = view.findViewById(R.id.txtview_history);
-        history_txtview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(history_fragment);
-                showFragment(history_fragment);
-            }
-        });
 
 
 
