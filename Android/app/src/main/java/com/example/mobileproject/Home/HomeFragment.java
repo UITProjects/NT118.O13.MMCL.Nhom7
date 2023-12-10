@@ -75,9 +75,13 @@ public class HomeFragment extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
                         String userValue = jsonObject.getString("username");
-                        Log.d("API Call", "User: " + userValue);
-                        Log.d("API Call", userValue);
-                        username.setText(userValue);
+                        String firstnameValue = jsonObject.getString("firstName");
+                        String lastnameValue = jsonObject.getString("lastName");
+                        if(firstnameValue == null || lastnameValue == null || firstnameValue == null && lastnameValue == null){
+                            username.setText(userValue);
+                        } else {
+                            username.setText(firstnameValue + " " + lastnameValue);
+                        }
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
