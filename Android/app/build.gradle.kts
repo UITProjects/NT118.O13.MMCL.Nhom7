@@ -7,13 +7,13 @@ android {
     namespace = "com.example.mobileproject"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "com.example.mobileproject"
         minSdk = 28
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,7 +30,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    buildToolsVersion = "33.0.1"
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -39,7 +39,17 @@ dependencies {
     implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.gson)
+    implementation(libs.materialdatetimepicker)
+    implementation(libs.graphview)
+    implementation(libs.osmdroid.android)
+    implementation(libs.androidx.viewpager2)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    //Retrofit library
+    implementation ("com.squareup.retrofit2:retrofit:2.1.0")
+    implementation ("com.google.code.gson:gson:2.6.2")
+    implementation ("com.squareup.retrofit2:converter-gson:2.1.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:3.4.1")
 }

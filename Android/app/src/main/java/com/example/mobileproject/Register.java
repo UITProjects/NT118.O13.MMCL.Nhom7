@@ -40,7 +40,7 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner_attribute);
         username_edt = findViewById(R.id.edt_username);
         password_edt = findViewById(R.id.edt_password);
         email_edt = findViewById(R.id.edt_email);

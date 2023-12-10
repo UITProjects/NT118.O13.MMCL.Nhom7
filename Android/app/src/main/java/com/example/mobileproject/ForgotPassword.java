@@ -1,13 +1,11 @@
 package com.example.mobileproject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -22,10 +20,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 
 public class ForgotPassword extends AppCompatActivity {
@@ -134,7 +129,7 @@ public class ForgotPassword extends AppCompatActivity {
 
 
 
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner_attribute);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
