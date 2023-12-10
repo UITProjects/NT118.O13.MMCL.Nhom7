@@ -10,20 +10,31 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.mobileproject.APIClient;
+import com.example.mobileproject.APIInterface;
 import com.example.mobileproject.Dashboard;
 import com.example.mobileproject.R;
 import com.example.mobileproject.api.AssetApi;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeFragment extends Fragment {
 
     View view;
     Thread background_Thread;
-    TextView temp,hum,win_dir,win_speed,rainfall;
+    TextView temp,hum,win_dir,win_speed,rainfall, username;
     Handler ui_handler = new Handler();
+    APIInterface apiInterface;
 
     @Override
     public void onStart() {
@@ -49,6 +60,38 @@ public class HomeFragment extends Fragment {
         win_dir = view.findViewById(R.id.wind_direction_value);
         win_speed = view.findViewById(R.id.win_speed_value);
         rainfall =view.findViewById(R.id.rainfall_value);
+        username = view.findViewById(R.id.name);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call User = apiInterface.getUser();
+        User.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Log.d("API Call", response.code() + "");
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("API Call", "Successful");
+                    Log.d("API Call", response.toString());
+                    Log.d("API Call", "response: " + new Gson().toJson(response.body()));
+                    try {
+                        JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String userValue = jsonObject.getString("username");
+                        Log.d("API Call", "User: " + userValue);
+                        Log.d("API Call", userValue);
+                        username.setText(userValue);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.d("API CALL", t.getMessage().toString());
+
+                //t.printStackTrace();
+
+            }
+        });
 
 
         background_Thread = new Thread(new Runnable() {
