@@ -2,6 +2,7 @@ package com.example.mobileproject.user;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mobileproject.api.APIClient;
@@ -20,6 +22,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +40,11 @@ public class UserSettingFragment extends Fragment {
     Button logout_btn;
     TextView name, lastname, firstname, username, email;
     ImageView img;
+
     APIInterface apiInterface;
+    private ConstraintLayout backgroundLayout;
+    private LinearLayout backgroundLayout1, backgroundLayout2, backgroundLayout3, backgroundLayout4;
+
 
     @Override
     public void onResume() {
@@ -61,6 +70,11 @@ public class UserSettingFragment extends Fragment {
         username = view.findViewById(R.id.username);
         email = view.findViewById(R.id.email);
         img = view.findViewById(R.id.imageView1);
+        backgroundLayout = view.findViewById(R.id.background5);
+        backgroundLayout1 = view.findViewById(R.id.linearLayout4);
+        backgroundLayout2 = view.findViewById(R.id.linearLayout3);
+        backgroundLayout3 = view.findViewById(R.id.linearLayout2);
+        backgroundLayout4 = view.findViewById(R.id.linearLayout5);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call User = apiInterface.getUser();
         User.enqueue(new Callback() {
@@ -104,29 +118,18 @@ public class UserSettingFragment extends Fragment {
 
             }
         });
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startAnimation();
-            }
-        });
-        logout_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
-        logout_btn.setVisibility(View.GONE);
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7"));
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        if(hourOfDay >= 5 && hourOfDay <= 17)
+        {
+        } else {
+            backgroundLayout.setBackgroundResource(R.drawable.background1);
+            backgroundLayout1.setBackgroundResource(R.drawable.background3);
+            backgroundLayout2.setBackgroundResource(R.drawable.background3);
+            backgroundLayout3.setBackgroundResource(R.drawable.background3);
+            backgroundLayout4.setBackgroundResource(R.drawable.background3);
+            logout_btn.setBackgroundColor(getResources().getColor(R.color.buttonColor));
+        }
         return view;
-
-    }
-    private void startAnimation(){
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                img.animate().rotationBy(360).withEndAction(this).setDuration(1000)
-                        .setInterpolator(new LinearInterpolator()).start();
-            }
-        };
     }
 }
