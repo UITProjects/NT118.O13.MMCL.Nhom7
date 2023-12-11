@@ -44,7 +44,7 @@ public class UserSettingFragment extends Fragment {
     APIInterface apiInterface;
     private ConstraintLayout backgroundLayout;
     private LinearLayout backgroundLayout1, backgroundLayout2, backgroundLayout3, backgroundLayout4;
-
+    private boolean isAnimating = false;
 
     @Override
     public void onResume() {
@@ -77,6 +77,13 @@ public class UserSettingFragment extends Fragment {
         backgroundLayout4 = view.findViewById(R.id.linearLayout5);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call User = apiInterface.getUser();
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAnimation();
+            }
+        });
         User.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -131,5 +138,22 @@ public class UserSettingFragment extends Fragment {
             logout_btn.setBackgroundColor(getResources().getColor(R.color.buttonColor));
         }
         return view;
+    }
+    private void startAnimation(){
+        isAnimating = true;
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                img.animate().rotationBy(360).withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                                isAnimating = false;
+                            }
+                        }).setDuration(3000)
+                        .setInterpolator(new LinearInterpolator()).start();
+            }
+        };
+        img.animate().rotationBy(360).withEndAction(runnable).setDuration(3000)
+                .setInterpolator(new LinearInterpolator()).start();
     }
 }
