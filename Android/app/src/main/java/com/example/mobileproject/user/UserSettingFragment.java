@@ -80,7 +80,7 @@ public class UserSettingFragment extends Fragment {
                             lastname.setText(lastnameValue);
                             email.setText(emailValue);
                         } else {
-                            name.setText(firstnameValue + " " + lastnameValue);
+                            name.setText(lastnameValue + "!");
                             username.setText(userValue);
                             firstname.setText(firstnameValue);
                             lastname.setText(lastnameValue);
