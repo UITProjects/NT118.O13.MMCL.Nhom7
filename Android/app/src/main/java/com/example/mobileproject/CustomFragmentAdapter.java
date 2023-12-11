@@ -12,8 +12,6 @@ import com.example.mobileproject.user.UserSettingFragment;
 
 public class CustomFragmentAdapter extends FragmentStateAdapter {
 
-    MapFragment mapFragment;
-    GraphFragment graphFragment;
     public CustomFragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
 
