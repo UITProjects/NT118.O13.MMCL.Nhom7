@@ -16,14 +16,15 @@ import com.example.mobileproject.CustomFragmentAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class Dashboard extends AppCompatActivity {
 
 
     BottomNavigationView mBottomNavigationView;
    public static ViewPager2 viewPager;
     public static String token;
-
-
 
 
     @Override
@@ -33,8 +34,6 @@ public class Dashboard extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         Intent current_intent = getIntent();
         Dashboard.token = current_intent.getStringExtra("access_token");
-
-
         getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -48,8 +47,13 @@ public class Dashboard extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(3);
         viewPager.setFocusable(View.FOCUSABLE);
         viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-
         viewPager.setAdapter(new CustomFragmentAdapter(this));
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7"));
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        if (hourOfDay >= 5 && hourOfDay <= 17) {
+        } else {
+            mBottomNavigationView.setBackgroundColor(getResources().getColor(R.color.buttonColor));
+        }
         viewPager.setPageTransformer(new ViewPager2.PageTransformer() {
             @Override
             public void transformPage(@NonNull View page, float position) {
@@ -126,11 +130,7 @@ public class Dashboard extends AppCompatActivity {
            }
        });
 
-
-
        viewPager.setCurrentItem(1);
 
     }
-
-
 }

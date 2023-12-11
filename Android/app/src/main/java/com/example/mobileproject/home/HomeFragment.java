@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment {
     Handler ui_handler = new Handler();
     ImageView img;
     APIInterface apiInterface;
+    private LinearLayout backgroundLayout, backgroundLayout1, backgroundLayout2;
 
     @Override
     public void onStart() {
@@ -67,6 +69,9 @@ public class HomeFragment extends Fragment {
         username = view.findViewById(R.id.name);
         daytime = view.findViewById(R.id.daytime);
         img = view.findViewById(R.id.imageView1);
+        backgroundLayout = view.findViewById(R.id.background);
+        backgroundLayout1 = view.findViewById(R.id.background1);
+        backgroundLayout2 = view.findViewById(R.id.background2);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call User = apiInterface.getUser();
         User.enqueue(new Callback() {
@@ -134,6 +139,9 @@ public class HomeFragment extends Fragment {
                                     img.setImageResource(R.drawable.sunny);
                                 } else {
                                     img.setImageResource(R.drawable.night);
+                                    backgroundLayout.setBackgroundResource(R.drawable.background1);
+                                    backgroundLayout1.setBackgroundResource(R.drawable.background3);
+                                    backgroundLayout2.setBackgroundResource(R.drawable.background3);
                                 }
                                 Log.d("interrupt","false");
 
