@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mobileproject.api.APIClient;
@@ -32,6 +34,7 @@ public class UserSettingFragment extends Fragment {
     View view;
     Button logout_btn;
     TextView name, lastname, firstname, username, email;
+    ImageView img;
     APIInterface apiInterface;
 
     @Override
@@ -57,6 +60,7 @@ public class UserSettingFragment extends Fragment {
         firstname = view.findViewById(R.id.firstname);
         username = view.findViewById(R.id.username);
         email = view.findViewById(R.id.email);
+        img = view.findViewById(R.id.imageView1);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call User = apiInterface.getUser();
         User.enqueue(new Callback() {
@@ -100,6 +104,12 @@ public class UserSettingFragment extends Fragment {
 
             }
         });
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAnimation();
+            }
+        });
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +119,14 @@ public class UserSettingFragment extends Fragment {
         logout_btn.setVisibility(View.GONE);
         return view;
 
-
-
+    }
+    private void startAnimation(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                img.animate().rotationBy(360).withEndAction(this).setDuration(1000)
+                        .setInterpolator(new LinearInterpolator()).start();
+            }
+        };
     }
 }

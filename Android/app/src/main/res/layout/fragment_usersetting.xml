@@ -7,11 +7,20 @@
     tools:context=".map.MapFragment"
     android:background="@drawable/background">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/img_5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="175dp"
         android:layout_height="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="130dp"
         android:layout_marginEnd="120dp"
         android:text="Welcome back,"
         android:textColor="@color/white"
@@ -25,7 +34,7 @@
         android:id="@+id/textView3"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="130dp"
         android:text="Name"
         android:textColor="@color/white"
         android:textSize="25dp"
@@ -75,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="20dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/background2"
 
         android:orientation="horizontal"
@@ -178,7 +187,8 @@
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="-10dp"
         android:layout_weight="0.5"
         app:layout_constraintBottom_toTopOf="@+id/btn_logout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -191,15 +201,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#55D5E7"
         android:text="Log out"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="@color/black"
-        app:strokeWidth="2dp"
-        android:backgroundTint="#55D5E7"
-        />
+        app:strokeWidth="2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
