@@ -64,7 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:hint="Username: "
+            android:text="Username: "
             android:textColor="@color/white"
             android:textSize="25dp" />
 
@@ -100,7 +100,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:hint="Email: "
+            android:text="Email: "
             android:textColor="@color/white"
             android:textSize="25dp" />
 
@@ -135,7 +135,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:hint="Firstname: "
+            android:text="Firstname: "
             android:textColor="@color/white"
             android:textSize="25dp" />
 
@@ -169,7 +169,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:hint="Last name: "
+            android:text="Last name: "
             android:textColor="@color/white"
             android:textSize="25dp" />
 
