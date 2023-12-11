@@ -66,6 +66,17 @@ public class UserSettingFragment extends Fragment {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_usersetting, container, false);
         logout_btn = view.findViewById(R.id.btn_logout);
+
+
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+
+
         name = view.findViewById(R.id.textView3);
         lastname = view.findViewById(R.id.lastname);
         firstname = view.findViewById(R.id.firstname);
