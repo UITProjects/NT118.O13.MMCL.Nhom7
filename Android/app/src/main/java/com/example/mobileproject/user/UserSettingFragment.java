@@ -48,13 +48,15 @@ public class UserSettingFragment extends Fragment {
 
     @Override
     public void onResume() {
-        logout_btn.setVisibility(View.VISIBLE);
+        logout_btn.setClickable(true);
+        img.setClickable(true);
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        logout_btn.setVisibility(View.GONE);
+        logout_btn.setClickable(false);
+        img.setClickable(false);
         super.onPause();
     }
 
@@ -137,6 +139,9 @@ public class UserSettingFragment extends Fragment {
             backgroundLayout4.setBackgroundResource(R.drawable.background3);
             logout_btn.setBackgroundColor(getResources().getColor(R.color.buttonColor));
         }
+
+        logout_btn.setClickable(false);
+        img.setClickable(false);
         return view;
     }
     private void startAnimation(){
